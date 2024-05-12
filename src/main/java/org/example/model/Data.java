@@ -11,31 +11,31 @@ public class Data {
 
     private Integer id;
 
-    private String cProgram;
-    private String english;
-    private String fundamental;
-    private String math;
-    private String physics;
-    private String centurySkill;
-    private String history;
+    private Double cProgram;
+    private Double english;
+    private Double fundamental;
+    private Double math;
+    private Double physics;
+    private Double centurySkill;
+    private Double history;
 
-    private String communication;
-    private String dataStructure;
-    private String eEnglish;
-    private String cPlusPlus;
-    private String architecture;
-    private String database;
+    private Double communication;
+    private Double dataStructure;
+    private Double eEnglish;
+    private Double cPlusPlus;
+    private Double architecture;
+    private Double database;
 
-    private String dotNet;
-    private String java;
-    private String network;
-    private String analysisDesign;
-    private String statistics;
+    private Double dotNet;
+    private Double java;
+    private Double network;
+    private Double analysisDesign;
+    private Double statistics;
 
-    private String ooAD;
-    private String webDev;
-    private String lunux;
-    private String mis;
-    private String it_PM;
+    private Double ooAD;
+    private Double webDev;
+    private Double linux;
+    private Double mis;
+    private Double it_PM;
 
 }

@@ -1,12 +1,19 @@
 package org.example.model;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @NoArgsConstructor
 public class Student{
+
+    private Integer id;
+    private Integer stuCode;
+    private String name;
+    private String gender;
+    private String birth;
+    private String address;
+    private String generation;
+    private String room;
 
 }
