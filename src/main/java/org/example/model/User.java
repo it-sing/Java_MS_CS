@@ -1,12 +1,14 @@
 package org.example.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class User {
+    private Integer id;
+    private String username;
+    private String password;
+    private String profile;
 
 }
