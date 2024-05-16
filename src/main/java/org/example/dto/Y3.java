@@ -1,6 +1,6 @@
 package org.example.dto;
 
-public record Y3Response(
+public record Y3(
         Double dotNet,
         Double java,
         Double network,

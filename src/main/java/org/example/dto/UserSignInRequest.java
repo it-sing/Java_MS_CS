@@ -1,6 +1,6 @@
 package org.example.dto;
 
-public record UserRequest(
+public record UserSignInRequest(
         String username,
         String password
 ) {

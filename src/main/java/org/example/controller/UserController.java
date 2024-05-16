@@ -1,18 +1,16 @@
 package org.example.controller;
 
-import org.example.dto.UserRequest;
+import org.example.dto.UserSignInRequest;
 import org.example.repository.UserRepository;
 import org.example.util.Message;
 import org.example.view.SignInForm;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class UserController {
-    private SignInForm signInForm;
-    private UserRepository userRepository;
-
+    private  final SignInForm signInForm;
+    private final UserRepository userRepository;
     public UserController(SignInForm signInForm, UserRepository userRepository) {
         this.signInForm = signInForm;
         this.userRepository = userRepository;
@@ -25,9 +23,10 @@ public class UserController {
             String username = signInForm.getUsername();
             String password = signInForm.getPassword();
 
-            UserRequest userRequest = new UserRequest(username, password);
-            if (userRepository.validateUser(userRequest)) {
+            UserSignInRequest userSignInRequest = new UserSignInRequest(username, password);
+            if (userRepository.validateUser(userSignInRequest)) {
                 Message.showSuccessMessage(signInForm, "Login successful");
+
             } else {
                 Message.showErrorMessage(signInForm, "Invalid username or password");
             }

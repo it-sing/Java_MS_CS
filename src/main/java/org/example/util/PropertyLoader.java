@@ -6,7 +6,6 @@ import java.util.Properties;
 
 public class PropertyLoader {
     private static Properties properties;
-
     static {
         properties = new Properties();
         try (InputStream input = PropertyLoader.class.getClassLoader().getResourceAsStream("application.properties")) {

@@ -14,8 +14,6 @@ public class SignInForm extends javax.swing.JFrame {
     public String getPassword() {
         return new String(jPassword.getPassword());
     }
-
-    // Method to add an action listener to the login button
     public void addLoginButtonListener(java.awt.event.ActionListener listener) {
         JLogin.addActionListener(listener);
     }
@@ -66,7 +64,7 @@ public class SignInForm extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18));
         jLabel5.setText("CS MANAGEMENT SYSTEMS");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -140,14 +138,14 @@ public class SignInForm extends javax.swing.JFrame {
     }
 
     private void JLoginActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+
     }
 
     private void jusernameActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -156,13 +154,8 @@ public class SignInForm extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SignInForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SignInForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SignInForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                 UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SignInForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }

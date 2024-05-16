@@ -1,6 +1,6 @@
 package org.example.dto;
 
-public record Y1Response(
+public record Y1(
         Double cProgram,
         Double english,
         Double fundamental,

@@ -1,6 +1,6 @@
 package org.example.dto;
 
-public record Y4Response(
+public record Y4(
         Double ooAD,
         Double webDev,
         Double linux,

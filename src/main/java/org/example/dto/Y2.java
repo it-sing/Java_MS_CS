@@ -1,6 +1,6 @@
 package org.example.dto;
 
-public record Y2Response(
+public record Y2(
         Double communication,
         Double dataStructure,
         Double eEnglish,
