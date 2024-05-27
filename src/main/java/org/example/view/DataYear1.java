@@ -86,6 +86,15 @@ public class DataYear1 extends javax.swing.JFrame {
         jEdit.setForeground(new java.awt.Color(255, 255, 255));
         jEdit.setText("Edit");
         jEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jEdit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                DataScoreFormYear1 dataScoreFormYear1 = new DataScoreFormYear1();
+
+                // Make the DataOptionsForm visible
+                dataScoreFormYear1.setVisible(true);
+            }
+        });
         jExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Close the current form
@@ -101,11 +110,6 @@ public class DataYear1 extends javax.swing.JFrame {
         jExit.setBackground(new java.awt.Color(255, 0, 0));
         jExit.setForeground(new java.awt.Color(255, 255, 255));
         jExit.setText("Exit");
-        jExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jExitActionPerformed(evt);
-            }
-        });
 
         jShow.setBackground(new java.awt.Color(0, 0, 255));
         jShow.setForeground(new java.awt.Color(255, 255, 255));
