@@ -1,10 +1,6 @@
 package org.example.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
 public class Student{
 
     private Integer id;

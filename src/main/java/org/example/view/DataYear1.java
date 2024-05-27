@@ -4,6 +4,9 @@
  */
 package org.example.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author The User
@@ -83,9 +86,15 @@ public class DataYear1 extends javax.swing.JFrame {
         jEdit.setForeground(new java.awt.Color(255, 255, 255));
         jEdit.setText("Edit");
         jEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jEditActionPerformed(evt);
+        jExit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Close the current form
+                dispose();
+
+                DataOptionsForm dataOptionsForm = new DataOptionsForm();
+
+                // Make the DataOptionsForm visible
+                dataOptionsForm.setVisible(true);
             }
         });
 

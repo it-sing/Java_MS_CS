@@ -4,16 +4,19 @@
  */
 package org.example.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author The User
  */
-public class DataScore1 extends javax.swing.JFrame {
+public class DataScoreFormYear1 extends javax.swing.JFrame {
 
     /**
      * Creates new form DataScore1
      */
-    public DataScore1() {
+    public DataScoreFormYear1() {
         initComponents();
     }
 
@@ -67,9 +70,16 @@ public class DataScore1 extends javax.swing.JFrame {
         jExit.setBackground(new java.awt.Color(255, 0, 0));
         jExit.setForeground(new java.awt.Color(255, 255, 255));
         jExit.setText("Exit");
-        jExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jExitActionPerformed(evt);
+        jExit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Close the current form
+                dispose();
+
+                // Create an instance of DashboardForm
+                DataOptionsForm dataOptionsForm = new DataOptionsForm();
+
+                // Make the DashboardForm visible
+                dataOptionsForm.setVisible(true);
             }
         });
 
@@ -232,20 +242,20 @@ public class DataScore1 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DataScore1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataScoreFormYear1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DataScore1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataScoreFormYear1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DataScore1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataScoreFormYear1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DataScore1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DataScoreFormYear1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DataScore1().setVisible(true);
+                new DataScoreFormYear1().setVisible(true);
             }
         });
     }

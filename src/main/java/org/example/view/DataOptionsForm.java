@@ -4,6 +4,9 @@
  */
 package org.example.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author The User
@@ -15,6 +18,7 @@ public class DataOptionsForm extends javax.swing.JFrame {
      */
     public DataOptionsForm() {
         initComponents();
+//        DataOptionsController controller = new DataOptionsController(this);
     }
 
     /**
@@ -35,18 +39,57 @@ public class DataOptionsForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jYear4.setBackground(new java.awt.Color(0, 0, 255));
-        jYear4.setForeground(new java.awt.Color(255, 255, 255));
-        jYear4.setText("Year 4");
 
-        jExit.setBackground(new java.awt.Color(255, 0, 0));
-        jExit.setForeground(new java.awt.Color(255, 255, 255));
-        jExit.setText("Exit");
-        jExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jExitActionPerformed(evt);
+        jExit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Close the current form
+                dispose();
             }
         });
+        jYear1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                dispose();
+                // Create an instance of DataOptionsForm
+                DataYear1 dataYear1 = new DataYear1();
+
+                dataYear1.setVisible(true);
+            }
+        });
+        jYear2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                dispose();
+                // Create an instance of DataOptionsForm
+                DataYear2 dataYear2 = new DataYear2();
+
+                dataYear2.setVisible(true);
+            }
+        });
+        jYear3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                dispose();
+                // Create an instance of DataOptionsForm
+                DataYear3 dataYear3 = new DataYear3();
+
+                dataYear3.setVisible(true);
+            }
+        });
+        jYear4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                dispose();
+                // Create an instance of DataOptionsForm
+                DataYear4 dataYear4 = new DataYear4();
+
+                dataYear4.setVisible(true);
+            }
+        });
+
+        jYear1.setBackground(new java.awt.Color(0, 0, 255));
+        jYear1.setForeground(new java.awt.Color(255, 255, 255));
+        jYear1.setText("Year 1");
 
         jYear2.setBackground(new java.awt.Color(0, 0, 255));
         jYear2.setForeground(new java.awt.Color(255, 255, 255));
@@ -55,10 +98,14 @@ public class DataOptionsForm extends javax.swing.JFrame {
         jYear3.setBackground(new java.awt.Color(0, 0, 255));
         jYear3.setForeground(new java.awt.Color(255, 255, 255));
         jYear3.setText("Year 3");
+        jYear4.setBackground(new java.awt.Color(0, 0, 255));
+        jYear4.setForeground(new java.awt.Color(255, 255, 255));
+        jYear4.setText("Year 4");
 
-        jYear1.setBackground(new java.awt.Color(0, 0, 255));
-        jYear1.setForeground(new java.awt.Color(255, 255, 255));
-        jYear1.setText("Year 1");
+        jExit.setBackground(new java.awt.Color(255, 0, 0));
+        jExit.setForeground(new java.awt.Color(255, 255, 255));
+        jExit.setText("Exit");
+
         jYear1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jYear1ActionPerformed(evt);
@@ -113,22 +160,13 @@ public class DataOptionsForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExitActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jExitActionPerformed
 
     private void jYear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jYear1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jYear1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    }
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -153,7 +191,11 @@ public class DataOptionsForm extends javax.swing.JFrame {
                 new DataOptionsForm().setVisible(true);
             }
         });
+
     }
+//    public void addExitButtonListener(ActionListener listener) {
+//        jExit.addActionListener(listener);
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jExit;

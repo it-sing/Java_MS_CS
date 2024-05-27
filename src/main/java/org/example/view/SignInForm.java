@@ -7,6 +7,7 @@ public class SignInForm extends javax.swing.JFrame {
     public SignInForm() {
         initComponents();
     }
+
     public String getUsername() {
         return jusername.getText();
     }
@@ -14,9 +15,15 @@ public class SignInForm extends javax.swing.JFrame {
     public String getPassword() {
         return new String(jPassword.getPassword());
     }
+
     public void addLoginButtonListener(java.awt.event.ActionListener listener) {
         JLogin.addActionListener(listener);
     }
+
+    public void addRegisterButtonListener(java.awt.event.ActionListener listener) {
+        jButton1.addActionListener(listener);
+    }
+
 
     private void initComponents() {
 
@@ -53,7 +60,7 @@ public class SignInForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Don't have an account. ");
+        jLabel3.setText("Don't have an account.");
 
         jPassword.setText("");
 
