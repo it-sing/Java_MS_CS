@@ -1,8 +1,7 @@
 package org.example.model;
 
-import javax.swing.plaf.PanelUI;
-
 public class DataY1 {
+    private String stdYear;
     private String stdCode;
     private String stdName;
     private String stdSex;
@@ -13,6 +12,14 @@ public class DataY1 {
     private Double physics;
     private Double centurySkill;
     private Double history;
+
+    public String getStdYear() {
+        return stdYear;
+    }
+
+    public void setStdYear(String stdYear) {
+        this.stdYear = stdYear;
+    }
     public String getStdCode() {
         return stdCode;
     }

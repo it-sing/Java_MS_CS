@@ -1,6 +1,7 @@
 package org.example.model;
 
 public class DataY3 {
+    private String stdYear;
     private String stdCode;
     private String stdName;
     private String stdSex;
@@ -9,6 +10,14 @@ public class DataY3 {
     private Double network;
     private Double analysisDesign;
     private Double statistics;
+
+    public String getStdYear() {
+        return stdYear;
+    }
+
+    public void setStdYear(String stdYear) {
+        this.stdYear = stdYear;
+    }
 
     // Getter and Setter for stdCode
     public String getStdCode() {

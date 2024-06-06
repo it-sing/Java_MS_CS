@@ -1,6 +1,7 @@
 package org.example.model;
 
 public class DataY4 {
+    private String stdYear;
     private String stdCode;
     private String stdName;
     private String stdSex;
@@ -9,6 +10,12 @@ public class DataY4 {
     private Double linux;
     private Double mis;
     private Double sE_IT_PM;
+
+    public String getStdYear() {return stdYear;}
+
+    public void setStdYear(String stdYear) {
+        this.stdYear = stdYear;
+    }
 
     // Getter and Setter for stdCode
     public String getStdCode() {

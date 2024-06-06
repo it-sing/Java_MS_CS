@@ -16,35 +16,58 @@ public class DataController {
     }
 
     // Display student year 1 in JTabel
-    public List<DataY1> getStudentsY1(String stdCode, String className, String stdGrt) {
-        return dataRepository.getStudentsY1(stdCode, className, stdGrt);
+    public List<DataY1> getStudentsY1(String stdCode, String className, String stdGrt, String stdYear) {
+        return dataRepository.getStudentsY1(stdCode, className, stdGrt, stdYear);
     }
     // for update point of student year1
     public void updateStudentY1(DataY1 student) {
         dataRepository.updateStudentY1(student);
     }
+    public void insertStudentY1(DataY1 student) {
+        dataRepository.insertStudentY1(student);
+    }
+    public void DeleteStudentY1(String stdCode) {
+        dataRepository.deleteStudentY1(stdCode);
+    }
 
     // for Year2
-    public List<DataY2> getStudentsY2(String stdCode, String className, String stdGrt) {
-        return dataRepository.getStudentsY2(stdCode, className, stdGrt);
+    public List<DataY2> getStudentsY2(String stdCode, String className, String stdGrt, String stdYear) {
+        return dataRepository.getStudentsY2(stdCode, className, stdGrt, stdYear);
     }
     public void updateStudentY2(DataY2 student) {
         dataRepository.updateStudentY2(student);
     }
+    public void insertStudentY2(DataY2 student) {
+        dataRepository.insertStudentY2(student);
+    }
+    public void DeleteStudentY2(String stdCode) {
+        dataRepository.deleteStudentY2(stdCode);
+    }
     // for Year3
-    public List<DataY3> getStudentsY3(String stdCode, String className, String stdGrt) {
-        return dataRepository.getStudentsY3(stdCode, className, stdGrt);
+    public List<DataY3> getStudentsY3(String stdCode, String className, String stdGrt, String stdYear) {
+        return dataRepository.getStudentsY3(stdCode, className, stdGrt, stdYear);
     }
     public void updateStudentY3(DataY3 student) {
         dataRepository.updateStudentY3(student);
     }
-
+    public void insertStudentY3(DataY3 student) {
+        dataRepository.insertStudentY3(student);
+    }
+    public void DeleteStudentY3(String stdCode) {
+        dataRepository.deleteStudentY3(stdCode);
+    }
     // for Year4
-    public List<DataY4> getStudentsY4(String stdCode, String className, String stdGrt) {
-        return dataRepository.getStudentsY4(stdCode, className, stdGrt);
+    public List<DataY4> getStudentsY4(String stdCode, String className, String stdGrt, String stdYear) {
+        return dataRepository.getStudentsY4(stdCode, className, stdGrt, stdYear);
     }
     public void updateStudentY4(DataY4 student) {
         dataRepository.updateStudentY4(student);
+    }
+    public void insertStudentY4(DataY4 student) {
+        dataRepository.insertStudentY4(student);
+    }
+    public void DeleteStudentY4(String stdCode) {
+        dataRepository.deleteStudentY4(stdCode);
     }
 
 }

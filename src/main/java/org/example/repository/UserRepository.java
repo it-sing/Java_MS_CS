@@ -31,7 +31,6 @@ public class UserRepository {
         }
         return false;
     }
-
     public boolean registerUser(UserSignUp userSignUp) {
         String checkPasswordQuery = "SELECT COUNT(*) FROM tbUser WHERE password = ?";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
@@ -69,7 +68,6 @@ public class UserRepository {
             return false;
         }
     }
-
     public UserDetails getUserDetails(String username) {
         String query = "SELECT fullname, profile FROM tbUser WHERE username = ?";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);

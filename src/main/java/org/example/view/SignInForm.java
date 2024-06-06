@@ -2,6 +2,9 @@ package org.example.view;
 
 import javax.swing.*;
 
+import java.awt.event.ActionEvent;
+
+
 public class SignInForm extends javax.swing.JFrame {
 
     public SignInForm() {
@@ -58,6 +61,13 @@ public class SignInForm extends javax.swing.JFrame {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jusernameActionPerformed(evt);
             }
+        });
+        jusername.addActionListener((ActionEvent e) -> {
+            login();
+        });
+
+        jPassword.addActionListener((ActionEvent e) -> {
+            login();
         });
 
         jLabel3.setText("Don't have an account.");
@@ -142,6 +152,10 @@ public class SignInForm extends javax.swing.JFrame {
         );
 
         pack();
+    }
+    private void login() {
+        // Simulate a click on the login button
+        JLogin.doClick();
     }
 
     private void JLoginActionPerformed(java.awt.event.ActionEvent evt) {

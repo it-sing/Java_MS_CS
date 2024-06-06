@@ -15,11 +15,12 @@ public class SignUpForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPasswordField jPassword;
     private javax.swing.JTextField jUsername;
-    private javax.swing.JTextField jFullName; // Declare a JTextField for the full name
+    private javax.swing.JTextField jFullName;
     private File selectedFile;
 
     public SignUpForm() {
         initComponents();
+        this.getRootPane().setDefaultButton(JSignUp);
     }
 
     public String getFullName() {
@@ -62,13 +63,13 @@ public class SignUpForm extends javax.swing.JFrame {
         JSignUp = new javax.swing.JButton();
         jUsername = new javax.swing.JTextField();
         jPassword = new javax.swing.JPasswordField();
-        jFullName = new javax.swing.JTextField(); // Initialize the full name field
+        jFullName = new javax.swing.JTextField();
         jImage = new javax.swing.JLabel();
         jChooseFile = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel4.setText("Full Name:"); // Set text for the full name label
+        jLabel4.setText("Full Name:");
         jLabel1.setText("Username:");
         jLabel2.setText("Password:");
         jLabel3.setText("Profile Picture:");
