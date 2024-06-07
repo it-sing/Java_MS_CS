@@ -18,26 +18,7 @@ public class StudentRepository {
     }
 
     public void insertStudent(Student student) {
-        String sql = "INSERT INTO tbStudent (stuID, stdCode, stdName, stdSex, birth, stdAdd, stdGrt, stdYear, classId, stdDb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, student.getStuID());
-            preparedStatement.setString(2, student.getStdCode());
-            preparedStatement.setString(3, student.getStdName());
-            preparedStatement.setString(4, student.getStdSex());
-            preparedStatement.setString(5, student.getStdAdd());
-            preparedStatement.setString(6, student.getStdGrt());
-            preparedStatement.setString(7, student.getStdYear());
-            preparedStatement.setString(8, student.getClassId());
-            preparedStatement.setString(9, student.getStdDb());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void updateStudent(Student student) {
-        String sql = "UPDATE tbStudent SET stdCode = ?, stdName = ?, stdSex = ?, birth = ?, stdAdd = ?, stdGrt = ?, stdYear = ?, classId = ?, stdDb = ? WHERE stuID = ?";
+        String sql = "INSERT INTO tbStudent (stdCode, stdName, stdSex, stdAdd, stdGrt, stdYear, classID, stdBD) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, student.getStdCode());
@@ -47,13 +28,32 @@ public class StudentRepository {
             preparedStatement.setString(5, student.getStdGrt());
             preparedStatement.setString(6, student.getStdYear());
             preparedStatement.setString(7, student.getClassId());
-            preparedStatement.setString(8, student.getStdDb());
+            preparedStatement.setDate(8, Date.valueOf(student.getStdDb())); // assuming stdDb is stored as a String in the format "YYYY-MM-DD"
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateStudent(Student student) {
+        String sql = "UPDATE tbStudent SET stdCode = ?, stdName = ?, stdSex = ?, stdAdd = ?, stdGrt = ?, stdYear = ?, classID = ?, stdBD = ? WHERE stuID = ?";
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, student.getStdCode());
+            preparedStatement.setString(2, student.getStdName());
+            preparedStatement.setString(3, student.getStdSex());
+            preparedStatement.setString(4, student.getStdAdd());
+            preparedStatement.setString(5, student.getStdGrt());
+            preparedStatement.setString(6, student.getStdYear());
+            preparedStatement.setString(7, student.getClassId());
+            preparedStatement.setDate(8, Date.valueOf(student.getStdDb()));
             preparedStatement.setInt(9, student.getStuID());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     public void deleteStudent(int stuID) {
         String sql = "DELETE FROM tbStudent WHERE stuID = ?";

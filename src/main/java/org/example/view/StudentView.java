@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class StudentView extends JFrame {
-    private JTextField stuIDField, stdCodeField, stdNameField, stdSexField, birthField, stdAddField, stdGrtField, stdYearField, classIdField, stdDbField;
+    private JTextField stdCodeField, stdNameField, stdSexField, birthField, stdAddField, stdGrtField, stdYearField, classIdField, stdDbField;
     private JButton submitButton, cancelButton, searchButton, updateButton, deleteButton;
     private JTable table;
 
@@ -25,15 +25,15 @@ public class StudentView extends JFrame {
         panel.setLayout(null);
         panel.setBackground(new Color(240, 240, 240));
 
-        addLabelAndField(panel, "Student ID:", 50, 50, 200, 30, stuIDField = new JTextField());
-        addLabelAndField(panel, "Student Code:", 50, 100, 200, 30, stdCodeField = new JTextField());
-        addLabelAndField(panel, "Student Name:", 50, 150, 200, 30, stdNameField = new JTextField());
-        addLabelAndField(panel, "Sex:", 50, 200, 200, 30, stdSexField = new JTextField());
-        addLabelAndField(panel, "Address:", 50, 250, 200, 30, stdAddField = new JTextField());
+        // Remove the Student ID field and its label
+        addLabelAndField(panel, "Student Code:", 50, 50, 200, 30, stdCodeField = new JTextField());
+        addLabelAndField(panel, "Student Name:", 50, 100, 200, 30, stdNameField = new JTextField());
+        addLabelAndField(panel, "Sex:", 50, 150, 200, 30, stdSexField = new JTextField());
+        addLabelAndField(panel, "Address:", 50, 200, 200, 30, stdAddField = new JTextField());
         addLabelAndField(panel, "Generation:", 530, 50, 200, 30, stdGrtField = new JTextField());
         addLabelAndField(panel, "Year:", 530, 100, 200, 30, stdYearField = new JTextField());
         addLabelAndField(panel, "Class ID:", 530, 150, 200, 30, classIdField = new JTextField());
-        addLabelAndField(panel, "Date fo birth:", 530, 200, 200, 30, stdDbField = new JTextField());
+        addLabelAndField(panel, "Date of Birth:", 530, 200, 200, 30, stdDbField = new JTextField());
 
         submitButton = new JButton("Create");
         submitButton.setBounds(50, 350, 100, 30);
@@ -89,10 +89,6 @@ public class StudentView extends JFrame {
         panel.add(textField);
     }
 
-    public String getStuIDField() {
-        return stuIDField.getText();
-    }
-
     public String getStdCodeField() {
         return stdCodeField.getText();
     }
@@ -134,7 +130,6 @@ public class StudentView extends JFrame {
     }
 
     public void setStudentFields(Student student) {
-        stuIDField.setText(String.valueOf(student.getStuID()));
         stdCodeField.setText(student.getStdCode());
         stdNameField.setText(student.getStdName());
         stdSexField.setText(student.getStdSex());
@@ -146,7 +141,6 @@ public class StudentView extends JFrame {
     }
 
     public void clearFields() {
-        stuIDField.setText("");
         stdCodeField.setText("");
         stdNameField.setText("");
         stdSexField.setText("");

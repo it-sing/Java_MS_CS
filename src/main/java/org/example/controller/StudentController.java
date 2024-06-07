@@ -31,10 +31,9 @@ public class StudentController {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                int stuID = Integer.parseInt(view.getStuIDField());
+                String stuCode = view.getStdCodeField();
                 Student student = new Student();
-                student.setStuID(stuID);
-                student.setStdCode(view.getStdCodeField());
+                student.setStdCode(stuCode);
                 student.setStdName(view.getStdNameField());
                 student.setStdSex(view.getStdSexField());
                 student.setStdAdd(view.getStdAddField());
@@ -43,19 +42,16 @@ public class StudentController {
                 student.setClassId(view.getClassIdField());
                 student.setStdDb(view.getStdDbField());
 
-                repository.updateStudent(student);
-                System.out.println("create");
-
-                if (repository.studentExists(student.getStuID())) {
+                if (repository.studentExists(stuCode)) {
                     repository.updateStudent(student);
-                    System.out.println("create");
+                    System.out.println("Student record updated.");
                 } else {
                     repository.insertStudent(student);
-                    System.out.println("update");
+                    System.out.println("Student record created.");
                 }
                 updateTable();
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(view, "Invalid input for Student ID. Please enter a numeric value.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "An error occurred while processing the student record.", "Input Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -65,21 +61,17 @@ public class StudentController {
         public void actionPerformed(ActionEvent e) {
             view.clearFields();
         }
-    }
+    }`
 
     class SearchButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                int stuID = Integer.parseInt(view.getStuIDField());
-                Student student = repository.getStudentById(stuID);
-                if (student != null) {
-                    view.setStudentFields(student);
-                } else {
-                    JOptionPane.showMessageDialog(view, "Student not found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(view, "Invalid input for Student ID. Please enter a numeric value.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            String stuCode = view.getStdCodeField();
+            Student student = repository.getStudentByCode(stuCode);
+            if (student != null) {
+                view.setStudentFields(student);
+            } else {
+                JOptionPane.showMessageDialog(view, "Student not found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
@@ -88,22 +80,24 @@ public class StudentController {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                int stuID = Integer.parseInt(view.getStuIDField());
-                Student student = new Student();
-                student.setStuID(stuID);
-                student.setStdCode(view.getStdCodeField());
-                student.setStdName(view.getStdNameField());
-                student.setStdSex(view.getStdSexField());
-                student.setStdAdd(view.getStdAddField());
-                student.setStdGrt(view.getStdGrtField());
-                student.setStdYear(view.getStdYearField());
-                student.setClassId(view.getClassIdField());
-                student.setStdDb(view.getStdDbField());
+                String stuCode = view.getStdCodeField();
+                Student student = repository.getStudentByCode(stuCode);
+                if (student != null) {
+                    student.setStdName(view.getStdNameField());
+                    student.setStdSex(view.getStdSexField());
+                    student.setStdAdd(view.getStdAddField());
+                    student.setStdGrt(view.getStdGrtField());
+                    student.setStdYear(view.getStdYearField());
+                    student.setClassId(view.getClassIdField());
+                    student.setStdDb(view.getStdDbField());
 
-                repository.updateStudent(student);
-                updateTable();
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(view, "Invalid input for Student ID. Please enter a numeric value.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    repository.updateStudent(student);
+                    updateTable();
+                } else {
+                    JOptionPane.showMessageDialog(view, "Student not found. Cannot update non-existent record.", "Update Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "An error occurred while updating the student record.", "Update Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -111,13 +105,13 @@ public class StudentController {
     class DeleteButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                int stuID = Integer.parseInt(view.getStuIDField());
-                repository.deleteStudent(stuID);
+            String stuCode = view.getStdCodeField();
+            if (repository.studentExists(Integer.parseInt(stuCode))) {
+                repository.deleteStudent(stuCode);
                 updateTable();
                 view.clearFields();
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(view, "Invalid input for Student ID. Please enter a numeric value.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(view, "Student not found. Cannot delete non-existent record.", "Delete Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
