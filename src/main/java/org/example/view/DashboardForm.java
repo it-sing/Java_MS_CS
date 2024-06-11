@@ -72,10 +72,10 @@ public class DashboardForm extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 // Create an instance of DataOptionsForm
-                DataOptionsForm dataOptionsForm = new DataOptionsForm();
+                //DataOptionsForm dataOptionsForm = new DataOptionsForm();
+                ReportOptionForm reportOptionForm = new ReportOptionForm();
+                reportOptionForm.setVisible(true);
 
-                // Make the DataOptionsForm visible
-                dataOptionsForm.setVisible(true);
             }
         });
 
