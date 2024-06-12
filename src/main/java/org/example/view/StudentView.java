@@ -136,8 +136,8 @@ public class StudentView extends JFrame {
         stdAddField.setText(student.getStdAdd());
         stdGrtField.setText(student.getStdGrt());
         stdYearField.setText(student.getStdYear());
-        classIdField.setText(student.getClassId());
-        stdDbField.setText(student.getStdDb());
+//        classIdField.setText(student.getClassID());
+        //stdDbField.setText(student.getStdDb());
     }
 
     public void clearFields() {
@@ -170,5 +170,9 @@ public class StudentView extends JFrame {
 
     public void addDeleteButtonListener(ActionListener listener) {
         deleteButton.addActionListener(listener);
+    }
+
+    public static void main(String[] args) {
+        new StudentView();
     }
 }
