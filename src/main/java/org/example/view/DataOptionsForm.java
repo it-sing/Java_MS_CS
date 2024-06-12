@@ -17,7 +17,7 @@ public class DataOptionsForm extends javax.swing.JFrame {
 //        DataOptionsController controller = new DataOptionsController(this);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jYear4 = new javax.swing.JButton();
@@ -40,10 +40,10 @@ public class DataOptionsForm extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 dispose();
-                // Create an instance of DataOptionsForm
-                DataYear1 dataYear1 = new DataYear1();
-
-                dataYear1.setVisible(true);
+//                // Create an instance of DataOptionsForm
+//                ReportYear1 dataYear1 = new ReportYear1();
+//
+//                dataYear1.setVisible(true);
             }
         });
         jYear2.addActionListener(new ActionListener() {
@@ -149,7 +149,7 @@ public class DataOptionsForm extends javax.swing.JFrame {
         pack();
     }
 
-    private void jYear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jYear1ActionPerformed
+    private void jYear1ActionPerformed(java.awt.event.ActionEvent evt) {                                       
 
     }
     public static void main(String args[]) {
