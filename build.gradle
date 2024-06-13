@@ -11,6 +11,12 @@ repositories {
 }
 
 dependencies {
+    // Apache POI for Excel
+    implementation 'org.apache.poi:poi:5.2.3'
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+    // iText for PDF
+    implementation 'com.itextpdf:itextpdf:5.5.13.3'
 
     implementation group: 'net.sf.ucanaccess', name: 'ucanaccess', version: '5.0.1'
 

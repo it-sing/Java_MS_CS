@@ -42,7 +42,7 @@ public class UserController {
             if (userRepository.validateUser(userSignIn)) {
                 UserDetails userDetails = userRepository.getUserDetails(username);
                 if (userDetails != null) {
-                    Message.showSuccessMessage(signInForm, "Login successful");
+                    //Message.showSuccessMessage(signInForm, "Login successful");
                     if (dashboardForm == null) {
                         dashboardForm = new DashboardForm();
                     }
