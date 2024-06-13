@@ -1,12 +1,9 @@
 package org.example.view;
 
-import net.ucanaccess.jdbc.UcanaccessDriver;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.*;
 
 public class StudentViewForm extends JFrame {
@@ -25,7 +22,7 @@ public class StudentViewForm extends JFrame {
 
     public StudentViewForm() {
         setTitle("Student Management");
-        setSize(1200, 650);
+        setSize(1400, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
@@ -56,52 +53,84 @@ public class StudentViewForm extends JFrame {
 
         // Form Panel
         JPanel formPanel = new JPanel();
-        formPanel.setLayout(new GridLayout(9, 2, 5, 5));
+        formPanel.setLayout(null); // Use null layout for absolute positioning
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JLabel stdCode = new JLabel("Stu Code");
-        stdCode.setBounds(100, 100, 100, 30);
-        formPanel.add(stdCode);
+        JLabel lblStdCode = new JLabel("Stu Code:");
+        lblStdCode.setBounds(20, 20, 100, 25);
+        formPanel.add(lblStdCode);
 
         tfStdCode = new JTextField();
+        tfStdCode.setBounds(140, 20, 150, 25);
         formPanel.add(tfStdCode);
 
-        formPanel.add(new JLabel("Name:"));
+        JLabel lblName = new JLabel("Name:");
+        lblName.setBounds(20, 60, 100, 25);
+        formPanel.add(lblName);
+
         tfStdName = new JTextField();
+        tfStdName.setBounds(140, 60, 150, 25);
         formPanel.add(tfStdName);
 
-        formPanel.add(new JLabel("Sex:"));
+        JLabel lblSex = new JLabel("Sex:");
+        lblSex.setBounds(20, 100, 100, 25);
+        formPanel.add(lblSex);
+
         tfStdSex = new JTextField();
+        tfStdSex.setBounds(140, 100, 150, 25);
         formPanel.add(tfStdSex);
 
-        formPanel.add(new JLabel("Address:"));
+        JLabel lblAddress = new JLabel("Address:");
+        lblAddress.setBounds(20, 140, 100, 25);
+        formPanel.add(lblAddress);
+
         tfStdAdd = new JTextField();
+        tfStdAdd.setBounds(140, 140, 150, 25);
         formPanel.add(tfStdAdd);
 
-        formPanel.add(new JLabel("Grade:"));
+        JLabel lblGrade = new JLabel("Grade:");
+        lblGrade.setBounds(20, 180, 100, 25);
+        formPanel.add(lblGrade);
+
         tfStdGrt = new JTextField();
+        tfStdGrt.setBounds(140, 180, 150, 25);
         formPanel.add(tfStdGrt);
 
-        formPanel.add(new JLabel("Year:"));
+        JLabel lblYear = new JLabel("Year:");
+        lblYear.setBounds(20, 220, 100, 25);
+        formPanel.add(lblYear);
+
         tfStdYear = new JTextField();
+        tfStdYear.setBounds(140, 220, 150, 25);
         formPanel.add(tfStdYear);
 
-        formPanel.add(new JLabel("Class ID:"));
+        JLabel lblClassID = new JLabel("Class ID:");
+        lblClassID.setBounds(20, 260, 100, 25);
+        formPanel.add(lblClassID);
+
         tfClassID = new JTextField();
+        tfClassID.setBounds(140, 260, 150, 25);
         formPanel.add(tfClassID);
 
-        formPanel.add(new JLabel("Birth Date:"));
+        JLabel lblBirthDate = new JLabel("Birth Date:");
+        lblBirthDate.setBounds(20, 300, 100, 25);
+        formPanel.add(lblBirthDate);
+
         tfStdBD = new JTextField();
+        tfStdBD.setBounds(140, 300, 150, 25);
         formPanel.add(tfStdBD);
 
         add(formPanel, BorderLayout.CENTER);
 
         // Button Panel
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(null); // Use null layout for absolute positioning
+        buttonPanel.setPreferredSize(new Dimension(600, 50)); // Set preferred size for visibility
 
         JButton btnCreate = new JButton("Create");
         btnCreate.setBackground(new Color(0, 128, 0));
         btnCreate.setForeground(Color.WHITE);
+        btnCreate.setBounds(200, 10, 100, 30); // Set position and size
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -114,6 +143,7 @@ public class StudentViewForm extends JFrame {
         JButton btnUpdate = new JButton("Update");
         btnUpdate.setBackground(new Color(255, 255, 0));
         btnUpdate.setForeground(Color.BLACK);
+        btnUpdate.setBounds(320, 10, 100, 30); // Set position and size
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,6 +156,7 @@ public class StudentViewForm extends JFrame {
         JButton btnDelete = new JButton("Delete");
         btnDelete.setBackground(new Color(255, 0, 0));
         btnDelete.setForeground(Color.WHITE);
+        btnDelete.setBounds(440, 10, 100, 30); // Set position and size
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -138,6 +169,7 @@ public class StudentViewForm extends JFrame {
         JButton btnExit = new JButton("Exit");
         btnExit.setBackground(Color.GRAY);
         btnExit.setForeground(Color.WHITE);
+        btnExit.setBounds(560, 10, 100, 30); // Set position and size
         btnExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -151,9 +183,28 @@ public class StudentViewForm extends JFrame {
         // Table Panel
         tableModel = new DefaultTableModel(new String[]{"stdID", "stdCode", "stdName", "stdSex", "stdAdd", "stdGrt", "stdYear", "classID", "stdBD"}, 0);
         table = new JTable(tableModel);
-        table.setRowHeight(30);
+        table.setRowHeight(20);
         table.setIntercellSpacing(new Dimension(5, 5)); // Add gap between cells
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow >= 0) {
+                    tfStdCode.setText(tableModel.getValueAt(selectedRow, 1).toString());
+                    tfStdName.setText(tableModel.getValueAt(selectedRow, 2).toString());
+                    tfStdSex.setText(tableModel.getValueAt(selectedRow, 3).toString());
+                    tfStdAdd.setText(tableModel.getValueAt(selectedRow, 4).toString());
+                    tfStdGrt.setText(tableModel.getValueAt(selectedRow, 5).toString());
+                    tfStdYear.setText(tableModel.getValueAt(selectedRow, 6).toString());
+                    tfClassID.setText(tableModel.getValueAt(selectedRow, 7).toString());
+                    tfStdBD.setText(tableModel.getValueAt(selectedRow, 8).toString());
+                }
+            }
+        });
         add(new JScrollPane(table), BorderLayout.EAST);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(320, 20, 800, 500);
+        formPanel.add(scrollPane);
 
         loadStudents();
 
@@ -181,7 +232,6 @@ public class StudentViewForm extends JFrame {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error loading students: " + e.getMessage());
         }
     }
 
@@ -196,20 +246,19 @@ public class StudentViewForm extends JFrame {
             statement.setString(5, tfStdGrt.getText());
             statement.setString(6, tfStdYear.getText());
             statement.setInt(7, Integer.parseInt(tfClassID.getText()));
-            statement.setString(8, tfStdBD.getText());
+            statement.setDate(8, Date.valueOf(tfStdBD.getText()));
             statement.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Student created successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error creating student: " + e.getMessage());
         }
     }
 
     private void updateStudent() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
+            int studentId = Integer.parseInt(tableModel.getValueAt(selectedRow, 0).toString());
             try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-                String query = "UPDATE tbStudent SET stdCode=?, stdName=?, stdSex=?, stdAdd=?, stdGrt=?, stdYear=?, classID=?, stdBD=? WHERE stdID=?";
+                String query = "UPDATE tbStudent SET stdCode = ?, stdName = ?, stdSex = ?, stdAdd = ?, stdGrt = ?, stdYear = ?, classID = ?, stdBD = ? WHERE stdID = ?";
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, tfStdCode.getText());
                 statement.setString(2, tfStdName.getText());
@@ -218,38 +267,31 @@ public class StudentViewForm extends JFrame {
                 statement.setString(5, tfStdGrt.getText());
                 statement.setString(6, tfStdYear.getText());
                 statement.setInt(7, Integer.parseInt(tfClassID.getText()));
-                statement.setString(8, tfStdBD.getText());
-                statement.setInt(9, (int) tableModel.getValueAt(selectedRow, 0));
+                statement.setDate(8, Date.valueOf(tfStdBD.getText()));
+                statement.setInt(9, studentId);
                 statement.executeUpdate();
-                JOptionPane.showMessageDialog(this, "Student updated successfully!");
             } catch (SQLException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error updating student: " + e.getMessage());
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select a student to update.");
         }
     }
 
     private void deleteStudent() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
+            int studentId = Integer.parseInt(tableModel.getValueAt(selectedRow, 0).toString());
             try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-                String query = "DELETE FROM tbStudent WHERE stdID=?";
+                String query = "DELETE FROM tbStudent WHERE stdID = ?";
                 PreparedStatement statement = connection.prepareStatement(query);
-                statement.setInt(1, (int) tableModel.getValueAt(selectedRow, 0));
+                statement.setInt(1, studentId);
                 statement.executeUpdate();
-                JOptionPane.showMessageDialog(this, "Student deleted successfully!");
             } catch (SQLException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error deleting student: " + e.getMessage());
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select a student to delete.");
         }
     }
 
     public static void main(String[] args) {
-        new StudentViewForm();
+        SwingUtilities.invokeLater(StudentViewForm::new);
     }
 }
