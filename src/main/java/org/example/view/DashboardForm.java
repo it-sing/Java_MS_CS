@@ -68,7 +68,6 @@ public class DashboardForm extends javax.swing.JFrame {
         });
         jStudent.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 StudentViewForm studentViewForm = new StudentViewForm();
                 studentViewForm.setVisible(true);
             }

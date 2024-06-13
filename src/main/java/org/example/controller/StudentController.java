@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.model.Student;
 import org.example.repository.StudentRepository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class StudentController {
@@ -16,17 +17,16 @@ public class StudentController {
         return repository.getAllStudents();
     }
 
-    public void createStudent(String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, String classID, String stdBD) {
-        Student student = new Student(stdCode, stdName, stdSex, stdAdd, stdGrt, stdYear, Integer.parseInt(classID), stdBD);
+    public void createStudent(Student student) throws SQLException {
         repository.addStudent(student);
     }
 
-    public void updateStudent(int stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, String classID, String stdBD) {
-        Student student = new Student(stdID, stdCode, stdName, stdSex, stdAdd, stdGrt, stdYear, Integer.parseInt(classID), stdBD);
+    public void updateStudent(Student student) throws SQLException {
         repository.updateStudent(student);
     }
 
-    public void deleteStudent(int stdID) {
-        repository.deleteStudent(stdID);
+    public void deleteStudent(int studentId) throws SQLException {
+        repository.deleteStudent(studentId);
     }
+
 }
