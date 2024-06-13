@@ -1,17 +1,49 @@
 package org.example.model;
 
-
-public class Report{
+public class Report {
+    private int stdID;
     private String stdCode;
     private String stdName;
     private String stdSex;
-    private Double cProgram;
-    private Double english;
-    private Double fundamental;
-    private Double math;
-    private Double physics;
-    private Double centurySkill;
-    private Double history;
+    private String stdAdd;
+    private String stdGrt;
+    private String stdYear;
+    private int classID;
+    private String stdBD;
+    private int fundamental;
+    private int math;
+    private int pfc;
+    private int the21;
+    private int history;
+    private int cProgram;
+
+    public Report(){};
+
+    public Report(int stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD, int fundamental, int math, int pfc, int the21, int history, int cProgram) {
+        this.stdID = stdID;
+        this.stdCode = stdCode;
+        this.stdName = stdName;
+        this.stdSex = stdSex;
+        this.stdAdd = stdAdd;
+        this.stdGrt = stdGrt;
+        this.stdYear = stdYear;
+        this.classID = classID;
+        this.stdBD = stdBD;
+        this.fundamental = fundamental;
+        this.math = math;
+        this.pfc = pfc;
+        this.the21 = the21;
+        this.history = history;
+        this.cProgram = cProgram;
+    }
+
+    public int getStdID() {
+        return stdID;
+    }
+
+    public void setStdID(int stdID) {
+        this.stdID = stdID;
+    }
 
     public String getStdCode() {
         return stdCode;
@@ -37,59 +69,91 @@ public class Report{
         this.stdSex = stdSex;
     }
 
-    public Double getcProgram() {
-        return cProgram;
+    public String getStdAdd() {
+        return stdAdd;
     }
 
-    public void setcProgram(Double cProgram) {
-        this.cProgram = cProgram;
+    public void setStdAdd(String stdAdd) {
+        this.stdAdd = stdAdd;
     }
 
-    public Double getEnglish() {
-        return english;
+    public String getStdGrt() {
+        return stdGrt;
     }
 
-    public void setEnglish(Double english) {
-        this.english = english;
+    public void setStdGrt(String stdGrt) {
+        this.stdGrt = stdGrt;
     }
 
-    public Double getFundamental() {
+    public String getStdYear() {
+        return stdYear;
+    }
+
+    public void setStdYear(String stdYear) {
+        this.stdYear = stdYear;
+    }
+
+    public int getClassID() {
+        return classID;
+    }
+
+    public void setClassID(int classID) {
+        this.classID = classID;
+    }
+
+    public String getStdBD() {
+        return stdBD;
+    }
+
+    public void setStdBD(String stdBD) {
+        this.stdBD = stdBD;
+    }
+
+    public int getFundamental() {
         return fundamental;
     }
 
-    public void setFundamental(Double fundamental) {
+    public void setFundamental(int fundamental) {
         this.fundamental = fundamental;
     }
 
-    public Double getMath() {
+    public int getMath() {
         return math;
     }
 
-    public void setMath(Double math) {
+    public void setMath(int math) {
         this.math = math;
     }
 
-    public Double getPhysics() {
-        return physics;
+    public int getPfc() {
+        return pfc;
     }
 
-    public void setPhysics(Double physics) {
-        this.physics = physics;
+    public void setPfc(int pfc) {
+        this.pfc = pfc;
     }
 
-    public Double getCenturySkill() {
-        return centurySkill;
+    public int getThe21() {
+        return the21;
     }
 
-    public void setCenturySkill(Double centurySkill) {
-        this.centurySkill = centurySkill;
+    public void setThe21(int the21) {
+        this.the21 = the21;
     }
 
-    public Double getHistory() {
+    public int getHistory() {
         return history;
     }
 
-    public void setHistory(Double history) {
+    public void setHistory(int history) {
         this.history = history;
+    }
+
+    public int getcProgram() {
+        return cProgram;
+    }
+
+    public void setcProgram(int cProgram) {
+        this.cProgram = cProgram;
     }
 }
