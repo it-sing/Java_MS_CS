@@ -2,7 +2,6 @@ package org.example.view;
 
 import org.example.controller.StudentController;
 import org.example.model.Student;
-import org.example.util.PropertyLoader;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -127,17 +126,39 @@ public class StudentViewForm extends JFrame {
         tfStdBD.setBounds(140, 300, 150, 25);
         formPanel.add(tfStdBD);
 
-        add(formPanel, BorderLayout.CENTER);
-
-        // Button Panel
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(null); // Use null layout for absolute positioning
-        buttonPanel.setPreferredSize(new Dimension(600, 50)); // Set preferred size for visibility
-
+        /* Button */
+        // button create student
         JButton btnCreate = new JButton("Create");
         btnCreate.setBackground(new Color(0, 128, 0));
         btnCreate.setForeground(Color.WHITE);
-        btnCreate.setBounds(200, 10, 100, 30); // Set position and size
+        btnCreate.setBounds(30, 400, 100, 30);
+        formPanel.add(btnCreate);
+
+        // button update student
+        JButton btnUpdate = new JButton("Update");
+        btnUpdate.setBackground(new Color(211, 147, 51, 242));
+        btnUpdate.setForeground(Color.WHITE);
+        btnUpdate.setBounds(180, 400, 100, 30);
+        formPanel.add(btnUpdate);
+
+        // button delete
+        JButton btnDelete = new JButton("Delete");
+        btnDelete.setBackground(new Color(255, 0, 0));
+        btnDelete.setForeground(Color.WHITE);
+        btnDelete.setBounds(30, 460, 100, 30);
+        formPanel.add(btnDelete);
+
+        // button exit
+        JButton btnExit = new JButton("Exit");
+        btnExit.setBackground(Color.GRAY);
+        btnExit.setForeground(Color.WHITE);
+        btnExit.setBounds(180, 460, 100, 30);
+        formPanel.add(btnExit);
+
+        // add form panel into the form
+        add(formPanel, BorderLayout.CENTER);
+
+        // create
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,12 +166,8 @@ public class StudentViewForm extends JFrame {
                 loadStudents();
             }
         });
-        buttonPanel.add(btnCreate);
 
-        JButton btnUpdate = new JButton("Update");
-        btnUpdate.setBackground(new Color(255, 255, 0));
-        btnUpdate.setForeground(Color.BLACK);
-        btnUpdate.setBounds(320, 10, 100, 30); // Set position and size
+        // update
         btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -158,12 +175,8 @@ public class StudentViewForm extends JFrame {
                 loadStudents();
             }
         });
-        buttonPanel.add(btnUpdate);
 
-        JButton btnDelete = new JButton("Delete");
-        btnDelete.setBackground(new Color(255, 0, 0));
-        btnDelete.setForeground(Color.WHITE);
-        btnDelete.setBounds(440, 10, 100, 30); // Set position and size
+         // delete
         btnDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -171,21 +184,17 @@ public class StudentViewForm extends JFrame {
                 loadStudents();
             }
         });
-        buttonPanel.add(btnDelete);
 
-        JButton btnExit = new JButton("Exit");
-        btnExit.setBackground(Color.GRAY);
-        btnExit.setForeground(Color.WHITE);
-        btnExit.setBounds(560, 10, 100, 30); // Set position and size
+        // exit(back to home)
         btnExit.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                // Close the current form
+                dispose();
+                // Open the DashboardForm
+                DashboardForm dashboardForm = new DashboardForm();
+                dashboardForm.setVisible(true);
             }
         });
-        buttonPanel.add(btnExit);
-
-        add(buttonPanel, BorderLayout.SOUTH);
 
         // Table Panel
         tableModel = new DefaultTableModel(new String[]{"stdID", "stdCode", "stdName", "stdSex", "stdAdd", "stdGrt", "stdYear", "classID", "stdBD"}, 0);
@@ -210,7 +219,7 @@ public class StudentViewForm extends JFrame {
         });
         add(new JScrollPane(table), BorderLayout.EAST);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(320, 20, 800, 500);
+        scrollPane.setBounds(340, 20, 800, 500);
         formPanel.add(scrollPane);
 
         loadStudents();
@@ -235,7 +244,7 @@ public class StudentViewForm extends JFrame {
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
+             e.printStackTrace();
         }
     }
 
@@ -305,7 +314,7 @@ public class StudentViewForm extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         SwingUtilities.invokeLater(StudentViewForm::new);
-    }
+    }*/
 }
