@@ -150,7 +150,6 @@ public class DataRepository {
                     System.out.println("Insert successful for student with stdCode: " + student.getStdCode());
                 }
             }
-
         } catch (SQLException e) {
             System.err.println("Error inserting student: " + e.getMessage());
             e.printStackTrace();

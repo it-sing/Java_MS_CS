@@ -67,12 +67,9 @@ public class DataYear1 extends javax.swing.JFrame {
         jExit = new javax.swing.JButton();
         jShow = new javax.swing.JButton();
         jGender = new javax.swing.JTextField();
-        jGender.setEditable(false);
         jCprogram = new javax.swing.JTextField();
         jStucode = new javax.swing.JTextField();
-        jStucode.setEditable(false);
         jName = new javax.swing.JTextField();
-        jName.setEditable(false);
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -94,7 +91,6 @@ public class DataYear1 extends javax.swing.JFrame {
         jSave = new javax.swing.JButton();
         jDelete = new javax.swing.JButton();
         jYearFeild = new javax.swing.JTextField();
-        jYearFeild.setEditable(false);
         jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -114,21 +110,12 @@ public class DataYear1 extends javax.swing.JFrame {
 
         jLabel3.setText("Generations");
 
-        jTableinfo.setDefaultEditor(Object.class, null);
-        jTableinfo.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                jTableinfoMouseClicked(evt);
-            }
-        });
-
-
         jTableinfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                 "Stu code", "Name", "Gender", "Year", "Cprogram", "English", "Fundamental", "Math;", "Physics", "CenturySkill", "History"
+                "Year", "Stu code", "Name", "Gender", "Cprogram", "English", "Fundamental", "Math;", "Physics", "CenturySkill", "History"
             }
         ));
         jScrollPane1.setViewportView(jTableinfo);
@@ -147,13 +134,8 @@ public class DataYear1 extends javax.swing.JFrame {
         jExit.setForeground(new java.awt.Color(255, 255, 255));
         jExit.setText("Exit");
         jExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Close the current form
-                dispose();
-
-                // Open the DataOptionsForm
-                DataOptionsForm dataOptionsForm = new DataOptionsForm();
-                dataOptionsForm.setVisible(true); // Assuming DataOptionsForm extends JFrame, set it visible
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jExitActionPerformed(evt);
             }
         });
 
@@ -172,6 +154,12 @@ public class DataYear1 extends javax.swing.JFrame {
         jLabel6.setText("Name :");
 
         jLabel7.setText("Gender :");
+
+        jEnglish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jEnglishActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("English :");
 
@@ -327,7 +315,7 @@ public class DataYear1 extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jYears2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(24, 24, 24))
+                        .addGap(27, 27, 27))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jShow, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
@@ -341,7 +329,7 @@ public class DataYear1 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jExit, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 46, Short.MAX_VALUE)
+                        .addGap(0, 43, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jStucode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jCprogram, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
