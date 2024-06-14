@@ -14,7 +14,6 @@ public class Main {
             SignUpForm signUpForm = new SignUpForm();
             UserRepository userRepository = new UserRepository();
             UserController controller = new UserController(signInForm, signUpForm, userRepository);
-
             signInForm.setVisible(true);
         });
     }
