@@ -1,5 +1,7 @@
 package org.example.view;
 
+import org.example.controller.StudentController;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,10 +10,14 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class DashboardForm extends javax.swing.JFrame {
     private JLabel profileLabel;  // Label to display profile image
     private JTextField jFullname; // TextField to display full name
+    private StudentController studentController;
+    private DefaultTableModel tableModel;
+
 
     public DashboardForm() {
         initComponents();
@@ -33,6 +39,8 @@ public class DashboardForm extends javax.swing.JFrame {
         jReport = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jStudent = new javax.swing.JButton();
+
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,12 +68,8 @@ public class DashboardForm extends javax.swing.JFrame {
         });
         jStudent.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                // Create an instance of DataOptionsForm
-                DataOptionsForm dataOptionsForm = new DataOptionsForm();
-
-                // Make the DataOptionsForm visible
-                dataOptionsForm.setVisible(true);
+                StudentViewForm studentViewForm = new StudentViewForm();
+                studentViewForm.setVisible(true);
             }
         });
         jReport.addActionListener(new ActionListener() {
