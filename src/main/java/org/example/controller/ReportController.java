@@ -1,6 +1,5 @@
 package org.example.controller;
-
-import org.example.model.Report;
+import org.example.model.ReportYear1;
 import org.example.repository.ReportRepository;
 
 import java.util.List;
@@ -12,11 +11,12 @@ public class ReportController {
         repository = new ReportRepository();
     }
 
-    public List<Report> loadReportsYear1() {
+    public List<ReportYear1> loadReportsYear1() {
         return repository.getAllReportsYear1();
     }
 
-    public List<Report> searchReportsByNameYear1(List<String> names) {
-        return repository.searchReportsByNameYear1(names);
+    public List<ReportYear1> searchReports(String name, String classId, String generation, String stdCode) {
+        return repository.searchReports(name, classId, generation, stdCode);
     }
 }
+

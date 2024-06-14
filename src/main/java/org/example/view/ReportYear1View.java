@@ -1,25 +1,26 @@
 package org.example.view;
 
 import org.example.controller.ReportController;
-import org.example.model.Report;
 import org.example.util.ConvertFile;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.List;
 
-public class ReportYear1 extends JFrame {
+public class ReportYear1View extends JFrame {
     private DefaultTableModel tableModel;
     private final ReportController reportController;
     private JTextField txtName;
+    private JTextField txtClass;
+    private JTextField txtGeneration;
+    private JTextField txtStdCode;
 
-    public ReportYear1() {
+    public ReportYear1View() {
         reportController = new ReportController();
         initializeUI();
         loadReports();
@@ -28,7 +29,7 @@ public class ReportYear1 extends JFrame {
     private void initializeUI() {
         setTitle("Report Year1");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 750);
+        setSize(1250, 750);
         setLocationRelativeTo(null);
 
         // Main panel with BorderLayout
@@ -36,39 +37,78 @@ public class ReportYear1 extends JFrame {
         add(mainPanel);
 
         JButton year1 = new JButton("Year1");
-        year1.setBounds(50, 30, 100, 30);
+        year1.setBounds(0, 10, 100, 30);
         year1.setBackground(Color.BLACK);
         year1.setForeground(Color.white);
 
         mainPanel.add(year1);
 
-        // label
-        JLabel lblName = new JLabel("Search by Name");
-        lblName.setBounds(300, 30, 100, 30);
+        // label name
+        JLabel lblName = new JLabel("Name");
+        lblName.setBounds(200, 30, 100, 30);
         mainPanel.add(lblName);
 
         // text field for filter by name
         txtName = new JTextField();
-        txtName.setBounds(400, 30, 100, 30);
+        txtName.setBounds(250, 30, 100, 30);
         mainPanel.add(txtName);
+
+        // label class
+        JLabel lblClass = new JLabel("Class");
+        lblClass.setBounds(400, 30, 100, 30);
+        mainPanel.add(lblClass);
+
+        // text field class
+        txtClass = new JTextField();
+        txtClass.setBounds(450, 30, 100, 30);
+        mainPanel.add(txtClass);
+
+        // label genertaion
+        JLabel lblGeneration = new JLabel("Generation");
+        lblGeneration.setBounds(600, 30, 100, 30);
+        mainPanel.add(lblGeneration);
+
+        // text filed generation
+        txtGeneration = new JTextField();
+        txtGeneration.setBounds(680, 30, 100, 30);
+        mainPanel.add(txtGeneration);
+
+        JLabel lblStdCode = new JLabel("StdCode");
+        lblStdCode.setBounds(820, 30, 100, 30);
+        mainPanel.add(lblStdCode);
+
+        txtStdCode = new JTextField();
+        txtStdCode.setBounds(880, 30, 100, 30);
+        mainPanel.add(txtStdCode);
 
         // Search button
         JButton btnSearch = new JButton("Search");
-        btnSearch.setBounds(510, 30, 100, 30);
+        btnSearch.setBounds(1050, 30, 100, 30);
         mainPanel.add(btnSearch);
 
         btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String namesText = txtName.getText();
-                List<String> names = Arrays.asList(namesText.split(","));
-                searchReportsByName(names);
+                String name = txtName.getText();
+                String classId = txtClass.getText();
+                String generation = txtGeneration.getText();
+                String stdCode = txtStdCode.getText();
+                searchReports(name, classId, generation, stdCode);
             }
         });
 
         JButton btnExit = new JButton("Exit");
         btnExit.setBounds(50, 650, 100, 30);
         mainPanel.add(btnExit);
+
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Close the current form
+                dispose();
+                ReportOptionForm reportOptionForm = new ReportOptionForm();
+                reportOptionForm.setVisible(true);
+            }
+        });
 
         JButton btnExcel = new JButton("Excel");
         btnExcel.setBounds(700, 650, 100, 30);
@@ -77,7 +117,7 @@ public class ReportYear1 extends JFrame {
         btnExcel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ConvertFile.exportToExcel(ReportYear1.this, tableModel, "Year1");
+                ConvertFile.exportToExcel(ReportYear1View.this, tableModel, "Year1");
             }
         });
 
@@ -88,7 +128,7 @@ public class ReportYear1 extends JFrame {
         btnPdf.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ConvertFile.exportToPDF(ReportYear1.this, tableModel, "Year1");
+                ConvertFile.exportToPDF(ReportYear1View.this, tableModel, "Year1");
             }
         });
 
@@ -100,12 +140,23 @@ public class ReportYear1 extends JFrame {
         table.setFont(new Font("Arial", Font.PLAIN, 14));
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
 
+        // Center data in the table
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        // Set color for the header text
+        JTableHeader header = table.getTableHeader();
+        header.setForeground(Color.BLUE); // Set your desired text color here
+
         // Put the table inside a scroll pane
         JScrollPane scrollPane = new JScrollPane(table);
 
         // Create a panel with margins and add the scroll pane to it
         JPanel tablePanel = new JPanel(new BorderLayout());
-        tablePanel.setBorder(BorderFactory.createEmptyBorder(100, 50, 150, 50)); // Add margins here
+        tablePanel.setBorder(BorderFactory.createEmptyBorder(120, 50, 150, 50)); // Add margins here
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
         mainPanel.add(tablePanel, BorderLayout.CENTER);
@@ -113,25 +164,25 @@ public class ReportYear1 extends JFrame {
 
     private void loadReports() {
         try {
-            List<Report> reports = reportController.loadReportsYear1();
+            List<org.example.model.ReportYear1> reports = reportController.loadReportsYear1();
             updateTable(reports);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void searchReportsByName(List<String> names) {
+    private void searchReports(String name, String classId, String generation, String stdCode) {
         try {
-            List<Report> reports = reportController.searchReportsByNameYear1(names);
+            List<org.example.model.ReportYear1> reports = reportController.searchReports(name, classId, generation, stdCode);
             updateTable(reports);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void updateTable(List<Report> reports) {
+    private void updateTable(List<org.example.model.ReportYear1> reports) {
         tableModel.setRowCount(0); // Clear existing data
-        for (Report report : reports) {
+        for (org.example.model.ReportYear1 report : reports) {
             tableModel.addRow(new Object[]{
                     report.getStdID(),
                     report.getStdCode(),

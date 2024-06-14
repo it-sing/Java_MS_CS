@@ -36,7 +36,7 @@ public class ReportOptionForm extends javax.swing.JFrame {
         jYear1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                ReportYear1 reportYear1 = new ReportYear1();
+                ReportYear1View reportYear1 = new ReportYear1View();
                 reportYear1.setVisible(true);
             }
         });

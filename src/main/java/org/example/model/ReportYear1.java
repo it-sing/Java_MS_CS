@@ -1,6 +1,6 @@
 package org.example.model;
 
-public class Report {
+public class ReportYear1 {
     private int stdID;
     private String stdCode;
     private String stdName;
@@ -17,9 +17,9 @@ public class Report {
     private int history;
     private int cProgram;
 
-    public Report(){};
+    public ReportYear1(){};
 
-    public Report(int stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD, int fundamental, int math, int pfc, int the21, int history, int cProgram) {
+    public ReportYear1(int stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD, int fundamental, int math, int pfc, int the21, int history, int cProgram) {
         this.stdID = stdID;
         this.stdCode = stdCode;
         this.stdName = stdName;
