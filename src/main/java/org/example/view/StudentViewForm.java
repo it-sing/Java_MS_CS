@@ -1,12 +1,20 @@
 package org.example.view;
 
 import org.example.controller.StudentController;
+import org.example.controller.UserController;
 import org.example.model.Student;
+import org.example.repository.UserRepository;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 
 public class StudentViewForm extends JFrame {
@@ -27,22 +35,35 @@ public class StudentViewForm extends JFrame {
     public StudentViewForm() {
         studentController = new StudentController();
 
-        setTitle("Student Management");
-        setSize(1400, 650);
+        // Set font size
+        Font fontBold = new Font("Roboto", Font.PLAIN, 14);
+        Font fontNormal = new Font("Roboto", Font.PLAIN, 14);
+
+        setTitle(" Student Management");
+        setFont(fontBold);
+        setSize(1500, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
         // Sidebar Panel
         JPanel sidebarPanel = new JPanel();
         sidebarPanel.setLayout(new BoxLayout(sidebarPanel, BoxLayout.Y_AXIS));
-        sidebarPanel.setBackground(new Color(39, 55, 70));
+        sidebarPanel.setBackground(new Color(84, 43, 154));
         sidebarPanel.setPreferredSize(new Dimension(150, getHeight()));
 
-        JLabel userIcon = new JLabel(new ImageIcon("path/to/user/icon")); // Add your user icon path here
-        userIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sidebarPanel.add(Box.createVerticalStrut(30)); // Add spacing
-        sidebarPanel.add(userIcon);
-        sidebarPanel.add(Box.createVerticalStrut(10)); // Add spacing
+        // Load and resize the image
+        try {
+            BufferedImage userImage = ImageIO.read(new File("D:\\9. RUPP\\Year3\\Java E7\\Java_MS_CS\\images\\user1.png"));
+            Image resizedImage = userImage.getScaledInstance(150, 100, Image.SCALE_SMOOTH); // Resize to 100x100 pixels
+            JLabel userIcon = new JLabel(new ImageIcon(resizedImage));
+            userIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            sidebarPanel.add(Box.createVerticalStrut(10)); // Add spacing
+            sidebarPanel.add(userIcon);
+            sidebarPanel.add(Box.createVerticalStrut(10)); // Add spacing
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         JLabel userLabel = new JLabel("User");
         userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -50,11 +71,12 @@ public class StudentViewForm extends JFrame {
         sidebarPanel.add(userLabel);
 
         JButton btnLogout = new JButton("Log Out");
+        btnLogout.setBounds(10, 400, 100, 30);
+
         btnLogout.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnLogout.setBackground(Color.WHITE);
-        sidebarPanel.add(Box.createVerticalStrut(300)); // Add spacing
+        sidebarPanel.add(Box.createVerticalStrut(400)); // Add spacing
         sidebarPanel.add(btnLogout);
-
         add(sidebarPanel, BorderLayout.WEST);
 
         // Form Panel
@@ -94,7 +116,7 @@ public class StudentViewForm extends JFrame {
         tfStdAdd.setBounds(140, 140, 150, 25);
         formPanel.add(tfStdAdd);
 
-        JLabel lblGrade = new JLabel("Grade:");
+        JLabel lblGrade = new JLabel("Generation:");
         lblGrade.setBounds(20, 180, 100, 25);
         formPanel.add(lblGrade);
 
@@ -158,49 +180,61 @@ public class StudentViewForm extends JFrame {
         // add form panel into the form
         add(formPanel, BorderLayout.CENTER);
 
+        // log out
+        btnLogout.addActionListener(e -> {
+            dispose();
+            SignInForm signInForm = new SignInForm();
+            SignUpForm signUpForm = new SignUpForm();
+            UserRepository userRepository = new UserRepository();
+            UserController controller = new UserController(signInForm, signUpForm, userRepository);
+            signInForm.setVisible(true);
+        });
+
         // create
-        btnCreate.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                createStudent();
-                loadStudents();
-            }
+        btnCreate.addActionListener(e -> {
+            createStudent();
+            loadStudents();
         });
 
         // update
-        btnUpdate.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateStudent();
-                loadStudents();
-            }
+        btnUpdate.addActionListener(e -> {
+            updateStudent();
+            loadStudents();
         });
 
          // delete
-        btnDelete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteStudent();
-                loadStudents();
-            }
+        btnDelete.addActionListener(e -> {
+            deleteStudent();
+            loadStudents();
         });
 
         // exit(back to home)
-        btnExit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Close the current form
-                dispose();
-                // Open the DashboardForm
-                DashboardForm dashboardForm = new DashboardForm();
-                dashboardForm.setVisible(true);
-            }
+        btnExit.addActionListener(e -> {
+            dispose();
+            DashboardForm dashboardForm = new DashboardForm();
+            dashboardForm.setVisible(true);
         });
 
         // Table Panel
-        tableModel = new DefaultTableModel(new String[]{"stdID", "stdCode", "stdName", "stdSex", "stdAdd", "stdGrt", "stdYear", "classID", "stdBD"}, 0);
+        tableModel = new DefaultTableModel(new String[]{
+                "Student ID", "Code", "Student Name", "Gender", "Address", "Generation", "Year", "classID", "Date of Birth"
+        }, 0);
         table = new JTable(tableModel);
-        table.setRowHeight(20);
+        table.setFont(fontNormal);
+        table.setRowHeight(25);
         table.setIntercellSpacing(new Dimension(5, 5)); // Add gap between cells
+
+        // Set font size bold for header of table
+        JTableHeader tableHeader = table.getTableHeader();
+        tableHeader.setFont(fontBold);
+
+        // Center align all cells
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -217,9 +251,10 @@ public class StudentViewForm extends JFrame {
                 }
             }
         });
+
         add(new JScrollPane(table), BorderLayout.EAST);
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(340, 20, 800, 500);
+        scrollPane.setBounds(330, 20, 920, 480);
         formPanel.add(scrollPane);
 
         loadStudents();
@@ -314,7 +349,7 @@ public class StudentViewForm extends JFrame {
         }
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(StudentViewForm::new);
-    }*/
+    }
 }
