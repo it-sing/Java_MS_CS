@@ -7,6 +7,7 @@ import org.example.model.DataY4;
 import org.example.util.Message;
 import org.example.util.PropertyLoader;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +15,17 @@ import java.util.List;
 public class DataRepository {
     private static final String DATABASE_URL = PropertyLoader.getProperty("database.url");
     // for List Student  Year 1
-    public List<DataY1> getStudentsY1(String stdCode, String className, String stdGrt, String stdYear) {
+    public List<DataY1> getStudentsY1(String stdCode, String className, String stdGrt, String stdYear, String semester) {
         List<DataY1> studentsY1 = new ArrayList<>();
 
         StringBuilder queryBuilder = new StringBuilder("SELECT tbStudent.stdCode, tbStudent.stdName, tbStudent.stdSex, tbStudent.stdYear, ")
-                .append("PTYear1.EFC, PTYear1.Fundamantal, PTYear1.Math, PTYear1.PFC, ")
-                .append("PTYear1.The21, PTYear1.History, PTYear1.CProgram ")
+                .append("PTYear1.EFC, PTYear1.Fundamental, PTYear1.Math, PTYear1.PFC, ")
+                .append("PTYear1.The21, PTYear1.History, PTYear1.CProgram, PTYear1.Semester ")
                 .append("FROM tbStudent ")
                 .append("LEFT JOIN tbClass ON tbStudent.classID = tbClass.classID ")
                 .append("LEFT JOIN PTYear1 ON tbStudent.stdCode = PTYear1.stdCode WHERE 1=1 ");
+
+
 
         List<Object> parameters = new ArrayList<>();
 
@@ -42,6 +45,10 @@ public class DataRepository {
         if (stdYear != null && !stdYear.isEmpty()) {
             queryBuilder.append("AND tbStudent.stdYear = ? ");
             parameters.add(stdYear);
+        }
+        if (semester != null && !semester.isEmpty()) {
+            queryBuilder.append("AND Semester = ? ");
+            parameters.add(semester);
         }
 
         String query = queryBuilder.toString();
@@ -65,9 +72,10 @@ public class DataRepository {
                 studentY1.setStdCode(resultSet.getString("stdCode"));
                 studentY1.setStdName(resultSet.getString("stdName"));
                 studentY1.setStdSex(resultSet.getString("stdSex"));
+                studentY1.setSemester(resultSet.getString("Semester"));
                 studentY1.setCProgram(resultSet.getDouble("CProgram"));
                 studentY1.setEnglish(resultSet.getDouble("EFC"));
-                studentY1.setFundamental(resultSet.getDouble("Fundamantal"));
+                studentY1.setFundamental(resultSet.getDouble("Fundamental"));
                 studentY1.setMath(resultSet.getDouble("Math"));
                 studentY1.setPhysics(resultSet.getDouble("PFC"));
                 studentY1.setCenturySkill(resultSet.getDouble("The21"));
@@ -82,10 +90,25 @@ public class DataRepository {
         return studentsY1;
     }
     public void updateStudentY1(DataY1 student) {
-        String updateYear1SQL = "UPDATE PTYear1 SET EFC = ?, Fundamantal  = ?, Math = ?, PFC = ?, The21 = ?, History = ?, CProgram = ? WHERE stdCode = ?";
+        String selectSQL = "SELECT COUNT(*) FROM PTYear1 WHERE stdCode = ? AND Semester = ?";
+        String updateYear1SQL = "UPDATE PTYear1 SET EFC = ?, Fundamental = ?, Math = ?, PFC = ?, The21 = ?, History = ?, CProgram = ? WHERE stdCode = ? AND Semester = ?";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement selectStatement = connection.prepareStatement(selectSQL);
              PreparedStatement updateStatement = connection.prepareStatement(updateYear1SQL)) {
+
+            // Check if the record exists
+            selectStatement.setString(1, student.getStdCode());
+            selectStatement.setString(2, student.getSemester());
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                if (count == 0) {
+                    Message.showInfoMessage("No Student found for stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester());
+                    return;
+                }
+            }
 
             // Update PTYear1
             updateStatement.setDouble(1, student.getEnglish());
@@ -95,13 +118,15 @@ public class DataRepository {
             updateStatement.setDouble(5, student.getCenturySkill());
             updateStatement.setDouble(6, student.getHistory());
             updateStatement.setDouble(7, student.getCProgram());
-            updateStatement.setString(8, student.getStdCode()); // Assuming getStdCode returns the student code
+            updateStatement.setString(8, student.getStdCode());
+            updateStatement.setString(9, student.getSemester());
+
             int rowsAffected = updateStatement.executeUpdate();
 
             if (rowsAffected == 0) {
-                Message.showInfoMessage("No rows updated. Student with stdCode: " + student.getStdCode() + " not found.");
+                Message.showInfoMessage("No Student updated. Student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester() + " not found.");
             } else {
-                Message.showInfoMessage("Update successful for student with stdCode: " + student.getStdCode());
+                Message.showInfoMessage("Update successful for student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester());
             }
 
         } catch (SQLException e) {
@@ -110,17 +135,16 @@ public class DataRepository {
         }
     }
     public void insertStudentY1(DataY1 student) {
-
-        String checkStdCodeSQL = "SELECT COUNT(*) FROM PTYear1 WHERE stdCode = ?";
-
-        String insertYear1SQL = "INSERT INTO PTYear1 (EFC, Fundamantal, Math, PFC, The21, History, CProgram, stdCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String checkStdCodeSQL = "SELECT COUNT(*) FROM PTYear1 WHERE stdCode = ? AND Semester = ?";
+        String insertYear1SQL = "INSERT INTO PTYear1 (EFC, Fundamental, Math, PFC, The21, History, CProgram, stdCode, Semester ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement checkStatement = connection.prepareStatement(checkStdCodeSQL);
              PreparedStatement insertStatement = connection.prepareStatement(insertYear1SQL)) {
 
-            // Set parameter for the check statement
+            // Set parameters for the check statement
             checkStatement.setString(1, student.getStdCode());
+            checkStatement.setString(2, student.getSemester());
 
             // Execute the check statement
             ResultSet resultSet = checkStatement.executeQuery();
@@ -128,8 +152,7 @@ public class DataRepository {
             int count = resultSet.getInt(1);
 
             if (count > 0) {
-                // stdCode already exists
-                Message.showInfoMessage("Student with stdCode " + student.getStdCode() + " already exists.");
+                Message.showInfoMessage("Student with stdCode " + student.getStdCode() + " already has a record for semester " + student.getSemester() + ".");
             } else {
                 // Set parameters for the insert statement
                 insertStatement.setDouble(1, student.getEnglish());
@@ -140,55 +163,57 @@ public class DataRepository {
                 insertStatement.setDouble(6, student.getHistory());
                 insertStatement.setDouble(7, student.getCProgram());
                 insertStatement.setString(8, student.getStdCode());
+                insertStatement.setString(9, student.getSemester());
 
                 // Execute the insert statement
                 int rowsAffected = insertStatement.executeUpdate();
 
                 if (rowsAffected == 0) {
-                    System.out.println("No rows inserted for student with stdCode: " + student.getStdCode());
+                    Message.showInfoMessage("No rows inserted for student with stdCode: " + student.getStdCode());
                 } else {
-                    System.out.println("Insert successful for student with stdCode: " + student.getStdCode());
+                    Message.showConfirmMessage("Save successful for student with stdCode: " + student.getStdCode() + " for semester: " + student.getSemester());
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error inserting student: " + e.getMessage());
+            Message.showErrorMessage("Error inserting student: " + e.getMessage());
             e.printStackTrace();
         }
     }
-
-    public void deleteStudentY1(String stdCode) {
-        String deleteYear1SQL = "DELETE FROM PTYear1 WHERE stdCode = ?";
+    public void deleteStudentY1(String stdCode, String semester) {
+        String deleteYear1SQL = "DELETE FROM PTYear1 WHERE stdCode = ? AND Semester = ?";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement deleteStatement = connection.prepareStatement(deleteYear1SQL)) {
 
-            // Set the stdCode parameter
+            // Set parameters for the prepared statement
             deleteStatement.setString(1, stdCode);
+            deleteStatement.setString(2, semester);
 
             int rowsAffected = deleteStatement.executeUpdate();
 
             if (rowsAffected == 0) {
-                System.out.println("No rows deleted. Student with stdCode: " + stdCode + " not found.");
+                Message.showInfoMessage("No Student deleted. Student with stdCode: " + stdCode + " and Semester: " + semester + " not found.");
             } else {
-                System.out.println("Delete successful for student with stdCode: " + stdCode);
+                Message.showInfoMessage("Delete successful for student with stdCode: " + stdCode + " and Semester: " + semester);
             }
 
         } catch (SQLException e) {
-            System.err.println("Error deleting student: " + e.getMessage());
+            Message.showErrorMessage("Error deleting student: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     // for List Student  Year 2
-    public List<DataY2> getStudentsY2(String stdCode, String className, String stdGrt, String stdYear) {
+    public List<DataY2> getStudentsY2(String stdCode, String className, String stdGrt, String stdYear, String semester) {
         List<DataY2> studentsY2 = new ArrayList<>();
 
-        StringBuilder queryBuilder = new StringBuilder("SELECT tbStudent.stdCode, tbStudent.stdName, tbStudent.stdSex,tbStudent.stdYear, ")
+        StringBuilder queryBuilder = new StringBuilder("SELECT tbStudent.stdCode, tbStudent.stdName, tbStudent.stdSex, tbStudent.stdYear, ")
                 .append("PTYear2.Communication, PTYear2.DataStructure, PTYear2.English, PTYear2.CPlusPlus, ")
-                .append("PTYear2.Architecture, PTYear2.Database ")
+                .append("PTYear2.Architecture, PTYear2.Database, PTYear2.Semester ")
                 .append("FROM tbStudent ")
                 .append("LEFT JOIN tbClass ON tbStudent.classID = tbClass.classID ")
-                .append("LEFT JOIN PTYear2 ON tbStudent.stdCode = PTYear2.stdCode WHERE 1=1 ");
+                .append("LEFT JOIN PTYear2 ON tbStudent.stdCode = PTYear2.stdCode ")
+                .append("WHERE 1=1 ");
 
         List<String> parameters = new ArrayList<>();
 
@@ -208,6 +233,11 @@ public class DataRepository {
             queryBuilder.append("AND tbStudent.stdYear = ? ");
             parameters.add(stdYear);
         }
+        if (semester != null && !semester.isEmpty()) {
+            queryBuilder.append("AND Semester = ? ");
+            parameters.add(semester);
+        }
+
         String query = queryBuilder.toString();
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
@@ -225,6 +255,7 @@ public class DataRepository {
                 studentY2.setStdCode(resultSet.getString("stdCode"));
                 studentY2.setStdName(resultSet.getString("stdName"));
                 studentY2.setStdSex(resultSet.getString("stdSex"));
+                studentY2.setSemester(resultSet.getString("Semester"));
                 studentY2.setDataStructure(resultSet.getDouble("DataStructure"));
                 studentY2.setArchitecture(resultSet.getDouble("Architecture"));
                 studentY2.setCommunication(resultSet.getDouble("Communication"));
@@ -234,49 +265,74 @@ public class DataRepository {
 
                 studentsY2.add(studentY2);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return studentsY2;
     }
     public void updateStudentY2(DataY2 student) {
-        String updateYear1SQL = "UPDATE PTYear2 SET Communication = ?, DataStructure  = ?, English = ?, Cplusplus = ?, Architecture = ?, Database = ? WHERE stdCode = ?";
+        String selectSQL = "SELECT COUNT(*) FROM PTYear2 WHERE stdCode = ? AND Semester = ?";
+        String updateYear2SQL = "UPDATE PTYear2 SET Communication = ?, DataStructure = ?, English = ?, CPlusPlus = ?, Architecture = ?, Database = ? WHERE stdCode = ? AND Semester = ?";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement updateStatement = connection.prepareStatement(updateYear1SQL)) {
+             PreparedStatement selectStatement = connection.prepareStatement(selectSQL);
+             PreparedStatement updateStatement = connection.prepareStatement(updateYear2SQL)) {
 
-            // Update PTYear1
+            // Check if the record exists
+            selectStatement.setString(1, student.getStdCode());
+            selectStatement.setString(2, student.getSemester());
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                if (count == 0) {
+                    Message.showInfoMessage("No Student found for stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester());
+                    return;
+                }
+            }
+
+            // Show confirmation message
+            boolean confirm = Message.showConfirmMessage("Are you sure you want to update the student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester() + "?");
+
+            if (!confirm) {
+                Message.showInfoMessage("Update cancelled by user.");
+                return;
+            }
+
+            // Update PTYear2
             updateStatement.setDouble(1, student.getCommunication());
             updateStatement.setDouble(2, student.getDataStructure());
             updateStatement.setDouble(3, student.getEEnglish());
             updateStatement.setDouble(4, student.getCPlusPlus());
             updateStatement.setDouble(5, student.getArchitecture());
             updateStatement.setDouble(6, student.getDatabase());
-            updateStatement.setString(7, student.getStdCode()); // Assuming getStdCode returns the student code
+            updateStatement.setString(7, student.getStdCode());
+            updateStatement.setString(8, student.getSemester());
+
             int rowsAffected = updateStatement.executeUpdate();
 
             if (rowsAffected == 0) {
-                Message.showInfoMessage("No rows updated. Student with stdCode: " + student.getStdCode() + " not found.");
+                Message.showInfoMessage("No Student updated. Student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester() + " not found.");
             } else {
-                Message.showConfirmMessage("Update successful for student with stdCode: " + student.getStdCode());
+                Message.showInfoMessage("Update successful for student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester());
             }
-
         } catch (SQLException e) {
-            Message.showConfirmMessage("Error updating student: " + e.getMessage());
+            Message.showErrorMessage("Error updating student: " + e.getMessage());
             e.printStackTrace();
         }
     }
     public void insertStudentY2(DataY2 student) {
-        String checkStdCodeSQL = "SELECT COUNT(*) FROM PTYear2 WHERE stdCode = ?";
-        String insertYear1SQL = "INSERT INTO PTYear2 (stdCode, Communication, DataStructure, English, Cplusplus, Architecture, Database) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String checkStdCodeSQL = "SELECT COUNT(*) FROM PTYear2 WHERE stdCode = ? AND Semester = ?";
+        String insertYear2SQL = "INSERT INTO PTYear2 (stdCode, Communication, DataStructure, English, CPlusPlus, Architecture, Database, Semester) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement checkStatement = connection.prepareStatement(checkStdCodeSQL);
-             PreparedStatement insertStatement = connection.prepareStatement(insertYear1SQL)) {
+             PreparedStatement insertStatement = connection.prepareStatement(insertYear2SQL)) {
 
-            // Set parameter for the check statement
+            // Set parameters for the check statement
             checkStatement.setString(1, student.getStdCode());
+            checkStatement.setString(2, student.getSemester());
 
             // Execute the check statement
             ResultSet resultSet = checkStatement.executeQuery();
@@ -284,8 +340,7 @@ public class DataRepository {
             int count = resultSet.getInt(1);
 
             if (count > 0) {
-                // stdCode already exists
-                Message.showInfoMessage("Student with stdCode " + student.getStdCode() + " already exists.");
+                Message.showInfoMessage("Student with stdCode " + student.getStdCode() + " already has a record for semester " + student.getSemester() + ".");
             } else {
                 // Set parameters for the insert statement
                 insertStatement.setString(1, student.getStdCode());
@@ -295,6 +350,7 @@ public class DataRepository {
                 insertStatement.setDouble(5, student.getCPlusPlus());
                 insertStatement.setDouble(6, student.getArchitecture());
                 insertStatement.setDouble(7, student.getDatabase());
+                insertStatement.setString(8, student.getSemester());
 
                 // Execute the insert statement
                 int rowsAffected = insertStatement.executeUpdate();
@@ -302,47 +358,48 @@ public class DataRepository {
                 if (rowsAffected == 0) {
                     Message.showInfoMessage("No rows inserted for student with stdCode: " + student.getStdCode());
                 } else {
-                    Message.showConfirmMessage("Insert successful for student with stdCode: " + student.getStdCode());
+                    Message.showConfirmMessage("Save successful for student with stdCode: " + student.getStdCode() + " for semester: " + student.getSemester());
                 }
             }
-
         } catch (SQLException e) {
             Message.showErrorMessage("Error inserting student: " + e.getMessage());
             e.printStackTrace();
         }
     }
-    public void deleteStudentY2(String stdCode) {
-        String deleteYear2SQL = "DELETE FROM PTYear2 WHERE stdCode = ?";
+    public void deleteStudentY2(String stdCode, String semester) {
+        String deleteYear2SQL = "DELETE FROM PTYear2 WHERE stdCode = ? AND Semester = ?";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement deleteStatement = connection.prepareStatement(deleteYear2SQL)) {
 
-            // Set the stdCode parameter
+            // Set parameters for the prepared statement
             deleteStatement.setString(1, stdCode);
+            deleteStatement.setString(2, semester);
 
             int rowsAffected = deleteStatement.executeUpdate();
 
             if (rowsAffected == 0) {
-                System.out.println("No rows deleted. Student with stdCode: " + stdCode + " not found.");
+                Message.showInfoMessage("No Student deleted. Student with stdCode: " + stdCode + " and Semester: " + semester + " not found.");
             } else {
-                System.out.println("Delete successful for student with stdCode: " + stdCode);
+                Message.showInfoMessage("Delete successful for student with stdCode: " + stdCode + " and Semester: " + semester);
             }
 
         } catch (SQLException e) {
-            System.err.println("Error deleting student: " + e.getMessage());
+            Message.showErrorMessage("Error deleting student: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     // for List Student  Year 3
-    public List<DataY3> getStudentsY3(String stdCode, String className, String stdGrt, String stdYear) {
+    public List<DataY3> getStudentsY3(String stdCode, String className, String stdGrt, String stdYear, String semester) {
         List<DataY3> studentsY3 = new ArrayList<>();
 
-        StringBuilder queryBuilder = new StringBuilder("SELECT  tbStudent.stdCode, tbStudent.stdName, tbStudent.stdSex,tbStudent.stdYear, ")
-                .append("PTYear3.Net, PTYear3.Java, PTYear3.Network, PTYear3.SystemAnalysis, PTYear3.Statistics ")
+        StringBuilder queryBuilder = new StringBuilder("SELECT tbStudent.stdCode, tbStudent.stdName, tbStudent.stdSex, tbStudent.stdYear, ")
+                .append("PTYear3.Net, PTYear3.Java, PTYear3.SystemAnalysis, PTYear3.Statistics, PTYear3.Network, PTYear3.Semester ")
                 .append("FROM tbStudent ")
                 .append("LEFT JOIN tbClass ON tbStudent.classID = tbClass.classID ")
-                .append("LEFT JOIN PTYear3 ON tbStudent.stdCode = PTYear3.stdCode WHERE 1=1 ");
+                .append("LEFT JOIN PTYear3 ON tbStudent.stdCode = PTYear3.stdCode ")
+                .append("WHERE 1=1 ");
 
         List<String> parameters = new ArrayList<>();
 
@@ -361,6 +418,10 @@ public class DataRepository {
         if (stdYear != null && !stdYear.isEmpty()) {
             queryBuilder.append("AND tbStudent.stdYear = ? ");
             parameters.add(stdYear);
+        }
+        if (semester != null && !semester.isEmpty()) {
+            queryBuilder.append("AND PTYear3.Semester = ? ");
+            parameters.add(semester);
         }
 
         String query = queryBuilder.toString();
@@ -380,56 +441,82 @@ public class DataRepository {
                 studentY3.setStdCode(resultSet.getString("stdCode"));
                 studentY3.setStdName(resultSet.getString("stdName"));
                 studentY3.setStdSex(resultSet.getString("stdSex"));
+                studentY3.setSemester(resultSet.getString("Semester"));
                 studentY3.setDotNet(resultSet.getDouble("Net"));
                 studentY3.setJava(resultSet.getDouble("Java"));
-                studentY3.setNetwork(resultSet.getDouble("Network"));
                 studentY3.setAnalysisDesign(resultSet.getDouble("SystemAnalysis"));
                 studentY3.setStatistics(resultSet.getDouble("Statistics"));
+                studentY3.setNetwork(resultSet.getDouble("Network"));
 
                 studentsY3.add(studentY3);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return studentsY3;
     }
     public void updateStudentY3(DataY3 student) {
-        String updateYear3SQL = "UPDATE PTYear3 SET Net = ?, Java = ?, Network = ?, SystemAnalysis = ?, Statistics = ? WHERE stdCode = ?";
+        String selectSQL = "SELECT COUNT(*) FROM PTYear3 WHERE stdCode = ? AND Semester = ?";
+        String updateYear3SQL = "UPDATE PTYear3 SET Net = ?, Java = ?, Network = ?, SystemAnalysis = ?, Statistics = ? WHERE stdCode = ? AND Semester = ?";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement selectStatement = connection.prepareStatement(selectSQL);
              PreparedStatement updateStatement = connection.prepareStatement(updateYear3SQL)) {
+
+            // Check if the record exists
+            selectStatement.setString(1, student.getStdCode());
+            selectStatement.setString(2, student.getSemester());
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                if (count == 0) {
+                    Message.showInfoMessage("No Student found for stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester());
+                    return;
+                }
+            }
+
+            // Show confirmation message
+            boolean confirm = Message.showConfirmMessage("Are you sure you want to update the student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester() + "?");
+
+            if (!confirm) {
+                Message.showInfoMessage("Update cancelled by user.");
+                return;
+            }
 
             // Update PTYear3
             updateStatement.setDouble(1, student.getDotNet());
             updateStatement.setDouble(2, student.getJava());
-            updateStatement.setDouble(3, student.getAnalysisDesign());
-            updateStatement.setDouble(4, student.getNetwork());
+            updateStatement.setDouble(3, student.getNetwork());
+            updateStatement.setDouble(4, student.getAnalysisDesign());
             updateStatement.setDouble(5, student.getStatistics());
-            updateStatement.setString(6, student.getStdCode()); // Assuming getStdCode returns the student code
+            updateStatement.setString(6, student.getStdCode());
+            updateStatement.setString(7, student.getSemester());
+
             int rowsAffected = updateStatement.executeUpdate();
 
             if (rowsAffected == 0) {
-                Message.showInfoMessage("No rows updated. Student with stdCode: " + student.getStdCode() + " not found.");
+                Message.showInfoMessage("No Student updated. Student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester() + " not found.");
             } else {
-                Message.showConfirmMessage("Update successful for student with stdCode: " + student.getStdCode());
+                Message.showInfoMessage("Update successful for student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester());
             }
-
         } catch (SQLException e) {
             Message.showErrorMessage("Error updating student: " + e.getMessage());
             e.printStackTrace();
         }
     }
     public void insertStudentY3(DataY3 student) {
-        String checkStdCodeSQL = "SELECT COUNT(*) FROM PTYear3 WHERE stdCode = ?";
-        String insertYear3SQL = "INSERT INTO PTYear3 (stdCode, Net, Java, Network, SystemAnalysis, Statistics) VALUES (?, ?, ?, ?, ?, ?)";
+        String checkStdCodeSQL = "SELECT COUNT(*) FROM PTYear3 WHERE stdCode = ? AND Semester = ?";
+        String insertYear3SQL = "INSERT INTO PTYear3 (stdCode, Net, Java, SystemAnalysis, Statistics,  Network, Semester) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement checkStatement = connection.prepareStatement(checkStdCodeSQL);
              PreparedStatement insertStatement = connection.prepareStatement(insertYear3SQL)) {
 
-            // Set parameter for the check statement
+            // Set parameters for the check statement
             checkStatement.setString(1, student.getStdCode());
+            checkStatement.setString(2, student.getSemester());
 
             // Execute the check statement
             ResultSet resultSet = checkStatement.executeQuery();
@@ -437,8 +524,7 @@ public class DataRepository {
             int count = resultSet.getInt(1);
 
             if (count > 0) {
-                // stdCode already exists
-                Message.showInfoMessage("Student with stdCode " + student.getStdCode() + " already exists.");
+                Message.showInfoMessage("Student with stdCode " + student.getStdCode() + " already has a record for semester " + student.getSemester() + ".");
             } else {
                 // Set parameters for the insert statement
                 insertStatement.setString(1, student.getStdCode());
@@ -447,38 +533,38 @@ public class DataRepository {
                 insertStatement.setDouble(4, student.getNetwork());
                 insertStatement.setDouble(5, student.getAnalysisDesign());
                 insertStatement.setDouble(6, student.getStatistics());
+                insertStatement.setString(7, student.getSemester());
 
                 // Execute the insert statement
                 int rowsAffected = insertStatement.executeUpdate();
 
                 if (rowsAffected == 0) {
-                    Message.showInfoMessage("No rows inserted.");
+                    Message.showInfoMessage("No rows inserted for student with stdCode: " + student.getStdCode());
                 } else {
-                    Message.showConfirmMessage("Insert successful for student with stdCode: " + student.getStdCode());
+                    Message.showInfoMessage("Save successful for student with stdCode: " + student.getStdCode() + " for semester: " + student.getSemester());
                 }
             }
-
         } catch (SQLException e) {
             Message.showErrorMessage("Error inserting student: " + e.getMessage());
             e.printStackTrace();
         }
     }
-
-    public void deleteStudentY3(String stdCode) {
-        String deleteYear1SQL = "DELETE FROM PTYear3 WHERE stdCode = ?";
+    public void deleteStudentY3(String stdCode, String semester) {
+        String deleteYear3SQL = "DELETE FROM PTYear3 WHERE stdCode = ? AND Semester = ?";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement deleteStatement = connection.prepareStatement(deleteYear1SQL)) {
+             PreparedStatement deleteStatement = connection.prepareStatement(deleteYear3SQL)) {
 
-            // Set the stdCode parameter
+            // Set parameters for the prepared statement
             deleteStatement.setString(1, stdCode);
+            deleteStatement.setString(2, semester);
 
             int rowsAffected = deleteStatement.executeUpdate();
 
             if (rowsAffected == 0) {
-                Message.showInfoMessage("No rows deleted. Student with stdCode: " + stdCode + " not found.");
+                Message.showInfoMessage("No Student deleted. Student with stdCode: " + stdCode + " and Semester: " + semester + " not found.");
             } else {
-                Message.showConfirmMessage("Delete successful for student with stdCode: " + stdCode);
+                Message.showInfoMessage("Delete successful for student with stdCode: " + stdCode + " and Semester: " + semester);
             }
 
         } catch (SQLException e) {
@@ -486,12 +572,11 @@ public class DataRepository {
             e.printStackTrace();
         }
     }
-
-    public List<DataY4> getStudentsY4(String stdCode, String className, String stdGrt, String stdYear) {
+    public List<DataY4> getStudentsY4(String stdCode, String className, String stdGrt, String stdYear, String semester) {
         List<DataY4> studentsY4 = new ArrayList<>();
 
-        StringBuilder queryBuilder = new StringBuilder("SELECT tbStudent.stdCode, tbStudent.stdName, tbStudent.stdSex,tbStudent.stdYear, ")
-                .append("PTYear4.OOAD, PTYear4.Web AS WebDev, PTYear4.Linux, PTYear4.MIS, PTYear4.SE_IT_PM ")
+        StringBuilder queryBuilder = new StringBuilder("SELECT tbStudent.stdCode, tbStudent.stdName, tbStudent.stdSex, tbStudent.stdYear, ")
+                .append("PTYear4.OOAD, PTYear4.Web AS WebDev, PTYear4.Linux, PTYear4.MIS, PTYear4.SE_IT_PM, PTYear4.Semester ")
                 .append("FROM tbStudent ")
                 .append("LEFT JOIN tbClass ON tbStudent.classID = tbClass.classID ")
                 .append("LEFT JOIN PTYear4 ON tbStudent.stdCode = PTYear4.stdCode WHERE 1=1 ");
@@ -514,7 +599,10 @@ public class DataRepository {
             queryBuilder.append("AND tbStudent.stdYear = ? ");
             parameters.add(stdYear);
         }
-
+        if (semester != null && !semester.isEmpty()) {
+            queryBuilder.append("AND PTYear4.Semester = ? ");
+            parameters.add(semester);
+        }
 
         String query = queryBuilder.toString();
 
@@ -533,6 +621,7 @@ public class DataRepository {
                 studentY4.setStdCode(resultSet.getString("stdCode"));
                 studentY4.setStdName(resultSet.getString("stdName"));
                 studentY4.setStdSex(resultSet.getString("stdSex"));
+                studentY4.setSemester(resultSet.getString("Semester"));
                 studentY4.setOoAD(resultSet.getDouble("OOAD"));
                 studentY4.setWebDev(resultSet.getDouble("WebDev"));
                 studentY4.setLinux(resultSet.getDouble("Linux"));
@@ -548,41 +637,66 @@ public class DataRepository {
         return studentsY4;
     }
     public void updateStudentY4(DataY4 student) {
-        String updateYear4SQL = "UPDATE PTYear4 SET OOAD = ?, Web = ?, Linux = ?, MIS = ?, SE_IT_PM = ? WHERE stdCode = ?";
+        String selectSQL = "SELECT COUNT(*) FROM PTYear4 WHERE stdCode = ? AND Semester = ?";
+        String updateYear4SQL = "UPDATE PTYear4 SET OOAD = ?, Web = ?, Linux = ?, MIS = ?, SE_IT_PM = ? WHERE stdCode = ? AND Semester = ?";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement selectStatement = connection.prepareStatement(selectSQL);
              PreparedStatement updateStatement = connection.prepareStatement(updateYear4SQL)) {
 
-            // Update PTYear3
+            // Check if the record exists
+            selectStatement.setString(1, student.getStdCode());
+            selectStatement.setString(2, student.getSemester());
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                if (count == 0) {
+                    Message.showInfoMessage("No Student found for stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester());
+                    return;
+                }
+            }
+
+            // Show confirmation message
+            boolean confirm = Message.showConfirmMessage("Are you sure you want to update the student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester() + "?");
+
+            if (!confirm) {
+                Message.showInfoMessage("Update cancelled by user.");
+                return;
+            }
+
+            // Update PTYear4
             updateStatement.setDouble(1, student.getOoAD());
             updateStatement.setDouble(2, student.getWebDev());
             updateStatement.setDouble(3, student.getLinux());
             updateStatement.setDouble(4, student.getMis());
             updateStatement.setDouble(5, student.getsE_IT_PM());
-            updateStatement.setString(6, student.getStdCode()); // Assuming getStdCode returns the student code
+            updateStatement.setString(6, student.getStdCode());
+            updateStatement.setString(7, student.getSemester());
+
             int rowsAffected = updateStatement.executeUpdate();
 
             if (rowsAffected == 0) {
-               Message.showInfoMessage("No rows updated. Student with stdCode: " + student.getStdCode() + " not found.");
+                Message.showInfoMessage("No Student updated. Student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester() + " not found.");
             } else {
-                Message.showConfirmMessage("Update successful for student with stdCode: " + student.getStdCode());
+                Message.showInfoMessage("Update successful for student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester());
             }
-
         } catch (SQLException e) {
             Message.showErrorMessage("Error updating student: " + e.getMessage());
             e.printStackTrace();
         }
     }
     public void insertStudentY4(DataY4 student) {
-        String checkStdCodeSQL = "SELECT COUNT(*) FROM PTYear4 WHERE stdCode = ?";
-        String insertYear4SQL = "INSERT INTO PTYear4 (stdCode, OOAD, Web, Linux, MIS, SE_IT_PM) VALUES (?, ?, ?, ?, ?, ?)";
+        String checkStdCodeSQL = "SELECT COUNT(*) FROM PTYear4 WHERE stdCode = ? AND Semester = ?";
+        String insertYear4SQL = "INSERT INTO PTYear4 (stdCode, OOAD, Web, Linux, MIS, SE_IT_PM, Semester) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement checkStatement = connection.prepareStatement(checkStdCodeSQL);
              PreparedStatement insertStatement = connection.prepareStatement(insertYear4SQL)) {
 
-            // Set parameter for the check statement
+            // Set parameters for the check statement
             checkStatement.setString(1, student.getStdCode());
+            checkStatement.setString(2, student.getSemester());
 
             // Execute the check statement
             ResultSet resultSet = checkStatement.executeQuery();
@@ -590,8 +704,7 @@ public class DataRepository {
             int count = resultSet.getInt(1);
 
             if (count > 0) {
-                // stdCode already exists
-                Message.showInfoMessage("Student with stdCode " + student.getStdCode() + " already exists.");
+                Message.showInfoMessage("Student with stdCode " + student.getStdCode() + " already has a record for semester " + student.getSemester() + ".");
             } else {
                 // Set parameters for the insert statement
                 insertStatement.setString(1, student.getStdCode());
@@ -600,37 +713,39 @@ public class DataRepository {
                 insertStatement.setDouble(4, student.getLinux());
                 insertStatement.setDouble(5, student.getMis());
                 insertStatement.setDouble(6, student.getsE_IT_PM());
+                insertStatement.setString(7, student.getSemester());
 
                 // Execute the insert statement
                 int rowsAffected = insertStatement.executeUpdate();
 
                 if (rowsAffected == 0) {
-                    Message.showInfoMessage("No rows inserted.");
+                    Message.showInfoMessage("No rows inserted for student with stdCode: " + student.getStdCode());
                 } else {
-                    Message.showConfirmMessage("Insert successful for student with stdCode: " + student.getStdCode());
+                    Message.showInfoMessage("Save successful for student with stdCode: " + student.getStdCode() + " for semester: " + student.getSemester());
                 }
             }
-
         } catch (SQLException e) {
             Message.showErrorMessage("Error inserting student: " + e.getMessage());
             e.printStackTrace();
         }
     }
-    public void deleteStudentY4(String stdCode) {
-        String deleteYear1SQL = "DELETE FROM PTYear4 WHERE stdCode = ?";
+
+    public void deleteStudentY4(String stdCode, String semester) {
+        String deleteYear4SQL = "DELETE FROM PTYear4 WHERE stdCode = ? AND Semester = ?";
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement deleteStatement = connection.prepareStatement(deleteYear1SQL)) {
+             PreparedStatement deleteStatement = connection.prepareStatement(deleteYear4SQL)) {
 
-            // Set the stdCode parameter
+            // Set parameters for the prepared statement
             deleteStatement.setString(1, stdCode);
+            deleteStatement.setString(2, semester);
 
             int rowsAffected = deleteStatement.executeUpdate();
 
             if (rowsAffected == 0) {
-                Message.showErrorMessage("No rows deleted. Student with stdCode: " + stdCode + " not found.");
+                Message.showInfoMessage("No Student deleted. Student with stdCode: " + stdCode + " and Semester: " + semester + " not found.");
             } else {
-                Message.showConfirmMessage("Delete successful for student with stdCode: " + stdCode);
+                Message.showInfoMessage("Delete successful for student with stdCode: " + stdCode + " and Semester: " + semester);
             }
 
         } catch (SQLException e) {

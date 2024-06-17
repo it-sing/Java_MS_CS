@@ -5,6 +5,7 @@ public class DataY2 {
     private String stdCode;
     private String stdName;
     private String stdSex;
+    private String semester;
     private Double communication;
     private Double dataStructure;
     private Double eEnglish;
@@ -12,6 +13,12 @@ public class DataY2 {
     private Double architecture;
     private Double database;
 
+    public String getSemester() {
+        return semester;
+    }
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
     public String getStdYear() {
         return stdYear;
     }

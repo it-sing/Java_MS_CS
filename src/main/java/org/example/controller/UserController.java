@@ -27,8 +27,8 @@ public class UserController {
         this.signUpForm = signUpForm;
         this.userRepository = userRepository;
 
-        this.signInForm.addLoginButtonListener(new LoginButtonListener());
-        this.signInForm.addRegisterButtonListener(new RegisterButtonListener());
+        this.signInForm.addSignInButtonListener(new LoginButtonListener());
+        this.signInForm.addSignUpButtonListener(new RegisterButtonListener());
         this.signUpForm.addSignUpButtonListener(new SignUpButtonListener());
         this.signUpForm.addChooseFileButtonListener(new ChooseFileButtonListener());
     }

@@ -5,6 +5,7 @@ public class DataY1 {
     private String stdCode;
     private String stdName;
     private String stdSex;
+    private String semester;
     private Double cProgram;
     private Double english;
     private Double fundamental;
@@ -13,17 +14,21 @@ public class DataY1 {
     private Double centurySkill;
     private Double history;
 
+    public String getSemester() {
+        return semester;
+    }
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
     public String getStdYear() {
         return stdYear;
     }
-
     public void setStdYear(String stdYear) {
         this.stdYear = stdYear;
     }
     public String getStdCode() {
         return stdCode;
     }
-
     public void setStdCode(String stdCode) {
         this.stdCode = stdCode;
     }

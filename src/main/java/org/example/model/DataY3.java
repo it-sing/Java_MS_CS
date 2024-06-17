@@ -1,6 +1,7 @@
 package org.example.model;
 
 public class DataY3 {
+    private String semester;
     private String stdYear;
     private String stdCode;
     private String stdName;
@@ -19,6 +20,12 @@ public class DataY3 {
         this.stdYear = stdYear;
     }
 
+    public String getSemester() {
+        return semester;
+    }
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
     // Getter and Setter for stdCode
     public String getStdCode() {
         return stdCode;
