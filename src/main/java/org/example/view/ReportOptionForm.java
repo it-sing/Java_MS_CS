@@ -10,7 +10,6 @@ public class ReportOptionForm extends javax.swing.JFrame {
      */
     public ReportOptionForm() {
         initComponents();
-//        DataOptionsController controller = new DataOptionsController(this);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -25,7 +24,6 @@ public class ReportOptionForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-
         jExit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Close the current form
@@ -33,43 +31,28 @@ public class ReportOptionForm extends javax.swing.JFrame {
             }
         });
 
-        jYear1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                ReportYear1View reportYear1 = new ReportYear1View();
-                reportYear1.setVisible(true);
-            }
+        jYear1.addActionListener(e -> {
+            dispose();
+            ReportYear1View reportYear1 = new ReportYear1View();
+            reportYear1.setVisible(true);
         });
 
-        jYear2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                dispose();
-                // Create an instance of DataOptionsForm
-                DataYear2 dataYear2 = new DataYear2();
-
-                dataYear2.setVisible(true);
-            }
+        jYear2.addActionListener(e -> {
+            dispose();
+            ReportYear2View reportYear2View = new ReportYear2View();
+            reportYear2View.setVisible(true);
         });
-        jYear3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
 
-                dispose();
-                // Create an instance of DataOptionsForm
-                DataYear3 dataYear3 = new DataYear3();
-
-                dataYear3.setVisible(true);
-            }
+        jYear3.addActionListener(e -> {
+            dispose();
+            ReportYear3View reportYear3View = new ReportYear3View();
+            reportYear3View.setVisible(true);
         });
-        jYear4.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
 
-                dispose();
-                // Create an instance of DataOptionsForm
-                DataYear4 dataYear4 = new DataYear4();
-
-                dataYear4.setVisible(true);
-            }
+        jYear4.addActionListener(e -> {
+            dispose();
+            ReportYear4View reportYear4View = new ReportYear4View();
+            reportYear4View.setVisible(true);
         });
 
         jYear1.setBackground(new java.awt.Color(0, 0, 255));
@@ -83,6 +66,7 @@ public class ReportOptionForm extends javax.swing.JFrame {
         jYear3.setBackground(new java.awt.Color(0, 0, 255));
         jYear3.setForeground(new java.awt.Color(255, 255, 255));
         jYear3.setText("Year 3");
+
         jYear4.setBackground(new java.awt.Color(0, 0, 255));
         jYear4.setForeground(new java.awt.Color(255, 255, 255));
         jYear4.setText("Year 4");
@@ -91,13 +75,9 @@ public class ReportOptionForm extends javax.swing.JFrame {
         jExit.setForeground(new java.awt.Color(255, 255, 255));
         jExit.setText("Exit");
 
-        jYear1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jYear1ActionPerformed(evt);
-            }
-        });
+        //jYear1.addActionListener(this::jYear1ActionPerformed);
 
-        jLabel1.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setText("Please chose your options");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,8 +125,8 @@ public class ReportOptionForm extends javax.swing.JFrame {
     }
 
     private void jYear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jYear1ActionPerformed
-
     }
+
     public static void main(String args[]) {
 
         try {

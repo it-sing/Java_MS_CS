@@ -1,6 +1,6 @@
 package org.example.model;
 
-public class ReportYear1 {
+public class ReportYear2 {
     private Integer stdID;
     private String stdCode;
     private String stdName;
@@ -10,18 +10,15 @@ public class ReportYear1 {
     private String stdYear;
     private Integer classID;
     private String stdBD;
-    private Integer EFC;
-    private Integer fundamental;
-    private Integer math;
-    private Integer pfc;
-    private Integer the21;
-    private Integer history;
-    private Integer cProgram;
+    private Integer communication;
+    private Integer dataStructure;
+    private Integer English;
+    private Integer cPlusPlus;
+    private Integer architecture;
+    private Integer database;
     private String Semester;
 
-    public ReportYear1(){};
-
-    public ReportYear1(Integer stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, Integer classID, String stdBD, Integer EFC, Integer fundamental, Integer math, Integer pfc, Integer the21, Integer history, Integer cProgram, String semester) {
+    public ReportYear2(Integer stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, Integer classID, String stdBD, Integer communication, Integer dataStructure, Integer english, Integer cPlusPlus, Integer architecture, Integer database, String semester) {
         this.stdID = stdID;
         this.stdCode = stdCode;
         this.stdName = stdName;
@@ -31,13 +28,12 @@ public class ReportYear1 {
         this.stdYear = stdYear;
         this.classID = classID;
         this.stdBD = stdBD;
-        this.EFC = EFC;
-        this.fundamental = fundamental;
-        this.math = math;
-        this.pfc = pfc;
-        this.the21 = the21;
-        this.history = history;
-        this.cProgram = cProgram;
+        this.communication = communication;
+        this.dataStructure = dataStructure;
+        English = english;
+        this.cPlusPlus = cPlusPlus;
+        this.architecture = architecture;
+        this.database = database;
         Semester = semester;
     }
 
@@ -113,60 +109,52 @@ public class ReportYear1 {
         this.stdBD = stdBD;
     }
 
-    public Integer getEFC() {
-        return EFC;
+    public Integer getCommunication() {
+        return communication;
     }
 
-    public void setEFC(Integer EFC) {
-        this.EFC = EFC;
+    public void setCommunication(Integer communication) {
+        this.communication = communication;
     }
 
-    public Integer getFundamental() {
-        return fundamental;
+    public Integer getDataStructure() {
+        return dataStructure;
     }
 
-    public void setFundamental(Integer fundamental) {
-        this.fundamental = fundamental;
+    public void setDataStructure(Integer dataStructure) {
+        this.dataStructure = dataStructure;
     }
 
-    public Integer getMath() {
-        return math;
+    public Integer getEnglish() {
+        return English;
     }
 
-    public void setMath(Integer math) {
-        this.math = math;
+    public void setEnglish(Integer english) {
+        English = english;
     }
 
-    public Integer getPfc() {
-        return pfc;
+    public Integer getcPlusPlus() {
+        return cPlusPlus;
     }
 
-    public void setPfc(Integer pfc) {
-        this.pfc = pfc;
+    public void setcPlusPlus(Integer cPlusPlus) {
+        this.cPlusPlus = cPlusPlus;
     }
 
-    public Integer getThe21() {
-        return the21;
+    public Integer getArchitecture() {
+        return architecture;
     }
 
-    public void setThe21(Integer the21) {
-        this.the21 = the21;
+    public void setArchitecture(Integer architecture) {
+        this.architecture = architecture;
     }
 
-    public Integer getHistory() {
-        return history;
+    public Integer getDatabase() {
+        return database;
     }
 
-    public void setHistory(Integer history) {
-        this.history = history;
-    }
-
-    public Integer getcProgram() {
-        return cProgram;
-    }
-
-    public void setcProgram(Integer cProgram) {
-        this.cProgram = cProgram;
+    public void setDatabase(Integer database) {
+        this.database = database;
     }
 
     public String getSemester() {
