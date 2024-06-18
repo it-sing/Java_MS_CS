@@ -3,8 +3,6 @@ package org.example.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class SignInForm extends JFrame {
 
@@ -26,7 +24,6 @@ public class SignInForm extends JFrame {
         // Ensure frame is centered on the screen
         setLocationRelativeTo(null);
 
-
         // Background panel
         JPanel backgroundPanel = new JPanel();
         backgroundPanel.setLayout(null);
@@ -39,7 +36,7 @@ public class SignInForm extends JFrame {
         backgroundPanel.add(welcomeLabel);
 
         // Left-side graphic
-        JLabel graphicLabel = new JLabel(new ImageIcon("D:\\Rupp\\Years3\\Java\\Java_MS_CS\\src\\main\\resources//logo.png"));
+        JLabel graphicLabel = new JLabel(new ImageIcon(getClass().getResource("/logo.png")));
         graphicLabel.setBounds(30, 60, 400, 300);
         backgroundPanel.add(graphicLabel);
 
@@ -50,9 +47,9 @@ public class SignInForm extends JFrame {
         signInPanel.setBounds(450, 60, 300, 280);
 
         // Logo (scaled to 50x50)
-        ImageIcon originalIcon = new ImageIcon("D:\\Rupp\\Years3\\Java\\Java_MS_CS\\src\\main\\resources//logo2.png");
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/logo2.png"));
         Image originalImage = originalIcon.getImage();
-        Image scaledImage = originalImage.getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING);
+        Image scaledImage = originalImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         JLabel logoLabel = new JLabel(scaledIcon);
         logoLabel.setBounds(125, 10, 50, 50); // Centered in the sign-in panel
@@ -91,12 +88,11 @@ public class SignInForm extends JFrame {
         signInPanel.add(jSignInButton);
 
         // Sign Up button
-        jSignUpButton = new Rounded("SIGN UP ");
+        jSignUpButton = new Rounded("SIGN UP");
         jSignUpButton.setBounds(160, 200, 120, 30);
         jSignUpButton.setBackground(new Color(0, 123, 255));
         jSignUpButton.setForeground(Color.WHITE);
         signInPanel.add(jSignUpButton);
-
 
         backgroundPanel.add(signInPanel);
         backgroundPanel.setBackground(Color.DARK_GRAY); // Set background color to dark gray

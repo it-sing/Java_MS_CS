@@ -5,174 +5,195 @@ import org.example.controller.StudentController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 
-public class DashboardForm extends javax.swing.JFrame {
+public class DashboardForm extends JFrame {
     private JLabel profileLabel;  // Label to display profile image
     private JTextField jFullname; // TextField to display full name
     private StudentController studentController;
-    private DefaultTableModel tableModel;
-
 
     public DashboardForm() {
         initComponents();
     }
 
+
     private void initComponents() {
-        jFileChooser1 = new javax.swing.JFileChooser();
-        jPanel1 = new javax.swing.JPanel();
-        jLogout = new javax.swing.JButton();
-        jFullname = new javax.swing.JTextField();
+        jFileChooser1 = new JFileChooser();
+        jPanel1 = new JPanel();
+        jLogout = new JButton();
+        jFullname = new JTextField();
+
+        jUserProfile = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g.create();
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                Ellipse2D.Double circle = new Ellipse2D.Double(0, 0, getWidth(), getHeight());
+                g2d.setClip(circle);
+                g2d.setColor(getBackground());
+                g2d.fill(circle);
+                g2d.setColor(Color.BLUE);
+                g2d.setStroke(new BasicStroke(2));
+                g2d.draw(circle);
+                g2d.dispose();
+            }
+        };
+        profileLabel = new JLabel();
+        jData = new JButton();
+        jReport = new JButton();
+        jLabel2 = new JLabel();
+        jStudent = new JButton();
+
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new Color(60, 63, 65));
+        jPanel1.setPreferredSize(new Dimension(200, 400));
+
         jFullname.setEditable(false);
-        jFullname.setHorizontalAlignment(javax.swing.JTextField.CENTER); // Set text alignment to center
+        jFullname.setHorizontalAlignment(JTextField.CENTER);
+        jFullname.setForeground(Color.WHITE);
+        jFullname.setBackground(new Color(60, 63, 65));
+        jFullname.setBorder(BorderFactory.createEmptyBorder());
+        jFullname.setFont(new Font("Arial", Font.BOLD, 14));
 
-        jUserProfile = new javax.swing.JPanel();
-        jUserProfile.setBorder(new LineBorder(Color.BLUE, 2)); // Set rectangular border
-        profileLabel = new JLabel(); // Initialize label for profile image
+        jUserProfile.setPreferredSize(new Dimension(100, 100));
+        jUserProfile.setBackground(new Color(200, 200, 200));
+        jUserProfile.setOpaque(false);
 
-        jData = new javax.swing.JButton();
-        jReport = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jStudent = new javax.swing.JButton();
+        profileLabel.setHorizontalAlignment(JLabel.CENTER);
 
+        GroupLayout jUserProfileLayout = new GroupLayout(jUserProfile);
+        jUserProfile.setLayout(jUserProfileLayout);
+        jUserProfileLayout.setHorizontalGroup(
+                jUserProfileLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(profileLabel, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+        );
+        jUserProfileLayout.setVerticalGroup(
+                jUserProfileLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(profileLabel, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+        );
 
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
-
-        jLogout.setBackground(new java.awt.Color(255, 51, 51));
-        jLogout.setForeground(new java.awt.Color(255, 255, 255));
+        jLogout.setBackground(new Color(255, 51, 51));
+        jLogout.setForeground(Color.WHITE);
         jLogout.setText("Logout");
+        jLogout.setFocusPainted(false);
+        jLogout.setBorderPainted(false);
 
         jLogout.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 // Placeholder for logout action
                 jLogoutActionPerformed(evt);
             }
         });
+
+        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jUserProfile, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jFullname)
+                                        .addComponent(jLogout, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addComponent(jUserProfile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jFullname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                                .addComponent(jLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40))
+        );
+
+        jData.setBackground(new Color(30, 144, 255));
+        jData.setForeground(Color.WHITE);
+        jData.setText("Data");
+        jData.setFocusPainted(false);
+        jData.setBorderPainted(false);
+
         jData.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                // Create an instance of DataOptionsForm
                 DataOptionsForm dataOptionsForm = new DataOptionsForm();
-
-                // Make the DataOptionsForm visible
                 dataOptionsForm.setVisible(true);
             }
         });
+
+        jReport.setBackground(new Color(30, 144, 255));
+        jReport.setForeground(Color.WHITE);
+        jReport.setText("Report");
+        jReport.setFocusPainted(false);
+        jReport.setBorderPainted(false);
+
+        jReport.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                DataOptionsForm dataOptionsForm = new DataOptionsForm();
+                dataOptionsForm.setVisible(true);
+            }
+        });
+
+        jLabel2.setFont(new Font("Arial", Font.BOLD, 24));
+        jLabel2.setText("Welcome to CS Systems G3");
+        jLabel2.setForeground(new Color(60, 63, 65));
+
+        jStudent.setBackground(new Color(30, 144, 255));
+        jStudent.setForeground(Color.WHITE);
+        jStudent.setText("Student");
+        jStudent.setFocusPainted(false);
+        jStudent.setBorderPainted(false);
+
         jStudent.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 StudentViewForm studentViewForm = new StudentViewForm();
                 studentViewForm.setVisible(true);
             }
         });
-        jReport.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
 
-                // Create an instance of DataOptionsForm
-                DataOptionsForm dataOptionsForm = new DataOptionsForm();
-
-                // Make the DataOptionsForm visible
-                dataOptionsForm.setVisible(true);
-            }
-        });
-
-        javax.swing.GroupLayout jUserProfileLayout = new javax.swing.GroupLayout(jUserProfile);
-        jUserProfile.setLayout(jUserProfileLayout);
-        jUserProfileLayout.setHorizontalGroup(
-                jUserProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(profileLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-        );
-        jUserProfileLayout.setVerticalGroup(
-                jUserProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(profileLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(92, Short.MAX_VALUE)
-                                .addComponent(jLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(14, 14, 14))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(39, 39, 39)
-                                                .addComponent(jUserProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(40, 40, 40)
-                                                .addComponent(jFullname, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jUserProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jFullname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLogout)
-                                .addGap(14, 14, 14))
-        );
-
-        jData.setBackground(new java.awt.Color(0, 0, 255));
-        jData.setForeground(new java.awt.Color(255, 255, 255));
-        jData.setText("Data");
-
-        jReport.setBackground(new java.awt.Color(0, 0, 255));
-        jReport.setForeground(new java.awt.Color(255, 255, 255));
-        jReport.setText("Report");
-
-        jLabel2.setFont(new java.awt.Font("sansserif", 0, 24));
-        jLabel2.setText("Choose your options");
-
-        jStudent.setBackground(new java.awt.Color(0, 0, 255));
-        jStudent.setForeground(new java.awt.Color(255, 255, 255));
-        jStudent.setText("Student");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
-
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(100, 100, 100)
-                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(31, 31, 31)
-                                                .addComponent(jStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jData, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jReport, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(21, Short.MAX_VALUE))
+                                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(100, 100, 100))
+                                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jData, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+                                                .addGap(180, 180, 180))))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(87, 87, 87)
+                                .addGap(100, 100, 100)
                                 .addComponent(jLabel2)
-                                .addGap(91, 91, 91)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jData, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jReport, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(150, Short.MAX_VALUE))
+                                .addGap(50, 50, 50)
+                                .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jData, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);  // Center the form on the screen
     }
 
     public void setUserDetails(String fullName, InputStream profileInputStream) {
@@ -194,22 +215,21 @@ public class DashboardForm extends javax.swing.JFrame {
         }
     }
 
-    // Method to add custom logout action listener
     public void addLogoutButtonListener(ActionListener listener) {
         jLogout.addActionListener(listener);
     }
 
-    private void jLogoutActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jLogoutActionPerformed(ActionEvent evt) {
         // Logout action placeholder
     }
 
     // Variables declaration
-    private javax.swing.JButton jData;
-    private javax.swing.JFileChooser jFileChooser1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JButton jLogout;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton jReport;
-    private javax.swing.JButton jStudent;
-    private javax.swing.JPanel jUserProfile;
+    private JButton jData;
+    private JFileChooser jFileChooser1;
+    private JLabel jLabel2;
+    private JButton jLogout;
+    private JPanel jPanel1;
+    private JButton jReport;
+    private JButton jStudent;
+    private JPanel jUserProfile;
 }
