@@ -11,7 +11,6 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
 public class DashboardForm extends JFrame {
     private JLabel profileLabel;  // Label to display profile image
     private JTextField jFullname; // TextField to display full name
@@ -20,7 +19,6 @@ public class DashboardForm extends JFrame {
     public DashboardForm() {
         initComponents();
     }
-
 
     private void initComponents() {
         jFileChooser1 = new JFileChooser();
@@ -142,7 +140,7 @@ public class DashboardForm extends JFrame {
             }
         });
 
-        jLabel2.setFont(new Font("Arial", Font.BOLD, 24));
+        jLabel2.setFont(new Font("Arial", Font.BOLD, 40));
         jLabel2.setText("Welcome to CS Systems G3");
         jLabel2.setForeground(new Color(60, 63, 65));
 
@@ -165,33 +163,38 @@ public class DashboardForm extends JFrame {
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(100, 100, 100))
-                                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jData, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-                                                .addGap(180, 180, 180))))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                        .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jData, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                        )
+                                )
+                                .addGap(0, 0, Short.MAX_VALUE)
+                        )
         );
+
         layout.setVerticalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(100, 100, 100)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel2)
-                                .addGap(50, 50, 50)
-                                .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jData, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(84, Short.MAX_VALUE))
+                                .addGap(50, 50, 200)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                        .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jData, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                )
+                                .addGap(0, 0, Short.MAX_VALUE)
+                        )
         );
 
+        setPreferredSize(new Dimension(1200, 800));
         pack();
         setLocationRelativeTo(null);  // Center the form on the screen
     }

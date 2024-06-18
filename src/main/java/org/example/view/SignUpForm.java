@@ -26,7 +26,7 @@ public class SignUpForm extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Sign Up");
         setPreferredSize(new Dimension(800, 400));
-        setLocationRelativeTo(null); // Center the window on screen
+        setLocationRelativeTo(null); // Center the window
 
         // Background panel
         JPanel backgroundPanel = new JPanel();
@@ -110,6 +110,7 @@ public class SignUpForm extends JFrame {
 
         getContentPane().add(backgroundPanel);
         pack();
+        setLocationRelativeTo(null);
 
         // Set the "Sign Up" button as the default button to be triggered when Enter is pressed
         getRootPane().setDefaultButton(jSignUpButton);
@@ -164,8 +165,7 @@ public class SignUpForm extends JFrame {
         // Run the application
         SwingUtilities.invokeLater(() -> {
             SignUpForm signUpForm = new SignUpForm();
-            signUpForm.setLocationRelativeTo(null); // Center the window
-            signUpForm.setVisible(true);
+
         });
     }
 

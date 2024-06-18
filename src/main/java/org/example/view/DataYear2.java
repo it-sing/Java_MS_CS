@@ -121,10 +121,10 @@ public class DataYear2 extends javax.swing.JFrame {
         jDelete = new javax.swing.JButton();
         jSave = new javax.swing.JButton();
         jYear1 = new javax.swing.JTextField();
+        jYear1.setEditable(false);
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jYearFeild = new javax.swing.JTextField();
-        jYearFeild.setEditable(false);
         jLabel17 = new javax.swing.JLabel();
         jSemester1 = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
@@ -278,15 +278,15 @@ public class DataYear2 extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addComponent(jClass, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(jStuCode, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(185, 185, 185)
+                .addGap(180, 180, 180)
                 .addComponent(jLabel5)
                 .addGap(36, 36, 36)
                 .addComponent(jStucode, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addGap(58, 58, 58)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(58, 58, 58)
                 .addComponent(jDataCom, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -304,7 +304,7 @@ public class DataYear2 extends javax.swing.JFrame {
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addComponent(jGender, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addGap(50, 50, 50)
                 .addComponent(jLabel10)
                 .addGap(42, 42, 42)
                 .addComponent(jDataStructure, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -433,6 +433,7 @@ public class DataYear2 extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jYears2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jYears2ActionPerformed

@@ -1,17 +1,15 @@
 package org.example.view;
 
-import org.example.util.Rounded;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+
 public class SignInForm extends JFrame {
 
     private JTextField jUsername;
     private JPasswordField jPassword;
-    private Rounded jSignInButton;
-    private Rounded jSignUpButton;
-    private JLabel jForgotPassword;
+    private JButton jSignInButton;
+    private JButton jSignUpButton;
 
     public SignInForm() {
         initComponents();
@@ -21,10 +19,12 @@ public class SignInForm extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Sign In");
         setPreferredSize(new Dimension(800, 400));
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); // Center the JFrame on the screen
+        setVisible(true);
 
         JPanel backgroundPanel = new JPanel();
         backgroundPanel.setLayout(null);
+        backgroundPanel.setBackground(Color.DARK_GRAY);
 
         JLabel welcomeLabel = new JLabel("WELCOME TO CS SYSTEMS");
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -32,7 +32,7 @@ public class SignInForm extends JFrame {
         welcomeLabel.setBounds(100, 40, 500, 30);
         backgroundPanel.add(welcomeLabel);
 
-        JLabel graphicLabel = new JLabel(new ImageIcon("D:\\Rupp\\Years3\\Java\\Java_MS_CS\\src\\main\\resources//logo.png"));
+        JLabel graphicLabel = new JLabel(new ImageIcon("src/main/resources/logo.png")); // Adjust path as per your project structure
         graphicLabel.setBounds(30, 60, 400, 300);
         backgroundPanel.add(graphicLabel);
 
@@ -41,7 +41,7 @@ public class SignInForm extends JFrame {
         signInPanel.setLayout(null);
         signInPanel.setBounds(450, 60, 300, 280);
 
-        ImageIcon originalIcon = new ImageIcon("D:\\Rupp\\Years3\\Java\\Java_MS_CS\\src\\main\\resources//logo2.png");
+        ImageIcon originalIcon = new ImageIcon("src/main/resources/logo2.png"); // Adjust path as per your project structure
         Image originalImage = originalIcon.getImage();
         Image scaledImage = originalImage.getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
@@ -71,22 +71,24 @@ public class SignInForm extends JFrame {
         jPassword.setBounds(20, 170, 260, 25);
         signInPanel.add(jPassword);
 
-        jSignInButton = new Rounded("SIGN IN");
+        jSignInButton = new JButton("SIGN IN");
         jSignInButton.setBounds(20, 200, 120, 30);
         jSignInButton.setBackground(new Color(0, 123, 255));
         jSignInButton.setForeground(Color.WHITE);
         signInPanel.add(jSignInButton);
 
-        jSignUpButton = new Rounded("SIGN UP");
+        jSignUpButton = new JButton("SIGN UP");
         jSignUpButton.setBounds(160, 200, 120, 30);
         jSignUpButton.setBackground(new Color(0, 123, 255));
         jSignUpButton.setForeground(Color.WHITE);
         signInPanel.add(jSignUpButton);
 
         backgroundPanel.add(signInPanel);
-        backgroundPanel.setBackground(Color.DARK_GRAY);
         getContentPane().add(backgroundPanel);
-        pack();
+
+        pack(); // Pack components
+        setLocationRelativeTo(null); // Center JFrame on the screen again after packing
+        setResizable(false); // Prevent resizing for simplicity
 
         getRootPane().setDefaultButton(jSignInButton);
     }
@@ -109,6 +111,7 @@ public class SignInForm extends JFrame {
 
     public static void main(String[] args) {
         try {
+            // Set Nimbus look and feel
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
@@ -119,9 +122,9 @@ public class SignInForm extends JFrame {
             ex.printStackTrace();
         }
 
+        // Create and display the form within the event dispatch thread
         SwingUtilities.invokeLater(() -> {
             SignInForm signInForm = new SignInForm();
-            signInForm.setVisible(true);
         });
     }
 }

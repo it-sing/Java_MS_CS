@@ -20,6 +20,8 @@ public class DataOptionsForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+
+
         jYear4 = new javax.swing.JButton();
         jExit = new javax.swing.JButton();
         jYear2 = new javax.swing.JButton();
@@ -147,6 +149,7 @@ public class DataOptionsForm extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }
 
     private void jYear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jYear1ActionPerformed
