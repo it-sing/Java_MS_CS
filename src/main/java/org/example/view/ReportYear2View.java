@@ -94,35 +94,43 @@ public class ReportYear2View extends JFrame {
         // Search button
         JButton btnSearch = new JButton("Search");
         btnSearch.setBounds(1120, 50, 100, 30);
+        btnSearch.setBackground(new Color(37, 99, 235));
+        btnSearch.setForeground(Color.white);
         mainPanel.add(btnSearch);
 
         btnSearch.addActionListener(e -> {
-        String name = txtName.getText();
-        String classId = txtClass.getText();
-        String generation = txtGeneration.getText();
-        String stdCode = txtStdCode.getText();
-        String semester = txtSemester.getText();
-        searchReports(name, classId, generation, stdCode, semester);
-    });
+            String name = txtName.getText();
+            String classId = txtClass.getText();
+            String generation = txtGeneration.getText();
+            String stdCode = txtStdCode.getText();
+            String semester = txtSemester.getText();
+            searchReports(name, classId, generation, stdCode, semester);
+        });
 
         JButton btnExit = new JButton("Exit");
         btnExit.setBounds(50, 650, 100, 30);
+        btnExit.setBackground(new Color(225, 29, 72));
+        btnExit.setForeground(Color.white);
         mainPanel.add(btnExit);
 
         btnExit.addActionListener(e -> {
-        dispose();
-        ReportOptionForm reportOptionForm = new ReportOptionForm();
-        reportOptionForm.setVisible(true);
-    });
+            dispose();
+            ReportOptionForm reportOptionForm = new ReportOptionForm();
+            reportOptionForm.setVisible(true);
+        });
 
         JButton btnExcel = new JButton("Excel");
-        btnExcel.setBounds(700, 650, 100, 30);
+        btnExcel.setBounds(970, 650, 100, 30);
+        btnExcel.setBackground(new Color(16, 185, 129));
+        btnExcel.setForeground(Color.white);
         mainPanel.add(btnExcel);
 
-        btnExcel.addActionListener(e -> ConvertFile.exportToExcel(ReportYear2View.this, tableModel, "Year2"));
+        btnExcel.addActionListener(e -> ConvertFile.exportToExcel(ReportYear2View.this, tableModel, "Year1"));
 
         JButton btnPdf = new JButton("PDF");
-        btnPdf.setBounds(900, 650, 100, 30);
+        btnPdf.setBounds(1120, 650, 100, 30);
+        btnPdf.setBackground(new Color(37, 99, 235));
+        btnPdf.setForeground(Color.white);
         mainPanel.add(btnPdf);
 
         btnPdf.addActionListener(e -> ConvertFile.exportToPDF(ReportYear2View.this, tableModel, "Year2"));
