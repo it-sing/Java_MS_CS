@@ -20,9 +20,10 @@ public class ReportRepository {
         List<ReportYear1> reports = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
             String query = "SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                    " p.EFC, p.Fundamantal, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester " +
-                    "FROM tbStudent s " +
-                    "JOIN PTYear1 p ON s.stdCode = p.stdCode";
+                    " p.EFC, p.Fundamantal, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
+                    " ((p.EFC + p.Fundamantal + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6) AS AVG " +
+                    " FROM tbStudent s " +
+                    " JOIN PTYear1 p ON s.stdCode = p.stdCode";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -43,7 +44,8 @@ public class ReportRepository {
                         resultSet.getInt("The21"),
                         resultSet.getInt("History"),
                         resultSet.getInt("CProgram"),
-                        resultSet.getString("Semester")
+                        resultSet.getString("Semester"),
+                        resultSet.getDouble("AVG")
                 ));
             }
         } catch (SQLException e) {
@@ -55,10 +57,11 @@ public class ReportRepository {
     public List<ReportYear1> searchReportsYear1(String name, String classId, String generation, String stdCode, String semester) {
         List<ReportYear1> reports = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                " p.EFC, p.Fundamantal, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester " +
-                "FROM tbStudent s " +
-                "JOIN PTYear1 p ON s.stdCode = p.stdCode " +
-                "WHERE 1=1");
+                " p.EFC, p.Fundamantal, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
+                " ((p.EFC + p.Fundamantal + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6) AS AVG " +
+                " FROM tbStudent s " +
+                " JOIN PTYear1 p ON s.stdCode = p.stdCode " +
+                " WHERE 1=1");
 
         if (name != null && !name.isEmpty()) {
             query.append(" AND s.stdName LIKE ?");
@@ -114,7 +117,8 @@ public class ReportRepository {
                         resultSet.getInt("The21"),
                         resultSet.getInt("History"),
                         resultSet.getInt("CProgram"),
-                        resultSet.getString("Semester")
+                        resultSet.getString("Semester"),
+                        resultSet.getDouble("AVG")
                 ));
             }
         } catch (SQLException e) {
@@ -122,6 +126,7 @@ public class ReportRepository {
         }
         return reports;
     }
+
 
     // year2
     public List<ReportYear2> getAllReportsYear2() {

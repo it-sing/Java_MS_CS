@@ -36,63 +36,43 @@ public class ReportYear1View extends JFrame {
         setSize(1350, 750);
         setLocationRelativeTo(null);
 
-        // Main panel with BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout());
         add(mainPanel);
-
-        /*ModernButton button = new ModernButton("Click Me");
-        button.setBackground(Color.BLUE);
-        button.setForeground(Color.WHITE);
-        button.setCornerRadius(10); // Set to a rounded rectangle
-        // button.setCornerRadius(0); // Set to a square
-        // button.setCornerRadius(Math.min(button.getWidth(), button.getHeight()) / 2); // Set to a circle
-
-        button.setBounds(100, 10, 150, 30);
-        mainPanel.add(button);*/
 
         JButton year1 = new JButton("Year1");
         year1.setBounds(0, 5, 100, 30);
         year1.setBackground(Color.BLACK);
         year1.setForeground(Color.white);
-
         mainPanel.add(year1);
 
-        // label semester
         JLabel lblSemester = new JLabel("Semester");
         lblSemester.setBounds(60, 50, 100, 30);
         mainPanel.add(lblSemester);
 
-        // text filed semester
         txtSemester = new JTextField();
-        txtSemester.setBounds(130,50, 120, 30);
+        txtSemester.setBounds(130, 50, 120, 30);
         mainPanel.add(txtSemester);
 
-        // label name
         JLabel lblName = new JLabel("Name");
         lblName.setBounds(300, 50, 100, 30);
         mainPanel.add(lblName);
 
-        // text field for filter by name
         txtName = new JTextField();
         txtName.setBounds(350, 50, 100, 30);
         mainPanel.add(txtName);
 
-        // label class
         JLabel lblClass = new JLabel("Class");
         lblClass.setBounds(500, 50, 100, 30);
         mainPanel.add(lblClass);
 
-        // text field class
         txtClass = new JTextField();
         txtClass.setBounds(550, 50, 100, 30);
         mainPanel.add(txtClass);
 
-        // label generation
         JLabel lblGeneration = new JLabel("Generation");
         lblGeneration.setBounds(680, 50, 100, 30);
         mainPanel.add(lblGeneration);
 
-        // text filed generation
         txtGeneration = new JTextField();
         txtGeneration.setBounds(750, 50, 100, 30);
         mainPanel.add(txtGeneration);
@@ -105,7 +85,6 @@ public class ReportYear1View extends JFrame {
         txtStdCode.setBounds(960, 50, 100, 30);
         mainPanel.add(txtStdCode);
 
-        // Search button
         JButton btnSearch = new JButton("Search");
         btnSearch.setBounds(1120, 50, 100, 30);
         btnSearch.setBackground(new Color(37, 99, 235));
@@ -151,29 +130,24 @@ public class ReportYear1View extends JFrame {
 
         // Create the table model and table
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new Object[]{"ID", "Code", "Name", "Sex", "EFC", "Fundamental", "Math", "PFC", "The21", "History", "CProgram", "Semester"});
+        tableModel.setColumnIdentifiers(new Object[]{"ID", "Code", "Name", "Sex", "EFC", "Fundamental", "Math", "PFC", "The21", "History", "CProgram", "Semester", "AVG"});
         JTable table = new JTable(tableModel);
         table.setRowHeight(25);
         table.setFont(new Font("Arial", Font.PLAIN, 14));
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
 
-        // Center data in the table
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        // Set color for the header text
         JTableHeader header = table.getTableHeader();
-        header.setForeground(Color.BLUE); // Set your desired text color here
+        header.setForeground(Color.BLUE);
 
-        // Put the table inside a scroll pane
         JScrollPane scrollPane = new JScrollPane(table);
-
-        // Create a panel with margins and add the scroll pane to it
         JPanel tablePanel = new JPanel(new BorderLayout());
-        tablePanel.setBorder(BorderFactory.createEmptyBorder(120, 30, 200, 30)); // Add margins here
+        tablePanel.setBorder(BorderFactory.createEmptyBorder(120, 30, 200, 30));
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
         mainPanel.add(tablePanel, BorderLayout.CENTER);
@@ -198,7 +172,7 @@ public class ReportYear1View extends JFrame {
     }
 
     private void updateTable(List<org.example.model.ReportYear1> reports) {
-        tableModel.setRowCount(0); // Clear existing data
+        tableModel.setRowCount(0);
         for (org.example.model.ReportYear1 report : reports) {
             tableModel.addRow(new Object[]{
                     report.getStdID(),
@@ -212,7 +186,8 @@ public class ReportYear1View extends JFrame {
                     report.getThe21(),
                     report.getHistory(),
                     report.getcProgram(),
-                    report.getSemester()
+                    report.getSemester(),
+                    report.getAvg()
             });
         }
     }
