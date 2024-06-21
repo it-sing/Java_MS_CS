@@ -1,5 +1,7 @@
 package org.example.util;
 
+import org.example.view.SignUpForm;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -20,7 +22,7 @@ public class Message {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public static void showWarningMessage(String message) {
+    public static void showWarningMessage(SignUpForm signUpForm, String message) {
         JOptionPane.showMessageDialog(null, message, "Warning", JOptionPane.WARNING_MESSAGE);
     }
 

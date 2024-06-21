@@ -1,5 +1,6 @@
 package org.example.view;
 
+import org.example.util.Message;
 import org.example.util.Rounded;
 
 import javax.swing.*;
@@ -41,7 +42,7 @@ public class SignUpForm extends JFrame {
         backgroundPanel.add(titleLabel);
 
         // Logo label
-        ImageIcon logoIcon = new ImageIcon("D:\\Rupp\\Years3\\Java\\Java_MS_CS\\src\\main\\resources//logo.png"); // Replace with your logo path
+        ImageIcon logoIcon = new ImageIcon("path/to/logo.png"); // Replace with your logo path
         jLogoLabel = new JLabel(logoIcon);
         jLogoLabel.setBounds(50, 40, 250, 250);
         backgroundPanel.add(jLogoLabel);
@@ -78,8 +79,6 @@ public class SignUpForm extends JFrame {
         jPassword = new JPasswordField(20);
         jPassword.setBounds(110, 80, 260, 25);
         signUpPanel.add(jPassword);
-
-
 
         // Profile Picture label and image placeholder
         JLabel profilePicLabel = new JLabel("Profile Picture:");
@@ -133,7 +132,11 @@ public class SignUpForm extends JFrame {
     }
 
     public void addSignUpButtonListener(ActionListener listener) {
-        jSignUpButton.addActionListener(listener);
+        jSignUpButton.addActionListener(e -> {
+            if (validateFields()) {
+                listener.actionPerformed(e);
+            }
+        });
     }
 
     public void addChooseFileButtonListener(ActionListener listener) {
@@ -146,6 +149,25 @@ public class SignUpForm extends JFrame {
 
     public void setProfileImageIcon(ImageIcon icon) {
         jImageLabel.setIcon(icon);
+    }
+
+    private boolean validateFields() {
+        String fullName = getFullName();
+        String username = getUsername();
+        String password = getPassword();
+
+        if (fullName.isEmpty() || username.isEmpty() || password.isEmpty() || getProfileImage() == null) {
+            Message.showErrorMessage(this, "Please fill out all fields.");
+            return false;
+        }
+
+        // Validate password criteria
+        if (password.length() < 6 || !password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
+            Message.showWarningMessage(this, "Password must be at least 6 characters long and contain special characters like !@#$%^&*()_+-=[]{};':\"|,.<>/?");
+            return false;
+        }
+
+        return true;
     }
 
     public static void main(String[] args) {
@@ -165,7 +187,7 @@ public class SignUpForm extends JFrame {
         // Run the application
         SwingUtilities.invokeLater(() -> {
             SignUpForm signUpForm = new SignUpForm();
-
+            signUpForm.setVisible(true);
         });
     }
 

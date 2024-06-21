@@ -6,7 +6,6 @@ import org.example.model.UserSignUp;
 import org.example.repository.UserRepository;
 import org.example.util.Message;
 import org.example.view.DashboardForm;
-import org.example.view.DataOptionsForm;
 import org.example.view.SignInForm;
 import org.example.view.SignUpForm;
 
@@ -20,7 +19,6 @@ public class UserController {
     private final SignUpForm signUpForm;
     private final UserRepository userRepository;
     private DashboardForm dashboardForm;
-    private DataOptionsForm dataOptionsForm;
 
     public UserController(SignInForm signInForm, SignUpForm signUpForm, UserRepository userRepository) {
         this.signInForm = signInForm;
@@ -58,35 +56,44 @@ public class UserController {
             }
         }
     }
-
     class RegisterButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             signUpForm.setVisible(true);
             signInForm.setVisible(false);
         }
     }
-
     class SignUpButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            // Retrieve user input from the sign-up form
             String fullName = signUpForm.getFullName();
             String username = signUpForm.getUsername();
             String password = signUpForm.getPassword();
             File profileImage = signUpForm.getProfileImage();
 
+            // Check if a profile image is selected
             if (profileImage != null) {
+                // Create a UserSignUp object with the retrieved information
                 UserSignUp userSignUp = new UserSignUp(fullName, username, password, profileImage.getAbsolutePath());
+
+                // Attempt to register the user using the userRepository
                 if (userRepository.registerUser(userSignUp)) {
+                    // If registration is successful, show success message
                     Message.showSuccessMessage(signUpForm, "Sign up successful");
+
+                    // Hide the sign-up form and show the sign-in form
                     signUpForm.setVisible(false);
                     signInForm.setVisible(true);
                 } else {
+                    // If registration fails, show error message indicating duplicate username/password
                     Message.showErrorMessage(signUpForm, "Username already in use");
                 }
             } else {
+                // If no profile image is selected, show error message
                 Message.showErrorMessage(signUpForm, "Please choose a profile image");
             }
         }
     }
+
 
     class ChooseFileButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {

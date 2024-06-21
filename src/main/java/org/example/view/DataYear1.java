@@ -589,8 +589,6 @@ public class DataYear1 extends javax.swing.JFrame {
                 // Call the deleteStudentY1 method to delete the data from the database
                 dataController.DeleteStudentY1(stuCode, semester);
 
-                // Notify the user of a successful delete
-                Message.showInfoMessage("Student record deleted successfully.");
             }
 
         } catch (Exception e) {
