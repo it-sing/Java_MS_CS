@@ -137,7 +137,7 @@ public class ReportYear4View extends JFrame {
 
         // Create the table model and table
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new Object[]{"ID", "Code", "Name", "Sex", "OOAD", "Web", "Linux", "MIS", "SE", "Semester"});
+        tableModel.setColumnIdentifiers(new Object[]{"ID", "Code", "Name", "Sex", "OOAD", "Web", "Linux", "MIS", "SE", "Semester", "AVG"});
         JTable table = new JTable(tableModel);
         table.setRowHeight(25);
         table.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -196,7 +196,8 @@ public class ReportYear4View extends JFrame {
                     report.getLinux(),
                     report.getMis(),
                     report.getSe(),
-                    report.getSemester()
+                    report.getSemester(),
+                    String.format("%.2f", report.getAvg())
             });
         }
     }

@@ -21,7 +21,7 @@ public class ReportRepository {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
             String query = "SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
                     " p.EFC, p.Fundamantal, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
-                    " ((p.EFC + p.Fundamantal + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6) AS AVG " +
+                    " ((p.EFC + p.Fundamantal + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6.0) AS AVG " +
                     " FROM tbStudent s " +
                     " JOIN PTYear1 p ON s.stdCode = p.stdCode";
             Statement statement = connection.createStatement();
@@ -58,7 +58,7 @@ public class ReportRepository {
         List<ReportYear1> reports = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
                 " p.EFC, p.Fundamantal, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
-                " ((p.EFC + p.Fundamantal + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6) AS AVG " +
+                " ((p.EFC + p.Fundamantal + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6.0) AS AVG " +
                 " FROM tbStudent s " +
                 " JOIN PTYear1 p ON s.stdCode = p.stdCode " +
                 " WHERE 1=1");
@@ -127,13 +127,13 @@ public class ReportRepository {
         return reports;
     }
 
-
     // year2
     public List<ReportYear2> getAllReportsYear2() {
         List<ReportYear2> reports = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
             String query = "SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                    " p.Communication, p.DataStructure, p.English, p.CPlusPlus, p.Architecture, p.Database, p.Semester " +
+                    " p.Communication, p.DataStructure, p.English, p.CPlusPlus, p.Architecture, p.Database, p.Semester, " +
+                    " ((p.Communication + p.DataStructure + p.English + p.CPlusPlus + p.Architecture + p.Database) / 6.0) AS AVG "+
                     "FROM tbStudent s " +
                     "JOIN PTYear2 p ON s.stdCode = p.stdCode";
             Statement statement = connection.createStatement();
@@ -155,7 +155,8 @@ public class ReportRepository {
                         resultSet.getInt("CPlusPlus"),
                         resultSet.getInt("Architecture"),
                         resultSet.getInt("Database"),
-                        resultSet.getString("Semester")
+                        resultSet.getString("Semester"),
+                        resultSet.getDouble("AVG")
                 ));
             }
         } catch (SQLException e) {
@@ -167,7 +168,8 @@ public class ReportRepository {
     public List<ReportYear2> searchReportsYear2(String name, String classId, String generation, String stdCode, String semester) {
         List<ReportYear2> reports = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                " p.Communication, p.DataStructure, p.English, p.CPlusPlus, p.Architecture, p.Database, p.Semester " +
+                " p.Communication, p.DataStructure, p.English, p.CPlusPlus, p.Architecture, p.Database, p.Semester, " +
+                " (( p.Communication + p.DataStructure + p.English + p.CPlusPlus + p.Architecture + p.Database ) / 6.0) AS AVG " +
                 "FROM tbStudent s " +
                 "JOIN PTYear2 p ON s.stdCode = p.stdCode " +
                 "WHERE 1=1");
@@ -225,7 +227,8 @@ public class ReportRepository {
                         resultSet.getInt("CPlusPlus"),
                         resultSet.getInt("Architecture"),
                         resultSet.getInt("Database"),
-                        resultSet.getString("Semester")
+                        resultSet.getString("Semester"),
+                        resultSet.getDouble("AVG")
                 ));
             }
         } catch (SQLException e) {
@@ -239,7 +242,8 @@ public class ReportRepository {
         List<ReportYear3> reports = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
             String query = "SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                    " p.Net, p.Java, p.Network, p.SystemAnalysis, p.Statistics, p.Semester " +
+                    " p.Net, p.Java, p.Network, p.SystemAnalysis, p.Statistics, p.Semester, " +
+                    " (( p.Net + p.Java + p.Network + p.SystemAnalysis + p.Statistics) / 5.0) AS AVG " +
                     "FROM tbStudent s " +
                     "JOIN PTYear3 p ON s.stdCode = p.stdCode";
             Statement statement = connection.createStatement();
@@ -260,7 +264,8 @@ public class ReportRepository {
                         resultSet.getInt("NetWork"),
                         resultSet.getInt("SystemAnalysis"),
                         resultSet.getInt("Statistics"),
-                        resultSet.getString("Semester")
+                        resultSet.getString("Semester"),
+                        resultSet.getDouble("AVG")
                 ));
             }
         } catch (SQLException e) {
@@ -272,7 +277,8 @@ public class ReportRepository {
     public List<ReportYear3> searchReportsYear3(String name, String classId, String generation, String stdCode, String semester) {
         List<ReportYear3> reports = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                " p.Net, p.Java, p.Network, p.SystemAnalysis, p.Statistics, p.Semester " +
+                " p.Net, p.Java, p.Network, p.SystemAnalysis, p.Statistics, p.Semester, " +
+                " (( p.Net + p.Java + p.Network + p.SystemAnalysis + p.Statistics) / 5.0) AS AVG " +
                 "FROM tbStudent s " +
                 "JOIN PTYear3 p ON s.stdCode = p.stdCode " +
                 "WHERE 1=1");
@@ -329,7 +335,8 @@ public class ReportRepository {
                         resultSet.getInt("NetWork"),
                         resultSet.getInt("SystemAnalysis"),
                         resultSet.getInt("Statistics"),
-                        resultSet.getString("Semester")
+                        resultSet.getString("Semester"),
+                        resultSet.getDouble("AVG")
                 ));
             }
         } catch (SQLException e) {
@@ -338,12 +345,13 @@ public class ReportRepository {
         return reports;
     }
 
-    // year3
+    // year4
     public List<ReportYear4> getAllReportsYear4() {
         List<ReportYear4> reports = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
             String query = "SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                    " p.OOAD, p.Web, p.Linux, p.MIS, p.SE_IT_PM, p.Semester " +
+                    " p.OOAD, p.Web, p.Linux, p.MIS, p.SE_IT_PM, p.Semester, " +
+                    " (( p.OOAD + p.Web + p.Linux + p.MIS + p.SE_IT_PM) / 5.0 ) AS AVG " +
                     "FROM tbStudent s " +
                     "JOIN PTYear4 p ON s.stdCode = p.stdCode";
             Statement statement = connection.createStatement();
@@ -364,7 +372,8 @@ public class ReportRepository {
                         resultSet.getInt("Linux"),
                         resultSet.getInt("MIS"),
                         resultSet.getInt("SE_IT_PM"),
-                        resultSet.getString("Semester")
+                        resultSet.getString("Semester"),
+                        resultSet.getDouble("AVG")
                 ));
             }
         } catch (SQLException e) {
@@ -376,7 +385,8 @@ public class ReportRepository {
     public List<ReportYear4> searchReportsYear4(String name, String classId, String generation, String stdCode, String semester) {
         List<ReportYear4> reports = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                " p.OOAD, p.Web, p.Linux, p.MIS, p.SE_IT_PM, p.Semester " +
+                " p.OOAD, p.Web, p.Linux, p.MIS, p.SE_IT_PM, p.Semester, " +
+                " (( p.OOAD + p.Web + p.Linux + p.MIS + p.SE_IT_PM) / 5.0 ) AS AVG " +
                 "FROM tbStudent s " +
                 "JOIN PTYear4 p ON s.stdCode = p.stdCode " +
                 "WHERE 1=1");
@@ -433,7 +443,8 @@ public class ReportRepository {
                         resultSet.getInt("Linux"),
                         resultSet.getInt("MIS"),
                         resultSet.getInt("SE_IT_PM"),
-                        resultSet.getString("Semester")
+                        resultSet.getString("Semester"),
+                        resultSet.getDouble("AVG")
                 ));
             }
         } catch (SQLException e) {
@@ -441,6 +452,5 @@ public class ReportRepository {
         }
         return reports;
     }
-
 
 }

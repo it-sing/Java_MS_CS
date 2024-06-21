@@ -137,7 +137,7 @@ public class ReportYear2View extends JFrame {
 
         // Create the table model and table
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new Object[]{"ID", "Code", "Name", "Sex", "Communication", "Data Structure", "English", "Cpp", "Architecture", "Database", "Semester"});
+        tableModel.setColumnIdentifiers(new Object[]{"ID", "Code", "Name", "Sex", "Communication", "Data Structure", "English", "Cpp", "Architecture", "Database", "Semester", "AVG"});
         JTable table = new JTable(tableModel);
         table.setRowHeight(25);
         table.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -197,7 +197,8 @@ public class ReportYear2View extends JFrame {
             report.getcPlusPlus(),
             report.getArchitecture(),
             report.getDatabase(),
-            report.getSemester()
+            report.getSemester(),
+                String.format("%.2f", report.getAvg())
         });
     }
     }

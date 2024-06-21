@@ -17,8 +17,9 @@ public class ReportYear2 {
     private Integer architecture;
     private Integer database;
     private String Semester;
+    private Double avg;
 
-    public ReportYear2(Integer stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, Integer classID, String stdBD, Integer communication, Integer dataStructure, Integer english, Integer cPlusPlus, Integer architecture, Integer database, String semester) {
+    public ReportYear2(Integer stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, Integer classID, String stdBD, Integer communication, Integer dataStructure, Integer english, Integer cPlusPlus, Integer architecture, Integer database, String semester, Double avg) {
         this.stdID = stdID;
         this.stdCode = stdCode;
         this.stdName = stdName;
@@ -34,7 +35,8 @@ public class ReportYear2 {
         this.cPlusPlus = cPlusPlus;
         this.architecture = architecture;
         this.database = database;
-        Semester = semester;
+        this.Semester = semester;
+        this.avg = avg;
     }
 
     public Integer getStdID() {
@@ -163,5 +165,9 @@ public class ReportYear2 {
 
     public void setSemester(String semester) {
         Semester = semester;
+    }
+
+    public Double getAvg() {
+        return avg;
     }
 }

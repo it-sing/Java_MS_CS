@@ -16,8 +16,9 @@ public class ReportYear3 {
     private Integer isad;
     private Integer statistics;
     private String Semester;
+    private Double avg;
 
-    public ReportYear3(Integer stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, Integer classID, String stdBD, Integer dotNet, Integer java, Integer network, Integer isad, Integer statistics, String semester) {
+    public ReportYear3(Integer stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, Integer classID, String stdBD, Integer dotNet, Integer java, Integer network, Integer isad, Integer statistics, String semester, Double avg) {
         this.stdID = stdID;
         this.stdCode = stdCode;
         this.stdName = stdName;
@@ -28,11 +29,12 @@ public class ReportYear3 {
         this.classID = classID;
         this.stdBD = stdBD;
         this.dotNet = dotNet;
-        Java = java;
+        this.Java = java;
         this.network = network;
         this.isad = isad;
         this.statistics = statistics;
-        Semester = semester;
+        this.Semester = semester;
+        this.avg = avg;
     }
 
     public Integer getStdID() {
@@ -93,5 +95,9 @@ public class ReportYear3 {
 
     public String getSemester() {
         return Semester;
+    }
+
+    public Double getAvg() {
+        return avg;
     }
 }
