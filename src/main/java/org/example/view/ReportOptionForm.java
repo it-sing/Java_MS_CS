@@ -1,9 +1,9 @@
 package org.example.view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 
-public class ReportOptionForm extends javax.swing.JFrame {
+public class ReportOptionForm extends JFrame {
 
     /**
      * Creates new form DataOptionsForm
@@ -13,118 +13,113 @@ public class ReportOptionForm extends javax.swing.JFrame {
         setLocationRelativeTo(null); // Center the form on the screen
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        JButton jExit = new JButton();
+        JButton jYear1 = new JButton();
+        JButton jYear2 = new JButton();
+        JButton jYear3 = new JButton();
+        JButton jYear4 = new JButton();
+        JLabel jLabel1 = new JLabel();
+        JLabel jImageLabel = new JLabel();
 
-        javax.swing.JButton jYear4 = new javax.swing.JButton();
-        // Variables declaration - do not modify//GEN-BEGIN:variables
-        javax.swing.JButton jExit = new javax.swing.JButton();
-        javax.swing.JButton jYear2 = new javax.swing.JButton();
-        javax.swing.JButton jYear3 = new javax.swing.JButton();
-        javax.swing.JButton jYear1 = new javax.swing.JButton();
-        javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Report Options");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jExit.setText("Exit");
+        jExit.setBackground(new Color(225, 29, 72));
+        jExit.setForeground(Color.WHITE);
+        jExit.addActionListener(e -> dispose());
 
-        jExit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Close the current form
-                dispose();
-            }
-        });
-
+        jYear1.setText("Year 1");
+        jYear1.setBackground(new Color(37, 99, 235));
+        jYear1.setForeground(Color.WHITE);
         jYear1.addActionListener(e -> {
             dispose();
-            ReportYear1View reportYear1 = new ReportYear1View();
-            reportYear1.setVisible(true);
+            new ReportYear1View().setVisible(true);
         });
 
+        jYear2.setText("Year 2");
+        jYear2.setBackground(new Color(37, 99, 235));
+        jYear2.setForeground(Color.WHITE);
         jYear2.addActionListener(e -> {
             dispose();
-            ReportYear2View reportYear2View = new ReportYear2View();
-            reportYear2View.setVisible(true);
+            new ReportYear2View().setVisible(true);
         });
 
+        jYear3.setText("Year 3");
+        jYear3.setBackground(new Color(37, 99, 235));
+        jYear3.setForeground(Color.WHITE);
         jYear3.addActionListener(e -> {
             dispose();
-            ReportYear3View reportYear3View = new ReportYear3View();
-            reportYear3View.setVisible(true);
+            new ReportYear3View().setVisible(true);
         });
 
+        jYear4.setText("Year 4");
+        jYear4.setBackground(new Color(37, 99, 235));
+        jYear4.setForeground(Color.WHITE);
         jYear4.addActionListener(e -> {
             dispose();
-            ReportYear4View reportYear4View = new ReportYear4View();
-            reportYear4View.setVisible(true);
+            new ReportYear4View().setVisible(true);
         });
 
-        jYear1.setBackground(new java.awt.Color(37, 99, 235));
-        jYear1.setForeground(new java.awt.Color(255, 255, 255));
-        jYear1.setText("Year 1");
+        jLabel1.setFont(new Font("Arial", Font.BOLD, 24));
+        jLabel1.setText("PLEASE CHOOSE YOUR OPTIONS:");
 
-        jYear2.setBackground(new java.awt.Color(37, 99, 235));
-        jYear2.setForeground(new java.awt.Color(255, 255, 255));
-        jYear2.setText("Year 2");
+        // Load and resize the image
+        ImageIcon originalIcon = new ImageIcon("D:\\9. RUPP\\Year3\\Java E7\\Java_MS_CS\\images\\report1.png");
+        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
-        jYear3.setBackground(new java.awt.Color(37, 99, 235));
-        jYear3.setForeground(new java.awt.Color(255, 255, 255));
-        jYear3.setText("Year 3");
+        jImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        jImageLabel.setIcon(scaledIcon);
+        jImageLabel.setPreferredSize(new Dimension(200, 200)); // Set preferred size for the label
 
-        jYear4.setBackground(new java.awt.Color(37, 99, 235));
-        jYear4.setForeground(new java.awt.Color(255, 255, 255));
-        jYear4.setText("Year 4");
-
-        jExit.setBackground(new java.awt.Color(225, 29, 72));
-        jExit.setForeground(new java.awt.Color(255, 255, 255));
-        jExit.setText("Exit");
-
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel1.setText("Please choose your options:".toUpperCase());
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        // Create layout
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
+
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jExit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(100, 100, 100)
+                                .addComponent(jImageLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGap(80, 80, 80)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                        .addComponent(jLabel1)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addGap(37, 37, 37)
-                                                .addComponent(jYear1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(34, 34, 34)
-                                                .addComponent(jYear2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(35, 35, 35)
-                                                .addComponent(jYear3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(38, 38, 38)
-                                                .addComponent(jYear4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 45, Short.MAX_VALUE)))
-                                .addContainerGap())
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel1)
-                                .addGap(132, 132, 132))
+                                                .addComponent(jYear1, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jYear2, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jYear3, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jYear4, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jExit, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
+                                .addGap(90, 90, 90))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(68, 68, 68)
-                                .addComponent(jLabel1)
-                                .addGap(84, 84, 84)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jYear2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jYear1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jYear3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jYear4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
-                                .addComponent(jExit)
-                                .addContainerGap())
+                layout.createSequentialGroup()
+                        .addGap(120, 120, 120) // Adjusted top gap
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(jImageLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(50, 50, 50) // Adjusted gap between label and buttons
+                                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jYear1, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jYear2, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jYear3, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jYear4, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE))
+                                        .addGap(50, 50, 50) // Adjusted gap between buttons and exit button
+                                        .addComponent(jExit)))
+                        .addGap(120, 120, 120) // Bottom gap to make the form centered
         );
 
         pack();
         setLocationRelativeTo(null); // Center the form on the screen
     }
 
-
-    // End of variables declaration//GEN-END:variables
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(() -> new ReportOptionForm().setVisible(true));
+    }
 }

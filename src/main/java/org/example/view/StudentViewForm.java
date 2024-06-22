@@ -37,7 +37,7 @@ public class StudentViewForm extends JFrame {
         setFont(fontBold);
         setSize(1400, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout(10, 10));
+        setLocationRelativeTo(null);
 
         // Form Panel
         JPanel formPanel = new JPanel();
@@ -161,9 +161,8 @@ public class StudentViewForm extends JFrame {
 
         // exit(back to home)
         btnExit.addActionListener(e -> {
+            // Close the current form
             dispose();
-            DashboardForm dashboardForm = new DashboardForm();
-            dashboardForm.setVisible(true);
         });
 
         // Table Panel
