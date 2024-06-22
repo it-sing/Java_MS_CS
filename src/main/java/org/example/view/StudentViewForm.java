@@ -5,17 +5,13 @@ import org.example.controller.UserController;
 import org.example.model.Student;
 import org.example.repository.UserRepository;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.sql.*;
+import java.sql.SQLException;
 
 public class StudentViewForm extends JFrame {
 
@@ -23,7 +19,7 @@ public class StudentViewForm extends JFrame {
 
     private final JTextField tfStdCode;
     private final JTextField tfStdName;
-    private final JTextField tfStdSex;
+    private final JComboBox<String> cbStdSex;
     private final JTextField tfStdAdd;
     private final JTextField tfStdGrt;
     private final JTextField tfStdYear;
@@ -39,7 +35,7 @@ public class StudentViewForm extends JFrame {
         Font fontBold = new Font("Roboto", Font.PLAIN, 14);
         Font fontNormal = new Font("Roboto", Font.PLAIN, 14);
 
-        setTitle(" Student Management");
+        setTitle("Student Management");
         setFont(fontBold);
         setSize(1500, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,20 +46,6 @@ public class StudentViewForm extends JFrame {
         sidebarPanel.setLayout(new BoxLayout(sidebarPanel, BoxLayout.Y_AXIS));
         sidebarPanel.setBackground(new Color(84, 43, 154));
         sidebarPanel.setPreferredSize(new Dimension(150, getHeight()));
-
-        // Load and resize the image
-        try {
-            BufferedImage userImage = ImageIO.read(new File("D:\\9. RUPP\\Year3\\Java E7\\Java_MS_CS\\images\\user1.png"));
-            Image resizedImage = userImage.getScaledInstance(150, 100, Image.SCALE_SMOOTH); // Resize to 100x100 pixels
-            JLabel userIcon = new JLabel(new ImageIcon(resizedImage));
-            userIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            sidebarPanel.add(Box.createVerticalStrut(10)); // Add spacing
-            sidebarPanel.add(userIcon);
-            sidebarPanel.add(Box.createVerticalStrut(10)); // Add spacing
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         JLabel userLabel = new JLabel("User");
         userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -84,12 +66,13 @@ public class StudentViewForm extends JFrame {
         formPanel.setLayout(null); // Use null layout for absolute positioning
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JLabel lblStdCode = new JLabel("Stu Code:");
-        lblStdCode.setBounds(20, 20, 100, 25);
-        formPanel.add(lblStdCode);
+        JLabel lblCode = new JLabel("Code:");
+        lblCode.setBounds(20, 20, 100, 25);
+        formPanel.add(lblCode);
 
         tfStdCode = new JTextField();
         tfStdCode.setBounds(140, 20, 150, 25);
+        tfStdCode.setEditable(false);
         formPanel.add(tfStdCode);
 
         JLabel lblName = new JLabel("Name:");
@@ -104,9 +87,9 @@ public class StudentViewForm extends JFrame {
         lblSex.setBounds(20, 100, 100, 25);
         formPanel.add(lblSex);
 
-        tfStdSex = new JTextField();
-        tfStdSex.setBounds(140, 100, 150, 25);
-        formPanel.add(tfStdSex);
+        cbStdSex = new JComboBox<>(new String[]{"Male", "Female"});
+        cbStdSex.setBounds(140, 100, 150, 25);
+        formPanel.add(cbStdSex);
 
         JLabel lblAddress = new JLabel("Address:");
         lblAddress.setBounds(20, 140, 100, 25);
@@ -202,7 +185,7 @@ public class StudentViewForm extends JFrame {
             loadStudents();
         });
 
-         // delete
+        // delete
         btnDelete.addActionListener(e -> {
             deleteStudent();
             loadStudents();
@@ -217,7 +200,7 @@ public class StudentViewForm extends JFrame {
 
         // Table Panel
         tableModel = new DefaultTableModel(new String[]{
-                "Student ID", "Code", "Student Name", "Gender", "Address", "Generation", "Year", "classID", "Date of Birth"
+                "Student ID", "Code", "Student Name", "Gender", "Address", "Generation", "Year", "Class ID", "Date of Birth"
         }, 0);
         table = new JTable(tableModel);
         table.setFont(fontNormal);
@@ -242,7 +225,7 @@ public class StudentViewForm extends JFrame {
                 if (selectedRow >= 0) {
                     tfStdCode.setText(tableModel.getValueAt(selectedRow, 1).toString());
                     tfStdName.setText(tableModel.getValueAt(selectedRow, 2).toString());
-                    tfStdSex.setText(tableModel.getValueAt(selectedRow, 3).toString());
+                    cbStdSex.setSelectedItem(tableModel.getValueAt(selectedRow, 3).toString());
                     tfStdAdd.setText(tableModel.getValueAt(selectedRow, 4).toString());
                     tfStdGrt.setText(tableModel.getValueAt(selectedRow, 5).toString());
                     tfStdYear.setText(tableModel.getValueAt(selectedRow, 6).toString());
@@ -252,7 +235,6 @@ public class StudentViewForm extends JFrame {
             }
         });
 
-        add(new JScrollPane(table), BorderLayout.EAST);
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(330, 20, 920, 480);
         formPanel.add(scrollPane);
@@ -279,20 +261,19 @@ public class StudentViewForm extends JFrame {
                 });
             }
         } catch (Exception e) {
-             e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     private void createStudent() {
-        String stdCode = tfStdCode.getText();
         String stdName = tfStdName.getText();
-        String stdSex = tfStdSex.getText();
+        String stdSex = (String) cbStdSex.getSelectedItem();
         String stdAdd = tfStdAdd.getText();
         String stdGrt = tfStdGrt.getText();
         String stdYear = tfStdYear.getText();
         int classID = Integer.parseInt(tfClassID.getText());
         String stdBD = tfStdBD.getText();
-        Student newStudent = new Student(0, stdCode, stdName, stdSex, stdAdd, stdGrt, stdYear, classID, stdBD); // Assuming stdID is autogenerated (0 or null)
+        Student newStudent = new Student(0, null, stdName, stdSex, stdAdd, stdGrt, stdYear, classID, stdBD); // Assuming stdID is autogenerated (0 or null)
         try {
             studentController.createStudent(newStudent);
             JOptionPane.showMessageDialog(this, "Student created successfully!");
@@ -306,9 +287,9 @@ public class StudentViewForm extends JFrame {
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
             int stdID = Integer.parseInt(tableModel.getValueAt(selectedRow, 0).toString());
-            String stdCode = tfStdCode.getText();
+            String stdCode = tableModel.getValueAt(selectedRow, 1).toString();
             String stdName = tfStdName.getText();
-            String stdSex = tfStdSex.getText();
+            String stdSex = (String) cbStdSex.getSelectedItem();
             String stdAdd = tfStdAdd.getText();
             String stdGrt = tfStdGrt.getText();
             String stdYear = tfStdYear.getText();
@@ -349,7 +330,4 @@ public class StudentViewForm extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(StudentViewForm::new);
-    }
 }
