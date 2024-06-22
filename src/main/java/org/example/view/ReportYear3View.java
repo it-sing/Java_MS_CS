@@ -194,7 +194,7 @@ public class ReportYear3View extends JFrame {
                     report.getDotNet(),
                     report.getJava(),
                     report.getNetwork(),
-                    report.getIsad(),
+                    report.getISad(),
                     report.getStatistics(),
                     report.getSemester(),
                     String.format("%.2f", report.getAvg())

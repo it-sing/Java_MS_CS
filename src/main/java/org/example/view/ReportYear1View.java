@@ -185,7 +185,7 @@ public class ReportYear1View extends JFrame {
                     report.getPfc(),
                     report.getThe21(),
                     report.getHistory(),
-                    report.getcProgram(),
+                    report.getCProgram(),
                     report.getSemester(),
                     String.format("%.2f", report.getAvg())
             });

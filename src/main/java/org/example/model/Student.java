@@ -25,17 +25,6 @@ public class Student {
         this.stdBD = stdBD;
     }
 
-    public Student(String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD) {
-        this.stdCode = stdCode;
-        this.stdName = stdName;
-        this.stdSex = stdSex;
-        this.stdAdd = stdAdd;
-        this.stdGrt = stdGrt;
-        this.stdYear = stdYear;
-        this.classID = classID;
-        this.stdBD = stdBD;
-    }
-
     public int getStdID() {
         return stdID;
     }

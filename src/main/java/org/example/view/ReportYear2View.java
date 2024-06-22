@@ -194,7 +194,7 @@ public class ReportYear2View extends JFrame {
             report.getCommunication(),
             report.getDataStructure(),
             report.getEnglish(),
-            report.getcPlusPlus(),
+            report.getCPlusPlus(),
             report.getArchitecture(),
             report.getDatabase(),
             report.getSemester(),
