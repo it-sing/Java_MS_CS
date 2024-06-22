@@ -1,9 +1,7 @@
 package org.example.view;
 
 import org.example.controller.StudentController;
-import org.example.controller.UserController;
 import org.example.model.Student;
-import org.example.repository.UserRepository;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -32,34 +30,14 @@ public class StudentViewForm extends JFrame {
         studentController = new StudentController();
 
         // Set font size
-        Font fontBold = new Font("Roboto", Font.PLAIN, 14);
-        Font fontNormal = new Font("Roboto", Font.PLAIN, 14);
+        Font fontBold = new Font("Arial", Font.PLAIN, 14);
+        Font fontNormal = new Font("Arial", Font.PLAIN, 14);
 
         setTitle("Student Management");
         setFont(fontBold);
-        setSize(1500, 650);
+        setSize(1400, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
-
-        // Sidebar Panel
-        JPanel sidebarPanel = new JPanel();
-        sidebarPanel.setLayout(new BoxLayout(sidebarPanel, BoxLayout.Y_AXIS));
-        sidebarPanel.setBackground(new Color(84, 43, 154));
-        sidebarPanel.setPreferredSize(new Dimension(150, getHeight()));
-
-        JLabel userLabel = new JLabel("User");
-        userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        userLabel.setForeground(Color.WHITE);
-        sidebarPanel.add(userLabel);
-
-        JButton btnLogout = new JButton("Log Out");
-        btnLogout.setBounds(10, 400, 100, 30);
-
-        btnLogout.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnLogout.setBackground(Color.WHITE);
-        sidebarPanel.add(Box.createVerticalStrut(400)); // Add spacing
-        sidebarPanel.add(btnLogout);
-        add(sidebarPanel, BorderLayout.WEST);
 
         // Form Panel
         JPanel formPanel = new JPanel();
@@ -67,68 +45,68 @@ public class StudentViewForm extends JFrame {
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel lblCode = new JLabel("Code:");
-        lblCode.setBounds(20, 20, 100, 25);
+        lblCode.setBounds(30, 20, 100, 25);
         formPanel.add(lblCode);
 
         tfStdCode = new JTextField();
-        tfStdCode.setBounds(140, 20, 150, 25);
+        tfStdCode.setBounds(150, 20, 150, 25);
         tfStdCode.setEditable(false);
         formPanel.add(tfStdCode);
 
         JLabel lblName = new JLabel("Name:");
-        lblName.setBounds(20, 60, 100, 25);
+        lblName.setBounds(30, 60, 100, 25);
         formPanel.add(lblName);
 
         tfStdName = new JTextField();
-        tfStdName.setBounds(140, 60, 150, 25);
+        tfStdName.setBounds(150, 60, 150, 25);
         formPanel.add(tfStdName);
 
         JLabel lblSex = new JLabel("Sex:");
-        lblSex.setBounds(20, 100, 100, 25);
+        lblSex.setBounds(30, 100, 100, 25);
         formPanel.add(lblSex);
 
         cbStdSex = new JComboBox<>(new String[]{"Male", "Female"});
-        cbStdSex.setBounds(140, 100, 150, 25);
+        cbStdSex.setBounds(150, 100, 150, 25);
         formPanel.add(cbStdSex);
 
         JLabel lblAddress = new JLabel("Address:");
-        lblAddress.setBounds(20, 140, 100, 25);
+        lblAddress.setBounds(30, 140, 100, 25);
         formPanel.add(lblAddress);
 
         tfStdAdd = new JTextField();
-        tfStdAdd.setBounds(140, 140, 150, 25);
+        tfStdAdd.setBounds(150, 140, 150, 25);
         formPanel.add(tfStdAdd);
 
         JLabel lblGrade = new JLabel("Generation:");
-        lblGrade.setBounds(20, 180, 100, 25);
+        lblGrade.setBounds(30, 180, 100, 25);
         formPanel.add(lblGrade);
 
         tfStdGrt = new JTextField();
-        tfStdGrt.setBounds(140, 180, 150, 25);
+        tfStdGrt.setBounds(150, 180, 150, 25);
         formPanel.add(tfStdGrt);
 
         JLabel lblYear = new JLabel("Year:");
-        lblYear.setBounds(20, 220, 100, 25);
+        lblYear.setBounds(30, 220, 100, 25);
         formPanel.add(lblYear);
 
         tfStdYear = new JTextField();
-        tfStdYear.setBounds(140, 220, 150, 25);
+        tfStdYear.setBounds(150, 220, 150, 25);
         formPanel.add(tfStdYear);
 
         JLabel lblClassID = new JLabel("Class ID:");
-        lblClassID.setBounds(20, 260, 100, 25);
+        lblClassID.setBounds(30, 260, 100, 25);
         formPanel.add(lblClassID);
 
         tfClassID = new JTextField();
-        tfClassID.setBounds(140, 260, 150, 25);
+        tfClassID.setBounds(150, 260, 150, 25);
         formPanel.add(tfClassID);
 
         JLabel lblBirthDate = new JLabel("Birth Date:");
-        lblBirthDate.setBounds(20, 300, 100, 25);
+        lblBirthDate.setBounds(30, 300, 100, 25);
         formPanel.add(lblBirthDate);
 
         tfStdBD = new JTextField();
-        tfStdBD.setBounds(140, 300, 150, 25);
+        tfStdBD.setBounds(150, 300, 150, 25);
         formPanel.add(tfStdBD);
 
         /* Button */
@@ -162,16 +140,6 @@ public class StudentViewForm extends JFrame {
 
         // add form panel into the form
         add(formPanel, BorderLayout.CENTER);
-
-        // log out
-        btnLogout.addActionListener(e -> {
-            dispose();
-            SignInForm signInForm = new SignInForm();
-            SignUpForm signUpForm = new SignUpForm();
-            UserRepository userRepository = new UserRepository();
-            UserController controller = new UserController(signInForm, signUpForm, userRepository);
-            signInForm.setVisible(true);
-        });
 
         // create
         btnCreate.addActionListener(e -> {
@@ -236,7 +204,7 @@ public class StudentViewForm extends JFrame {
         });
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(330, 20, 920, 480);
+        scrollPane.setBounds(360, 20, 920, 480);
         formPanel.add(scrollPane);
 
         loadStudents();
@@ -261,7 +229,7 @@ public class StudentViewForm extends JFrame {
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
