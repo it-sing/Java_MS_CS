@@ -18,7 +18,7 @@ public class DataController {
         if (AuthService.hasPermission(UserPermission.READ, user)) {
             return dataRepository.getStudentsY1(stdCode, className, stdGrt, stdYear, semester);
         } else {
-            throw new SecurityException("Permission denied: READ");
+            throw new SecurityException("Permission denied");
         }
     }
 
@@ -26,7 +26,7 @@ public class DataController {
         if (AuthService.hasPermission(UserPermission.UPDATE, user)) {
             dataRepository.updateStudentY1(student);
         } else {
-            throw new SecurityException("Permission denied: UPDATE");
+            throw new SecurityException("Permission denied");
         }
     }
 
@@ -34,7 +34,7 @@ public class DataController {
         if (AuthService.hasPermission(UserPermission.WRITE, user)) {
             dataRepository.insertStudentY1(student);
         } else {
-            throw new SecurityException("Permission denied: WRITE");
+            throw new SecurityException("Permission denied");
         }
     }
 
@@ -44,7 +44,7 @@ public class DataController {
             if (AuthService.hasPermission(UserPermission.DELETE, userDetails)) {
                 dataRepository.deleteStudentY1(stdCode, semester);
             } else {
-                throw new SecurityException("Permission denied: DELETE");
+                throw new SecurityException("Permission denied");
             }
         } catch (SecurityException se) {
             Message.showErrorMessage(se.getMessage());
@@ -56,7 +56,7 @@ public class DataController {
         if (AuthService.hasPermission(UserPermission.READ, user)) {
             return dataRepository.getStudentsY2(stdCode, className, stdGrt, stdYear, semester);
         } else {
-            throw new SecurityException("Permission denied: READ");
+            throw new SecurityException("Permission denied");
         }
     }
 
@@ -64,7 +64,7 @@ public class DataController {
         if (AuthService.hasPermission(UserPermission.DELETE, user)) {
             dataRepository.updateStudentY2(student);
         } else {
-            throw new SecurityException("Permission denied: WRITE");
+            throw new SecurityException("Permission denied");
         }
     }
 
@@ -72,7 +72,7 @@ public class DataController {
         if (AuthService.hasPermission(UserPermission.WRITE, user)) {
             dataRepository.insertStudentY2(student);
         } else {
-            throw new SecurityException("Permission denied: WRITE");
+            throw new SecurityException("Permission denied");
         }
     }
 
@@ -80,35 +80,35 @@ public class DataController {
         if (AuthService.hasPermission(UserPermission.DELETE, user)) {
             dataRepository.deleteStudentY2(stdCode, semester);
         } else {
-            throw new SecurityException("Permission denied: DELETE");
+            throw new SecurityException("Permission denied");
         }
     }
     public List<DataY3> getStudentsY3(UserDetails user, String stdCode, String className, String stdGrt, String stdYear, String semester) {
         if (AuthService.hasPermission(UserPermission.READ, user)) {
             return dataRepository.getStudentsY3(stdCode, className, stdGrt, stdYear, semester);
         } else {
-            throw new SecurityException("Permission denied: READ");
+            throw new SecurityException("Permission denied");
         }
     }
     public void updateStudentY3(UserDetails user, DataY3 student) {
         if (AuthService.hasPermission(UserPermission.DELETE, user)) {
             dataRepository.updateStudentY3(student);
         } else {
-            throw new SecurityException("Permission denied: WRITE");
+            throw new SecurityException("Permission denied");
         }
     }
     public void insertStudentY3(UserDetails user, DataY3 student) {
         if (AuthService.hasPermission(UserPermission.WRITE, user)) {
             dataRepository.insertStudentY3(student);
         } else {
-            throw new SecurityException("Permission denied: WRITE");
+            throw new SecurityException("Permission denied");
         }
     }
     public void deleteStudentY3(UserDetails user, String stdCode, String semester) {
         if (AuthService.hasPermission(UserPermission.DELETE, user)) {
             dataRepository.deleteStudentY3(stdCode, semester);
         } else {
-            throw new SecurityException("Permission denied: DELETE");
+            throw new SecurityException("Permission denied");
         }
     }
     // for Year4
@@ -116,28 +116,28 @@ public class DataController {
         if (AuthService.hasPermission(UserPermission.READ, user)) {
             return dataRepository.getStudentsY4(stdCode, className, stdGrt, stdYear, semester);
         } else {
-            throw new SecurityException("Permission denied: READ");
+            throw new SecurityException("Permission denied");
         }
     }
     public void updateStudentY4(UserDetails user,DataY4 student) {
         if (AuthService.hasPermission(UserPermission.DELETE, user)) {
             dataRepository.updateStudentY4(student);
         } else {
-            throw new SecurityException("Permission denied: WRITE");
+            throw new SecurityException("Permission denied");
         }
     }
     public void insertStudentY4(UserDetails user,DataY4 student) {
         if (AuthService.hasPermission(UserPermission.WRITE, user)) {
             dataRepository.insertStudentY4(student);
         } else {
-            throw new SecurityException("Permission denied: WRITE");
+            throw new SecurityException("Permission denied");
         }
     }
     public void deleteStudentY4(UserDetails user,String stdCode , String semester) {
         if (AuthService.hasPermission(UserPermission.DELETE, user)) {
             dataRepository.deleteStudentY4(stdCode, semester);
         } else {
-            throw new SecurityException("Permission denied: DELETE");
+            throw new SecurityException("Permission denied");
         }
     }
 

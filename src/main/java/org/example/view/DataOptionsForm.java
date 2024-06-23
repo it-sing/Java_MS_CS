@@ -4,6 +4,9 @@
  */
 package org.example.view;
 
+import org.example.model.DataY1;
+import org.example.model.ReportYear1;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,7 +20,7 @@ public class DataOptionsForm extends javax.swing.JFrame {
 //        DataOptionsController controller = new DataOptionsController(this);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
 
@@ -42,9 +45,8 @@ public class DataOptionsForm extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 dispose();
-                // Create an instance of DataOptionsForm
+//                // Create an instance of DataOptionsForm
                 DataYear1 dataYear1 = new DataYear1();
-
                 dataYear1.setVisible(true);
             }
         });
@@ -152,7 +154,7 @@ public class DataOptionsForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void jYear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jYear1ActionPerformed
+    private void jYear1ActionPerformed(java.awt.event.ActionEvent evt) {                                       
 
     }
     public static void main(String args[]) {

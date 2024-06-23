@@ -20,21 +20,21 @@ public class AdminController {
         if (AuthService.hasPermission(UserPermission.READ, user)) {
             return adminRepository.getUsersByName(name);
         } else {
-            throw new SecurityException("Permission denied: READ");
+            throw new SecurityException("Permission denied");
         }
     }
     public void updateUser(UserDetails user, User users) {
         if (AuthService.hasPermission(UserPermission.UPDATE, user)) {
             adminRepository.updateUser(users);
         } else {
-            throw new SecurityException("Permission denied: WRITE");
+            throw new SecurityException("Permission denied");
         }
     }
     public void deleteUser(UserDetails user, Integer id) {
         if (AuthService.hasPermission(UserPermission.DELETE, user)) {
             adminRepository.deleteUser(id);
         } else {
-            throw new SecurityException("Permission denied: DELETE");
+            throw new SecurityException("Permission denied");
         }
     }
 }

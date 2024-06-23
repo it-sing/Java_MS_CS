@@ -150,8 +150,12 @@ public class DashboardForm extends JFrame {
 
         jReport.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DataOptionsForm dataOptionsForm = new DataOptionsForm();
-                dataOptionsForm.setVisible(true);
+
+                // Create an instance of DataOptionsForm
+                //DataOptionsForm dataOptionsForm = new DataOptionsForm();
+                ReportOptionForm reportOptionForm = new ReportOptionForm();
+                reportOptionForm.setVisible(true);
+
             }
         });
 
@@ -239,6 +243,7 @@ public class DashboardForm extends JFrame {
         }
     }
 
+    // Method to add custom logout action listener
     public void addLogoutButtonListener(ActionListener listener) {
         jLogout.addActionListener(listener);
     }

@@ -46,7 +46,11 @@ public class UserController {
                     if (AuthService.hasRole(UserRole.USER, userDetails)) {
                         // User-specific actions
                         handleUserActions(userDetails);
-                    } else if (AuthService.hasRole(UserRole.ADMIN, userDetails)) {
+                    }
+                    else if (AuthService.hasRole(UserRole.STAFF, userDetails)) {
+                        // Admin-specific actions
+                        handleStaffActions(userDetails);
+                    }else if (AuthService.hasRole(UserRole.ADMIN, userDetails)) {
                         // Admin-specific actions
                         handleAdminActions(userDetails);
                     } else {
@@ -61,10 +65,21 @@ public class UserController {
             }
         }
 
+
         private void handleUserActions(UserDetails userDetails) {
             // Implement actions for regular users
             Message.showSuccessMessage(signInForm, "Login successful as USER");
             // Example: Show user dashboard
+            if (dashboardForm == null) {
+                dashboardForm = new DashboardForm();
+            }
+            dashboardForm.setUserDetails(userDetails.getFullName(), userDetails.getProfileInputStream());
+            dashboardForm.addLogoutButtonListener(new LogoutButtonListener());
+            dashboardForm.setVisible(true);
+            signInForm.dispose();
+        }
+        private void handleStaffActions(UserDetails userDetails) {
+            // Implement actions for regular users
             if (dashboardForm == null) {
                 dashboardForm = new DashboardForm();
             }
@@ -82,7 +97,6 @@ public class UserController {
                 dashboardForm = new DashboardForm();
             }
             dashboardForm.setUserDetails(userDetails.getFullName(), userDetails.getProfileInputStream());
-//             dashboardForm.addAdminFeatures(); // Example admin-specific features
             dashboardForm.addLogoutButtonListener(new LogoutButtonListener());
             dashboardForm.setVisible(true);
             signInForm.dispose();

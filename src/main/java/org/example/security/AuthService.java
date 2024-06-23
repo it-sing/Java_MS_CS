@@ -22,11 +22,22 @@ public class AuthService {
         }
 
         // Define permissions for USER role
-        if (UserRole.USER.equals(userDetails.getRole())) {
+        if (UserRole.STAFF.equals(userDetails.getRole())) {
             switch (permission) {
                 case READ:
                 case WRITE:
                     return true;
+                case DELETE:
+                case UPDATE:
+                    return false;
+            }
+        }
+
+        if (UserRole.USER.equals(userDetails.getRole())) {
+            switch (permission) {
+                case READ:
+                    return true;
+                case WRITE:
                 case DELETE:
                 case UPDATE:
                     return false;
