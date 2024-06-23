@@ -190,9 +190,7 @@ public class StudentViewForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Close the current form
                 dispose();
-                // Open the DashboardForm
-                DashboardForm dashboardForm = new DashboardForm();
-                dashboardForm.setVisible(true);
+
             }
         });
 

@@ -1,9 +1,11 @@
 package org.example.controller;
 
 import org.example.model.UserDetails;
+import org.example.model.UserRole;
 import org.example.model.UserSignIn;
 import org.example.model.UserSignUp;
 import org.example.repository.UserRepository;
+import org.example.security.AuthService;
 import org.example.util.Message;
 import org.example.view.DashboardForm;
 import org.example.view.SignInForm;
@@ -40,14 +42,17 @@ public class UserController {
             if (userRepository.validateUser(userSignIn)) {
                 UserDetails userDetails = userRepository.getUserDetails(username);
                 if (userDetails != null) {
-                    Message.showSuccessMessage(signInForm, "Login successful");
-                    if (dashboardForm == null) {
-                        dashboardForm = new DashboardForm();
+                    // Check permissions based on role
+                    if (AuthService.hasRole(UserRole.USER, userDetails)) {
+                        // User-specific actions
+                        handleUserActions(userDetails);
+                    } else if (AuthService.hasRole(UserRole.ADMIN, userDetails)) {
+                        // Admin-specific actions
+                        handleAdminActions(userDetails);
+                    } else {
+                        // Handle unauthorized access
+                        Message.showErrorMessage(signInForm, "Unauthorized access");
                     }
-                    dashboardForm.setUserDetails(userDetails.getFullName(), userDetails.getProfileInputStream());
-                    dashboardForm.addLogoutButtonListener(new LogoutButtonListener());
-                    dashboardForm.setVisible(true);
-                    signInForm.dispose();
                 } else {
                     Message.showErrorMessage(signInForm, "Failed to fetch user details");
                 }
@@ -55,13 +60,42 @@ public class UserController {
                 Message.showErrorMessage(signInForm, "Invalid username or password");
             }
         }
+
+        private void handleUserActions(UserDetails userDetails) {
+            // Implement actions for regular users
+            Message.showSuccessMessage(signInForm, "Login successful as USER");
+            // Example: Show user dashboard
+            if (dashboardForm == null) {
+                dashboardForm = new DashboardForm();
+            }
+            dashboardForm.setUserDetails(userDetails.getFullName(), userDetails.getProfileInputStream());
+            dashboardForm.addLogoutButtonListener(new LogoutButtonListener());
+            dashboardForm.setVisible(true);
+            signInForm.dispose();
+        }
+
+        private void handleAdminActions(UserDetails userDetails) {
+            // Implement actions for admins
+            Message.showSuccessMessage(signInForm, "Login successful as ADMIN");
+            // Example: Show admin dashboard with additional features
+            if (dashboardForm == null) {
+                dashboardForm = new DashboardForm();
+            }
+            dashboardForm.setUserDetails(userDetails.getFullName(), userDetails.getProfileInputStream());
+//             dashboardForm.addAdminFeatures(); // Example admin-specific features
+            dashboardForm.addLogoutButtonListener(new LogoutButtonListener());
+            dashboardForm.setVisible(true);
+            signInForm.dispose();
+        }
     }
+
     class RegisterButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             signUpForm.setVisible(true);
             signInForm.setVisible(false);
         }
     }
+
     class SignUpButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             // Retrieve user input from the sign-up form
@@ -94,7 +128,6 @@ public class UserController {
         }
     }
 
-
     class ChooseFileButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
@@ -107,6 +140,7 @@ public class UserController {
             }
         }
     }
+
     class LogoutButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             int response = JOptionPane.showConfirmDialog(dashboardForm, "Are you sure you want to log out?", "Confirm Logout", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

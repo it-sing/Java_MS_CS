@@ -6,13 +6,17 @@ package org.example.view;
 
 import org.example.controller.DataController;
 import org.example.model.DataY1;
+import org.example.model.UserDetails;
+import org.example.model.UserRole;
 import org.example.util.Message;
+import org.example.model.UserSession;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -153,6 +157,9 @@ public class DataYear1 extends javax.swing.JFrame {
                 jTableinfoMouseClicked(evt);
             }
         });
+
+//        jTableinfo.setFont(new Font("Poppins", Font.PLAIN, 12));
+//        jTableinfo.setForeground(Color.DARK_GRAY);
 
         jTableinfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -445,45 +452,96 @@ public class DataYear1 extends javax.swing.JFrame {
     private void jYears2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jYears2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jYears2ActionPerformed
+    private void refreshTableData() {
+        try {
+            UserDetails currentUser = getCurrentUser();
+            String stdCode = jStuCode.getText();
+            String className = jClass.getText();
+            String stdGrt = jGenerations.getText();
+            String stdYear = jYear.getText();
+            String semester = jSemester.getText();
 
+            List<DataY1> students = dataController.getStudentsY1(currentUser, stdCode, className, stdGrt, stdYear, semester);
 
-    private void jShowActionPerformed(ActionEvent evt) {
-        String stdCode = jStuCode.getText();
-        String className = jClass.getText();
-        String stdGrt = jGenerations.getText();
-        String stdYear = jYear.getText();
-        String semester = jSemester.getText();
+            DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
+            model.setRowCount(0); // Clear the existing rows from the table
 
-        List<DataY1> students = dataController.getStudentsY1(stdCode, className, stdGrt, stdYear, semester);
+            if (!students.isEmpty()) {
+                for (DataY1 student : students) {
+                    Object[] row = new Object[12];
 
-        DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
-        model.setRowCount(0); // Clear the existing rows from the table
+                    row[0] = student.getStdCode();
+                    row[1] = student.getStdName();
+                    row[2] = student.getStdSex();
+                    row[3] = student.getStdYear();
+                    row[4] = student.getSemester();
+                    row[5] = student.getCProgram();
+                    row[6] = student.getEnglish();
+                    row[7] = student.getFundamental();
+                    row[8] = student.getMath();
+                    row[9] = student.getPhysics();
+                    row[10] = student.getCenturySkill();
+                    row[11] = student.getHistory();
 
-        if (!students.isEmpty()) {
-            for (DataY1 student : students) {
-                Object[] row = new Object[12];
-
-                row[0] = student.getStdCode();
-                row[1] = student.getStdName();
-                row[2] = student.getStdSex();
-                row[3] = student.getStdYear();
-                row[4] = student.getSemester();
-                row[5] = student.getCProgram();
-                row[6] = student.getEnglish();
-                row[7] = student.getFundamental();
-                row[8] = student.getMath();
-                row[9] = student.getPhysics();
-                row[10] = student.getCenturySkill();
-                row[11] = student.getHistory();
-
-                model.addRow(row);
+                    model.addRow(row);
+                }
+            } else {
+                Message.showInfoMessage("No students found.");
             }
-        } else {
-            Message.showInfoMessage("No students found.");
+        } catch (SecurityException se) {
+            Message.showErrorMessage("Permission denied: " + se.getMessage());
+        } catch (Exception e) {
+            Message.showErrorMessage("An error occurred while fetching the student records: " + e.getMessage());
         }
     }
+
+    private void jShowActionPerformed(ActionEvent evt) {
+        refreshTableData();
+        try {
+            UserDetails currentUser = getCurrentUser(); // Assume this method retrieves the currently logged-in user details
+            String stdCode = jStuCode.getText();
+            String className = jClass.getText();
+            String stdGrt = jGenerations.getText();
+            String stdYear = jYear.getText();
+            String semester = jSemester.getText();
+
+            List<DataY1> students = dataController.getStudentsY1(currentUser, stdCode, className, stdGrt, stdYear, semester);
+
+            DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
+            model.setRowCount(0); // Clear the existing rows from the table
+
+            if (!students.isEmpty()) {
+                for (DataY1 student : students) {
+                    Object[] row = new Object[12];
+
+                    row[0] = student.getStdCode();
+                    row[1] = student.getStdName();
+                    row[2] = student.getStdSex();
+                    row[3] = student.getStdYear();
+                    row[4] = student.getSemester();
+                    row[5] = student.getCProgram();
+                    row[6] = student.getEnglish();
+                    row[7] = student.getFundamental();
+                    row[8] = student.getMath();
+                    row[9] = student.getPhysics();
+                    row[10] = student.getCenturySkill();
+                    row[11] = student.getHistory();
+
+                    model.addRow(row);
+                }
+            } else {
+                Message.showInfoMessage("No students found.");
+            }
+        } catch (SecurityException se) {
+            Message.showErrorMessage("Permission denied: " + se.getMessage());
+        } catch (Exception e) {
+            Message.showErrorMessage("An error occurred while fetching the student records: " + e.getMessage());
+        }
+    }
+
     private void jSaveActionPerformed(java.awt.event.ActionEvent evt) {
         try {
+            UserDetails currentUser = getCurrentUser(); // Assume this method retrieves the currently logged-in user details
             // Retrieve and validate data
             String stuCode = jStucode.getText().trim();
             String name = jName.getText().trim();
@@ -519,14 +577,18 @@ public class DataYear1 extends javax.swing.JFrame {
             student.setHistory(history);
 
             // Call the insertStudentY1 method to insert the data into the database
-            dataController.insertStudentY1(student);
-
+            dataController.insertStudentY1(currentUser, student);
+            refreshTableData();
+        } catch (SecurityException se) {
+            Message.showErrorMessage("Permission denied: " + se.getMessage());
         } catch (Exception e) {
             Message.showErrorMessage("An error occurred while saving the student record: " + e.getMessage());
         }
     }
+
     private void jUpdateActionPerformed(java.awt.event.ActionEvent evt) {
         try {
+            UserDetails currentUser = getCurrentUser(); // Assume this method retrieves the currently logged-in user details
             String stuCode = jStucode.getText().trim();
             String name = jName.getText().trim();
             String gender = jGender.getText().trim();
@@ -564,9 +626,39 @@ public class DataYear1 extends javax.swing.JFrame {
             student.setCenturySkill(centerySkill);
             student.setHistory(history);
 
-            dataController.updateStudentY1(student);
+            dataController.updateStudentY1(currentUser, student);
+            refreshTableData();
+        } catch (SecurityException se) {
+            Message.showErrorMessage("Permission denied: " + se.getMessage());
         } catch (Exception e) {
             Message.showErrorMessage("An error occurred while updating the student record: " + e.getMessage());
+        }
+    }
+
+    private void jDeleteActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            UserDetails currentUser = UserSession.getInstance().getCurrentUser();
+            if (currentUser == null) {
+                System.out.println("No current user in session. Deletion aborted.");
+                return;
+            }
+
+            String stuCode = jStucode.getText().trim();
+            String semester = jSemester1.getText().trim();
+            System.out.println("stuCode: " + stuCode + ", semester: " + semester);
+
+            boolean confirm = Message.showConfirmMessage("Are you sure you want to delete the student with code: " + stuCode + "?");
+            System.out.println("Confirmation: " + confirm);
+
+            if (confirm) {
+                dataController.deleteStudentY1(currentUser, stuCode, semester);
+                System.out.println("Deletion called for user: " + currentUser.getUsername() + " with role: " + currentUser.getRole());
+            }
+            refreshTableData();
+        } catch (SecurityException se) {
+            Message.showErrorMessage("Permission denied: " + se.getMessage());
+        } catch (Exception e) {
+            Message.showErrorMessage("An error occurred while deleting the student record: " + e.getMessage());
         }
     }
 
@@ -578,25 +670,21 @@ public class DataYear1 extends javax.swing.JFrame {
             return null;
         }
     }
-    private void jDeleteActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            String stuCode = jStucode.getText().trim();
-            String semester = jSemester1.getText().trim();
+    private UserDetails getCurrentUser() {
+        UserDetails currentUser = UserSession.getInstance().getCurrentUser();
 
-            boolean confirm = Message.showConfirmMessage("Are you sure you want to delete the student with code: " + stuCode + "?");
+        if (currentUser != null) {
+            String currentFullName = currentUser.getFullName();
+            String currentUsername = currentUser.getUsername();
+            UserRole userRole = currentUser.getRole();
+            InputStream profileInputStream = currentUser.getProfileInputStream(); // Use updated method
 
-            if (confirm) {
-                // Call the deleteStudentY1 method to delete the data from the database
-                dataController.DeleteStudentY1(stuCode, semester);
-
-            }
-
-        } catch (Exception e) {
-            Message.showErrorMessage("An error occurred while deleting the student record: " + e.getMessage());
+            return new UserDetails(currentFullName, currentUsername, profileInputStream, userRole);
+        } else {
+            System.out.println("No current user in session.");
+            return null;
         }
     }
-
-
 
     /**
      * @param args the command line arguments

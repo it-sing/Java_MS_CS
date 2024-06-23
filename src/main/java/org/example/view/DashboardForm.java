@@ -47,6 +47,7 @@ public class DashboardForm extends JFrame {
         jReport = new JButton();
         jLabel2 = new JLabel();
         jStudent = new JButton();
+        jAdmin = new JButton(); // New button for Admin
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,7 +66,6 @@ public class DashboardForm extends JFrame {
         jUserProfile.setOpaque(false);
 
         profileLabel.setHorizontalAlignment(JLabel.CENTER);
-
         GroupLayout jUserProfileLayout = new GroupLayout(jUserProfile);
         jUserProfile.setLayout(jUserProfileLayout);
         jUserProfileLayout.setHorizontalGroup(
@@ -113,6 +113,21 @@ public class DashboardForm extends JFrame {
                                 .addComponent(jLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                 .addGap(40, 40, 40))
         );
+        jAdmin.setBackground(new Color(30, 144, 255));
+        jAdmin.setForeground(Color.WHITE);
+        jAdmin.setText("Admin");
+        jAdmin.setFocusPainted(false);
+        jAdmin.setBorderPainted(false);
+
+        jAdmin.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Action for Admin button
+                // Replace with your desired functionality
+                // For example:
+                Admin adminForm = new Admin();
+                adminForm.setVisible(true);
+            }
+        });
 
         jData.setBackground(new Color(30, 144, 255));
         jData.setForeground(Color.WHITE);
@@ -167,11 +182,15 @@ public class DashboardForm extends JFrame {
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                         .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
                                         .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
                                                 .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(jData, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                                         )
                                 )
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -189,6 +208,7 @@ public class DashboardForm extends JFrame {
                                         .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jData, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                 )
                                 .addGap(0, 0, Short.MAX_VALUE)
                         )
@@ -198,6 +218,7 @@ public class DashboardForm extends JFrame {
         pack();
         setLocationRelativeTo(null);  // Center the form on the screen
     }
+
 
     public void setUserDetails(String fullName, InputStream profileInputStream) {
         // Set text to uppercase
@@ -228,6 +249,7 @@ public class DashboardForm extends JFrame {
 
     // Variables declaration
     private JButton jData;
+    private JButton jAdmin;
     private JFileChooser jFileChooser1;
     private JLabel jLabel2;
     private JButton jLogout;

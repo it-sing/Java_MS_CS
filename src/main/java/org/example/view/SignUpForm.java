@@ -42,7 +42,7 @@ public class SignUpForm extends JFrame {
         backgroundPanel.add(titleLabel);
 
         // Logo label
-        ImageIcon logoIcon = new ImageIcon("path/to/logo.png"); // Replace with your logo path
+        ImageIcon logoIcon = new ImageIcon("src/main/resources/logo.png"); // Replace with your logo path
         jLogoLabel = new JLabel(logoIcon);
         jLogoLabel.setBounds(50, 40, 250, 250);
         backgroundPanel.add(jLogoLabel);

@@ -5,15 +5,17 @@
 package org.example.view;
 
 import org.example.controller.DataController;
-import org.example.model.DataY1;
 import org.example.model.DataY4;
+import org.example.model.UserDetails;
+import org.example.model.UserRole;
 import org.example.util.Message;
+import org.example.model.UserSession;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -418,17 +420,57 @@ public class DataYear4 extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void refreshTableData() {
+        try {
+            UserDetails currentUser = getCurrentUser(); // Assume this method retrieves the currently logged-in user details
+            String stdCode = jStuCode.getText().trim();
+            String className = jClass.getText().trim();
+            String stdGrt = jGenerations.getText().trim();
+            String stdYear = jYear2.getText().trim();
+            String semester = jSemester.getText().trim();
+
+            List<DataY4> students = dataController.getStudentsY4(currentUser, stdCode, className, stdGrt, stdYear, semester);
+
+            DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
+            model.setRowCount(0); // Clear existing rows
+
+            if (!students.isEmpty()) {
+                for (DataY4 student : students) {
+                    Object[] row = new Object[10]; // 10 columns as per your data fields
+                    row[0] = student.getStdCode();
+                    row[1] = student.getStdName();
+                    row[2] = student.getStdSex();
+                    row[3] = student.getStdYear();
+                    row[4] = student.getSemester();
+                    row[5] = student.getOoAD();
+                    row[6] = student.getWebDev();
+                    row[7] = student.getLinux();
+                    row[8] = student.getMis();
+                    row[9] = student.getsE_IT_PM();
+
+                    model.addRow(row);
+                }
+            } else {
+                Message.showInfoMessage("No students found.");
+            }
+        } catch (SecurityException se) {
+            Message.showErrorMessage("Permission denied: " + se.getMessage());
+        } catch (Exception e) {
+            Message.showErrorMessage("An error occurred while fetching the student records: " + e.getMessage());
+        }
+    }
 
     private void jShowActionPerformed(ActionEvent evt) {
-        // Retrieve input values from UI components
+        UserDetails currentUser = getCurrentUser();
         String stdCode = jStuCode.getText().trim();
         String className = jClass.getText().trim();
         String stdGrt = jGenerations.getText().trim();
         String stdYear = jYear2.getText().trim();
         String semester = jSemester.getText().trim();
 
+        refreshTableData();
         // Retrieve students from the data controller based on the provided criteria
-        List<DataY4> students = dataController.getStudentsY4(stdCode, className, stdGrt, stdYear, semester);
+        List<DataY4> students = dataController.getStudentsY4(currentUser, stdCode, className, stdGrt, stdYear, semester);
 
         // Get the table model to display the students' data
         DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
@@ -459,7 +501,7 @@ public class DataYear4 extends javax.swing.JFrame {
 
     private void jSaveActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            // Retrieve and validate data
+            UserDetails currentUser = getCurrentUser();
             String stuCode = jStucode.getText().trim();
             String name = jName.getText().trim();
             String gender = jGender.getText().trim();
@@ -492,8 +534,8 @@ public class DataYear4 extends javax.swing.JFrame {
             student.setsE_IT_PM(se);
 
             // Call the insertStudentY4 method to insert the data into the database
-            dataController.insertStudentY4(student);
-
+            dataController.insertStudentY4(currentUser, student);
+            refreshTableData();
         } catch (NumberFormatException e) {
             Message.showErrorMessage("Please enter valid numbers for all numeric fields.");
         } catch (Exception e) {
@@ -503,7 +545,7 @@ public class DataYear4 extends javax.swing.JFrame {
 
     private void jUpdateActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            // Retrieve and validate data
+            UserDetails currentUser = getCurrentUser();
             String stuCode = jStucode.getText().trim();
             String name = jName.getText().trim();
             String gender = jGender.getText().trim();
@@ -536,8 +578,8 @@ public class DataYear4 extends javax.swing.JFrame {
             student.setsE_IT_PM(se);
 
             // Call the updateStudentY4 method to update the data in the database
-            dataController.updateStudentY4(student);
-
+            dataController.updateStudentY4(currentUser, student);
+            refreshTableData();
         } catch (NumberFormatException e) {
             Message.showErrorMessage("Please enter valid numbers for all numeric fields.");
         } catch (Exception e) {
@@ -555,6 +597,7 @@ public class DataYear4 extends javax.swing.JFrame {
     }
     private void jDeleteActionPerformed(java.awt.event.ActionEvent evt) {
         try {
+            UserDetails currentUser = getCurrentUser();
             String stuCode = jStucode.getText().trim();
             String semester = jSemester1.getText().trim();
 
@@ -562,17 +605,31 @@ public class DataYear4 extends javax.swing.JFrame {
                 Message.showErrorMessage("Please enter a student code to delete.");
                 return;
             }
-
             // Confirm deletion
             boolean confirm = Message.showConfirmMessage("Are you sure you want to delete the student with code: " + stuCode + "?");
 
             if (confirm) {
                 // Call the deleteStudentY4 method to delete the data from the database
-                dataController.deleteStudentY4(stuCode, semester);
+                dataController.deleteStudentY4(currentUser, stuCode, semester);
             }
-
+            refreshTableData();
         } catch (Exception e) {
             Message.showErrorMessage("An error occurred while deleting the student record: " + e.getMessage());
+        }
+    }
+    private UserDetails getCurrentUser() {
+        UserDetails currentUser = UserSession.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            String currentFullName = currentUser.getFullName();
+            String currentUsername = currentUser.getUsername();
+            UserRole userRole = currentUser.getRole();
+            InputStream profileInputStream = currentUser.getProfileInputStream(); // Use updated method
+
+            return new UserDetails(currentFullName, currentUsername, profileInputStream, userRole);
+        } else {
+            System.out.println("No current user in session.");
+            return null;
         }
     }
 

@@ -5,15 +5,17 @@
 package org.example.view;
 
 import org.example.controller.DataController;
-import org.example.model.DataY1;
 import org.example.model.DataY2;
+import org.example.model.UserDetails;
+import org.example.model.UserRole;
 import org.example.util.Message;
+import org.example.model.UserSession;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -439,98 +441,99 @@ public class DataYear2 extends javax.swing.JFrame {
     private void jYears2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jYears2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jYears2ActionPerformed
+    private void refreshTableData() {
+        try {
+            UserDetails currentUser = getCurrentUser(); // Assume this method retrieves the currently logged-in user details
+            String stdCode = jStuCode.getText();
+            String className = jClass.getText();
+            String stdGrt = jGenerations.getText();
+            String stdYear = jYearFeild.getText();
+            String semester = jSemester.getText();
+
+            List<DataY2> students = dataController.getStudentsY2(currentUser, stdCode, className, stdGrt, stdYear, semester);
+
+            DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
+            model.setRowCount(0); // Clear existing rows
+
+            if (!students.isEmpty()) {
+                for (DataY2 student : students) {
+                    Object[] row = new Object[11];
+                    row[0] = student.getStdCode();
+                    row[1] = student.getStdName();
+                    row[2] = student.getStdSex();
+                    row[3] = student.getStdYear();
+                    row[4] = student.getSemester();
+                    row[5] = student.getCommunication();
+                    row[6] = student.getDataStructure();
+                    row[7] = student.getEEnglish();
+                    row[8] = student.getArchitecture();
+                    row[9] = student.getCPlusPlus();
+                    row[10] = student.getDatabase();
+
+                    model.addRow(row);
+                }
+            } else {
+                Message.showInfoMessage("No students found.");
+            }
+        } catch (SecurityException se) {
+            Message.showErrorMessage("Permission denied: " + se.getMessage());
+        } catch (Exception e) {
+            Message.showErrorMessage("An error occurred while fetching the student records: " + e.getMessage());
+        }
+    }
+
     private void jShowActionPerformed(ActionEvent evt) {
+        UserDetails currentUser = getCurrentUser();
         String stdCode = jStuCode.getText();
         String className = jClass.getText();
         String stdGrt = jGenerations.getText();
         String stdYear = jYearFeild.getText();
         String semester = jSemester.getText();
 
-        List<DataY2> students = dataController.getStudentsY2(stdCode, className, stdGrt, stdYear, semester);
+        refreshTableData();
+        try {
+            List<DataY2> students = dataController.getStudentsY2(currentUser, stdCode, className, stdGrt, stdYear, semester);
 
-        DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
-        model.setRowCount(0);
+            DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
+            model.setRowCount(0); // Clear existing rows
 
-        if (!students.isEmpty()) {
-            for (DataY2 student : students) {
-                Object[] row = new Object[11];
+            if (!students.isEmpty()) {
+                for (DataY2 student : students) {
+                    Object[] row = new Object[11];
+                    row[0] = student.getStdCode();
+                    row[1] = student.getStdName();
+                    row[2] = student.getStdSex();
+                    row[3] = student.getStdYear();
+                    row[4] = student.getSemester();
+                    row[5] = student.getCommunication();
+                    row[6] = student.getDataStructure();
+                    row[7] = student.getEEnglish();
+                    row[8] = student.getArchitecture();
+                    row[9] = student.getCPlusPlus();
+                    row[10] = student.getDatabase();
 
-                row[0] = student.getStdCode();
-                row[1] = student.getStdName();
-                row[2] = student.getStdSex();
-                row[3] = student.getStdYear();
-                row[4] = student.getSemester();
-                row[5] = student.getCommunication();
-                row[6] = student.getDataStructure();
-                row[7] = student.getEEnglish();
-                row[8] = student.getArchitecture();
-                row[9] = student.getCPlusPlus();
-                row[10] = student.getDatabase();
-
-                model.addRow(row);
+                    model.addRow(row);
+                }
+            } else {
+                Message.showInfoMessage("No students found.");
             }
-        } else {
-            Message.showInfoMessage("No students found.");
+        } catch (SecurityException e) {
+            Message.showErrorMessage("Permission denied: " + e.getMessage());
+        } catch (Exception e) {
+            Message.showErrorMessage("An error occurred while fetching student records: " + e.getMessage());
         }
     }
 
-    private void jSaveActionPerformed(java.awt.event.ActionEvent evt) {
+    // Action performed when "Save" button is clicked
+    private void jSaveActionPerformed(ActionEvent evt) {
         try {
-            // Retrieve and validate data
+            UserDetails currentUser = getCurrentUser();
             String stuCode = jStucode.getText().trim();
             String name = jName.getText().trim();
             String gender = jGender.getText().trim();
             String year = jYear1.getText().trim();
-            String semester = jSemester1.getText();
-
-
-            // Validate and parse double values
-            Double cPlus = validateAndParseDouble(jCPlus.getText(), "CPlusPlus");
-            Double english = validateAndParseDouble(jEnglish.getText(), "English");
-            Double dataCom = validateAndParseDouble(jDataCom.getText(), "DataCom");
-            Double dataStructure = validateAndParseDouble(jDataStructure.getText(), "DataStructure");
-            Double database = validateAndParseDouble(jDatabase.getText(), "Database");
-            Double architecture = validateAndParseDouble(jArchitecture.getText(), "Architecture");
-
-            // Check if any of the parsed doubles are null
-            if (cPlus == null || english == null || dataCom == null || dataStructure == null || database == null || architecture == null) {
-                return;
-            }
-
-            // Create a DataY1 object with the retrieved data
-            DataY2 student = new DataY2();
-            student.setStdCode(stuCode);
-            student.setStdName(name);
-            student.setStdSex(gender);
-            student.setStdYear(year);
-            student.setSemester(semester);
-            student.setCPlusPlus(cPlus);
-            student.setEEnglish(english);
-            student.setCommunication(dataCom);
-            student.setDataStructure(dataStructure);
-            student.setDatabase(database);
-            student.setArchitecture(architecture);
-
-            // Call the insertStudentY1 method to insert the data into the database
-            dataController.insertStudentY2(student);
-
-        } catch (NumberFormatException e) {
-            Message.showErrorMessage("Please enter valid numbers for all numeric fields.");
-        } catch (Exception e) {
-            Message.showErrorMessage("An error occurred while saving the student record: " + e.getMessage());
-        }
-
-    }
-    private void jUpdateActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            // Retrieve and validate data
-            String stuCode = jStucode.getText().trim();
-            String name = jName.getText().trim();
-            String gender = jGender.getText().trim();
-            String year = jYearFeild.getText().trim();
             String semester = jSemester1.getText().trim();
 
-            // Validate and parse double values
             Double cPlus = validateAndParseDouble(jCPlus.getText(), "C Plus");
             Double english = validateAndParseDouble(jEnglish.getText(), "English");
             Double dataCom = validateAndParseDouble(jDataCom.getText(), "DataCom");
@@ -538,7 +541,6 @@ public class DataYear2 extends javax.swing.JFrame {
             Double database = validateAndParseDouble(jDatabase.getText(), "Database");
             Double architecture = validateAndParseDouble(jArchitecture.getText(), "Architecture");
 
-            // Check if any of the parsed doubles are null
             if (cPlus == null || english == null || dataCom == null || dataStructure == null || database == null || architecture == null) {
                 return;
             }
@@ -556,15 +558,84 @@ public class DataYear2 extends javax.swing.JFrame {
             student.setDatabase(database);
             student.setArchitecture(architecture);
 
-            dataController.updateStudentY2(student);
-
+            dataController.insertStudentY2(currentUser, student);
+            refreshTableData();
         } catch (NumberFormatException e) {
             Message.showErrorMessage("Please enter valid numbers for all numeric fields.");
+        } catch (SecurityException e) {
+            Message.showErrorMessage("Permission denied: " + e.getMessage());
+        } catch (Exception e) {
+            Message.showErrorMessage("An error occurred while saving the student record: " + e.getMessage());
+        }
+    }
+
+    // Action performed when "Update" button is clicked
+    private void jUpdateActionPerformed(ActionEvent evt) {
+        try {
+            UserDetails currentUser = getCurrentUser();
+            String stuCode = jStucode.getText().trim();
+            String name = jName.getText().trim();
+            String gender = jGender.getText().trim();
+            String year = jYearFeild.getText().trim();
+            String semester = jSemester1.getText().trim();
+
+            Double cPlus = validateAndParseDouble(jCPlus.getText(), "C Plus");
+            Double english = validateAndParseDouble(jEnglish.getText(), "English");
+            Double dataCom = validateAndParseDouble(jDataCom.getText(), "DataCom");
+            Double dataStructure = validateAndParseDouble(jDataStructure.getText(), "DataStructure");
+            Double database = validateAndParseDouble(jDatabase.getText(), "Database");
+            Double architecture = validateAndParseDouble(jArchitecture.getText(), "Architecture");
+
+            if (cPlus == null || english == null || dataCom == null || dataStructure == null || database == null || architecture == null) {
+                return;
+            }
+
+            DataY2 student = new DataY2();
+            student.setStdCode(stuCode);
+            student.setStdName(name);
+            student.setStdSex(gender);
+            student.setStdYear(year);
+            student.setSemester(semester);
+            student.setCPlusPlus(cPlus);
+            student.setEEnglish(english);
+            student.setCommunication(dataCom);
+            student.setDataStructure(dataStructure);
+            student.setDatabase(database);
+            student.setArchitecture(architecture);
+
+            dataController.updateStudentY2(currentUser, student);
+            refreshTableData();
+        } catch (NumberFormatException e) {
+            Message.showErrorMessage("Please enter valid numbers for all numeric fields.");
+        } catch (SecurityException e) {
+            Message.showErrorMessage("Permission denied: " + e.getMessage());
         } catch (Exception e) {
             Message.showErrorMessage("An error occurred while updating the student record: " + e.getMessage());
         }
     }
 
+    // Action performed when "Delete" button is clicked
+    private void jDeleteActionPerformed(ActionEvent evt) {
+        try {
+            UserDetails currentUser = getCurrentUser();
+            String stuCode = jStucode.getText().trim();
+            String semester = jSemester1.getText().trim();
+
+            // Confirm deletion
+            boolean confirm = Message.showConfirmMessage("Are you sure you want to delete the student with code: " + stuCode + "?");
+
+            if (confirm) {
+                dataController.deleteStudentY2(currentUser, stuCode, semester);
+            }
+            refreshTableData();
+        } catch (SecurityException e) {
+            Message.showErrorMessage("Permission denied: " + e.getMessage());
+        } catch (Exception e) {
+            Message.showErrorMessage("An error occurred while deleting the student record: " + e.getMessage());
+        }
+    }
+
+    // Helper method to validate and parse double values
     private Double validateAndParseDouble(String text, String fieldName) {
         try {
             return Double.parseDouble(text.trim());
@@ -573,22 +644,19 @@ public class DataYear2 extends javax.swing.JFrame {
             return null;
         }
     }
-    private void jDeleteActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            String stuCode = jStucode.getText().trim();
-            String semester = jSemester1.getText().trim();
+    private UserDetails getCurrentUser() {
+        UserDetails currentUser = UserSession.getInstance().getCurrentUser();
 
-            // Confirm deletion
-            boolean confirm = Message.showConfirmMessage("Are you sure you want to delete the student with code: " + stuCode + "?");
+        if (currentUser != null) {
+            String currentFullName = currentUser.getFullName();
+            String currentUsername = currentUser.getUsername();
+            UserRole userRole = currentUser.getRole();
+            InputStream profileInputStream = currentUser.getProfileInputStream(); // Use updated method
 
-            if (confirm) {
-                // Call the deleteStudentY2 method to delete the data from the database
-                dataController.DeleteStudentY2(stuCode, semester);
-
-            }
-
-        } catch (Exception e) {
-            Message.showErrorMessage("An error occurred while deleting the student record: " + e.getMessage());
+            return new UserDetails(currentFullName, currentUsername, profileInputStream, userRole);
+        } else {
+            System.out.println("No current user in session.");
+            return null;
         }
     }
 

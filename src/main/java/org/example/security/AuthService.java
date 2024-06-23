@@ -1,26 +1,38 @@
 package org.example.security;
 
-import org.example.model.UserSignUp;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import org.example.model.UserDetails;
+import org.example.model.UserPermission;
+import org.example.model.UserRole;
 
 public class AuthService {
-    private static final Map<String, Set<String>> rolePermissions = new HashMap<>();
 
-    static {
-        // Define permissions for each role
-        // User role can read and write
-        rolePermissions.put("user", Set.of("read", "write"));
-
-        // Admin role can read, write, update, delete
-        rolePermissions.put("admin", Set.of("read", "write", "update", "delete"));
+    public static boolean hasRole(UserRole role, UserDetails userDetails) {
+        return userDetails != null && role.equals(userDetails.getRole());
     }
 
-    // Check if a user has permission for a given action
-    public static boolean hasPermission(UserSignUp user, String action) {
-        Set<String> permissions = rolePermissions.get(user.getRole().toLowerCase());
-        return permissions != null && permissions.contains(action.toLowerCase());
+    // Method to check if a user has a specific permission
+    public static boolean hasPermission(UserPermission permission, UserDetails userDetails) {
+        if (userDetails == null) {
+            return false;
+        }
+
+        // Admin has all permissions
+        if (UserRole.ADMIN.equals(userDetails.getRole())) {
+            return true;
+        }
+
+        // Define permissions for USER role
+        if (UserRole.USER.equals(userDetails.getRole())) {
+            switch (permission) {
+                case READ:
+                case WRITE:
+                    return true;
+                case DELETE:
+                case UPDATE:
+                    return false;
+            }
+        }
+        return false;
     }
+
 }

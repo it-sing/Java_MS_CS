@@ -25,8 +25,6 @@ public class DataRepository {
                 .append("LEFT JOIN tbClass ON tbStudent.classID = tbClass.classID ")
                 .append("LEFT JOIN PTYear1 ON tbStudent.stdCode = PTYear1.stdCode WHERE 1=1 ");
 
-
-
         List<Object> parameters = new ArrayList<>();
 
         if (stdCode != null && !stdCode.isEmpty()) {
@@ -89,6 +87,7 @@ public class DataRepository {
 
         return studentsY1;
     }
+
     public void updateStudentY1(DataY1 student) {
         String selectSQL = "SELECT COUNT(*) FROM PTYear1 WHERE stdCode = ? AND Semester = ?";
         String updateYear1SQL = "UPDATE PTYear1 SET EFC = ?, Fundamental = ?, Math = ?, PFC = ?, The21 = ?, History = ?, CProgram = ? WHERE stdCode = ? AND Semester = ?";
@@ -108,6 +107,13 @@ public class DataRepository {
                     Message.showInfoMessage("No Student found for stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester());
                     return;
                 }
+            }
+
+            boolean confirm = Message.showConfirmMessage("Are you sure you want to update the student with stdCode: " + student.getStdCode() + " and Semester: " + student.getSemester() + "?");
+
+            if (!confirm) {
+                Message.showInfoMessage("Update cancelled by user.");
+                return;
             }
 
             // Update PTYear1
@@ -134,6 +140,7 @@ public class DataRepository {
             e.printStackTrace();
         }
     }
+
     public void insertStudentY1(DataY1 student) {
         String checkStdCodeSQL = "SELECT COUNT(*) FROM PTYear1 WHERE stdCode = ? AND Semester = ?";
         String insertYear1SQL = "INSERT INTO PTYear1 (EFC, Fundamental, Math, PFC, The21, History, CProgram, stdCode, Semester ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -171,7 +178,7 @@ public class DataRepository {
                 if (rowsAffected == 0) {
                     Message.showInfoMessage("No rows inserted for student with stdCode: " + student.getStdCode());
                 } else {
-                    Message.showConfirmMessage("Save successful for student with stdCode: " + student.getStdCode() + " for semester: " + student.getSemester());
+                    Message.showInfoMessage("Save successful for student with stdCode: " + student.getStdCode() + " for semester: " + student.getSemester());
                 }
             }
         } catch (SQLException e) {
@@ -179,6 +186,7 @@ public class DataRepository {
             e.printStackTrace();
         }
     }
+
     public void deleteStudentY1(String stdCode, String semester) {
         String deleteYear1SQL = "DELETE FROM PTYear1 WHERE stdCode = ? AND Semester = ?";
 
@@ -358,7 +366,7 @@ public class DataRepository {
                 if (rowsAffected == 0) {
                     Message.showInfoMessage("No rows inserted for student with stdCode: " + student.getStdCode());
                 } else {
-                    Message.showConfirmMessage("Save successful for student with stdCode: " + student.getStdCode() + " for semester: " + student.getSemester());
+                    Message.showInfoMessage("Save successful for student with stdCode: " + student.getStdCode() + " for semester: " + student.getSemester());
                 }
             }
         } catch (SQLException e) {
