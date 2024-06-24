@@ -14,9 +14,9 @@ public class DataController {
         dataRepository = new DataRepository();
     }
 
-    public List<DataY1> getStudentsY1(UserDetails user, String stdCode, String className, String stdGrt, String stdYear, String semester) {
+    public List<DataY1> getStudentsY1(UserDetails user, String stdCode, String className, String stdGrt, String stdName, String semester) {
         if (AuthService.hasPermission(UserPermission.READ, user)) {
-            return dataRepository.getStudentsY1(stdCode, className, stdGrt, stdYear, semester);
+            return dataRepository.getStudentsY1(stdCode, className, stdGrt, stdName, semester);
         } else {
             throw new SecurityException("Permission denied");
         }
@@ -52,9 +52,9 @@ public class DataController {
     }
 
     // for Year2
-    public List<DataY2> getStudentsY2(UserDetails user, String stdCode, String className, String stdGrt, String stdYear, String semester) {
+    public List<DataY2> getStudentsY2(UserDetails user, String stdCode, String className, String stdGrt, String stdName, String semester) {
         if (AuthService.hasPermission(UserPermission.READ, user)) {
-            return dataRepository.getStudentsY2(stdCode, className, stdGrt, stdYear, semester);
+            return dataRepository.getStudentsY2(stdCode, className, stdGrt, stdName, semester);
         } else {
             throw new SecurityException("Permission denied");
         }
@@ -83,9 +83,9 @@ public class DataController {
             throw new SecurityException("Permission denied");
         }
     }
-    public List<DataY3> getStudentsY3(UserDetails user, String stdCode, String className, String stdGrt, String stdYear, String semester) {
+    public List<DataY3> getStudentsY3(UserDetails user, String stdCode, String className, String stdGrt, String stdName, String semester) {
         if (AuthService.hasPermission(UserPermission.READ, user)) {
-            return dataRepository.getStudentsY3(stdCode, className, stdGrt, stdYear, semester);
+            return dataRepository.getStudentsY3(stdCode, className, stdGrt, stdName, semester);
         } else {
             throw new SecurityException("Permission denied");
         }
@@ -112,9 +112,9 @@ public class DataController {
         }
     }
     // for Year4
-    public List<DataY4> getStudentsY4(UserDetails user,String stdCode, String className, String stdGrt, String stdYear, String semester) {
+    public List<DataY4> getStudentsY4(UserDetails user,String stdCode, String className, String stdGrt, String stdName, String semester) {
         if (AuthService.hasPermission(UserPermission.READ, user)) {
-            return dataRepository.getStudentsY4(stdCode, className, stdGrt, stdYear, semester);
+            return dataRepository.getStudentsY4(stdCode, className, stdGrt, stdName, semester);
         } else {
             throw new SecurityException("Permission denied");
         }

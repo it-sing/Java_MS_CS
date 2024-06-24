@@ -20,7 +20,6 @@ public class SignInForm extends JFrame {
         setTitle("Sign In");
         setPreferredSize(new Dimension(800, 400));
         setLocationRelativeTo(null); // Center the JFrame on the screen
-        setVisible(true);
 
         JPanel backgroundPanel = new JPanel();
         backgroundPanel.setLayout(null);
@@ -90,7 +89,10 @@ public class SignInForm extends JFrame {
         setLocationRelativeTo(null); // Center JFrame on the screen again after packing
         setResizable(false); // Prevent resizing for simplicity
 
+        // Set the default button
         getRootPane().setDefaultButton(jSignInButton);
+
+        jUsername.requestFocusInWindow();
     }
 
     public String getUsername() {
@@ -125,6 +127,13 @@ public class SignInForm extends JFrame {
         // Create and display the form within the event dispatch thread
         SwingUtilities.invokeLater(() -> {
             SignInForm signInForm = new SignInForm();
+            signInForm.addSignInButtonListener(e -> {
+                // Sign-in button logic here
+                String username = signInForm.getUsername();
+                String password = signInForm.getPassword();
+                // Validate and sign-in logic here
+                System.out.println("Sign-In button clicked with username: " + username);
+            });
         });
     }
 }

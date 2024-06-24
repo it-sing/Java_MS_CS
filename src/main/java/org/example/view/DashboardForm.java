@@ -26,6 +26,8 @@ public class DashboardForm extends JFrame {
         jLogout = new JButton();
         jFullname = new JTextField();
 
+
+
         jUserProfile = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -86,9 +88,10 @@ public class DashboardForm extends JFrame {
         jLogout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 // Placeholder for logout action
-                jLogoutActionPerformed(evt);
+                jLogoutActionPerformed((ActionListener) evt);
             }
         });
+
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -184,17 +187,17 @@ public class DashboardForm extends JFrame {
                                 .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                        .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jData, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jData, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                         )
                                 )
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -244,13 +247,20 @@ public class DashboardForm extends JFrame {
     }
 
     // Method to add custom logout action listener
-    public void addLogoutButtonListener(ActionListener listener) {
+    public void jLogoutActionPerformed(ActionListener listener) {
+        // Remove existing listeners
+        ActionListener[] listeners = jLogout.getActionListeners();
+        for (ActionListener existingListener : listeners) {
+            jLogout.removeActionListener(existingListener);
+        }
+        // Add the new listener
         jLogout.addActionListener(listener);
+
+
     }
 
-    private void jLogoutActionPerformed(ActionEvent evt) {
-        // Logout action placeholder
-    }
+
+
 
     // Variables declaration
     private JButton jData;

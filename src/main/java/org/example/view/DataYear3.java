@@ -12,6 +12,7 @@ import org.example.util.Message;
 import org.example.model.UserSession;
 
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -116,7 +117,7 @@ public class DataYear3 extends javax.swing.JFrame {
         jYearFeild = new javax.swing.JTextField();
         jYearFeild.setEditable(false);
         jLabel16 = new javax.swing.JLabel();
-        jYear2 = new javax.swing.JTextField();
+        jNameFeild = new javax.swing.JTextField();
         jSave = new javax.swing.JButton();
         jDelete = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
@@ -151,6 +152,11 @@ public class DataYear3 extends javax.swing.JFrame {
                 jTableinfoMouseClicked(evt);
             }
         });
+
+        jTableinfo.setRowHeight(20);
+        jTableinfo.setFont(new Font("Arial", Font.PLAIN, 14));
+        jTableinfo.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        jTableinfo.getTableHeader().setForeground(Color.BLUE);
 
         jTableinfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -220,7 +226,7 @@ public class DataYear3 extends javax.swing.JFrame {
 
         jLabel15.setText("Year");
 
-        jLabel16.setText("Year");
+        jLabel16.setText("Name");
 
         jSave.setBackground(new java.awt.Color(0, 0, 255));
         jSave.setForeground(new java.awt.Color(255, 255, 255));
@@ -263,7 +269,7 @@ public class DataYear3 extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel16)
                         .addGap(12, 12, 12)
-                        .addComponent(jYear2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jNameFeild, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addComponent(jLabel3)
                         .addGap(6, 6, 6)
@@ -342,7 +348,7 @@ public class DataYear3 extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSemester, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jYear2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jNameFeild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jGenerations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jStuCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -447,7 +453,7 @@ public class DataYear3 extends javax.swing.JFrame {
             String stdCode = jStuCode.getText();
             String className = jClass.getText();
             String stdGrt = jGenerations.getText();
-            String stdYear = jYear2.getText();
+            String stdYear = jNameFeild.getText();
             String semester = jSemester.getText();
 
             List<DataY3> students = dataController.getStudentsY3(currentUser, stdCode, className, stdGrt, stdYear, semester);
@@ -455,27 +461,22 @@ public class DataYear3 extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
             model.setRowCount(0); // Clear existing rows
 
-            if (!students.isEmpty()) {
-                for (DataY3 student : students) {
-                    Object[] row = new Object[10];
-                    row[0] = student.getStdCode();
-                    row[1] = student.getStdName();
-                    row[2] = student.getStdSex();
-                    row[3] = student.getStdYear();
-                    row[4] = student.getSemester();
-                    row[5] = student.getDotNet();
-                    row[6] = student.getJava();
-                    row[7] = student.getNetwork();
-                    row[8] = student.getAnalysisDesign();
-                    row[9] = student.getStatistics();
+            for (DataY3 student : students) {
+                Object[] row = new Object[10];
+                row[0] = student.getStdCode();
+                row[1] = student.getStdName();
+                row[2] = student.getStdSex();
+                row[3] = student.getStdYear();
+                row[4] = student.getSemester();
+                row[5] = student.getDotNet();
+                row[6] = student.getJava();
+                row[7] = student.getNetwork();
+                row[8] = student.getAnalysisDesign();
+                row[9] = student.getStatistics();
 
-                    model.addRow(row);
-                }
-            } else {
-                Message.showInfoMessage("No students found.");
+                model.addRow(row);
             }
-        } catch (SecurityException se) {
-            Message.showErrorMessage("Permission denied: " + se.getMessage());
+
         } catch (Exception e) {
             Message.showErrorMessage("An error occurred while fetching the student records: " + e.getMessage());
         }
@@ -487,12 +488,12 @@ public class DataYear3 extends javax.swing.JFrame {
         String stdCode = jStuCode.getText();
         String className = jClass.getText();
         String stdGrt = jGenerations.getText();
-        String stdYear = jYear2.getText();
+        String stdName = jNameFeild.getText();
         String semester = jSemester.getText();
 
         refreshTableData();
 
-        List<DataY3> students = dataController.getStudentsY3(currentUser, stdCode, className, stdGrt, stdYear, semester);
+        List<DataY3> students = dataController.getStudentsY3(currentUser, stdCode, className, stdGrt, stdName, semester);
 
         DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
         model.setRowCount(0);
@@ -725,7 +726,7 @@ public class DataYear3 extends javax.swing.JFrame {
     private javax.swing.JTextField jStucode;
     private javax.swing.JTable jTableinfo;
     private javax.swing.JButton jUpdate;
-    private javax.swing.JTextField jYear2;
+    private javax.swing.JTextField jNameFeild;
     private javax.swing.JTextField jYearFeild;
     private javax.swing.JButton jYears2;
     // End of variables declaration//GEN-END:variables

@@ -230,20 +230,16 @@ public class Admin extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0); // Clear the existing rows from the table
 
-            if (!users.isEmpty()) {
-                for (User user : users) {
-                    Object[] row = new Object[12];
+            for (User user : users) {
+                Object[] row = new Object[12];
 
-                    row[0] = user.getId();
-                    row[1] = user.getFullName();
-                    row[2] = user.getUsername();
-                    row[3] = user.getRole();
+                row[0] = user.getId();
+                row[1] = user.getFullName();
+                row[2] = user.getUsername();
+                row[3] = user.getRole();
 
 
-                    model.addRow(row);
-                }
-            } else {
-                Message.showInfoMessage("No students found.");
+                model.addRow(row);
             }
         } catch (SecurityException se) {
             Message.showErrorMessage("Permission denied: " + se.getMessage());
@@ -268,12 +264,7 @@ public class Admin extends javax.swing.JFrame {
         try {
             UserDetails currentUser = getCurrentUser();
             Integer id = Integer.valueOf(jFID.getText().trim());
-            String searchName = jSearchFiled.getText().trim();
 
-            if (searchName.isEmpty())  {
-                Message.showErrorMessage("Please fill in all fields.");
-                return;
-            }
 
             String fullName= validateAndParseString(jFName.getText(), "Name");
             String username = validateAndParseString(jFUsername.getText(), "Username");

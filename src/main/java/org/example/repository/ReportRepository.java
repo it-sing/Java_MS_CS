@@ -20,8 +20,8 @@ public class ReportRepository {
         List<ReportYear1> reports = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
             String query = "SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                    " p.EFC, p.Fundamantal, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
-                    " ((p.EFC + p.Fundamantal + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6.0) AS AVG " +
+                    " p.EFC, p.Fundamental, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
+                    " ((p.EFC + p.Fundamental + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6.0) AS AVG " +
                     " FROM tbStudent s " +
                     " JOIN PTYear1 p ON s.stdCode = p.stdCode";
             Statement statement = connection.createStatement();
@@ -38,7 +38,7 @@ public class ReportRepository {
                         resultSet.getInt("classID"),
                         resultSet.getDate("stdBD").toString(),
                         resultSet.getInt("EFC"),
-                        resultSet.getInt("Fundamantal"),
+                        resultSet.getInt("Fundamental"),
                         resultSet.getInt("Math"),
                         resultSet.getInt("PFC"),
                         resultSet.getInt("The21"),
@@ -57,8 +57,8 @@ public class ReportRepository {
     public List<ReportYear1> searchReportsYear1(String name, String classId, String generation, String stdCode, String semester) {
         List<ReportYear1> reports = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                " p.EFC, p.Fundamantal, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
-                " ((p.EFC + p.Fundamantal + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6.0) AS AVG " +
+                " p.EFC, p.Fundamental, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
+                " ((p.EFC + p.Fundamental + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6.0) AS AVG " +
                 " FROM tbStudent s " +
                 " JOIN PTYear1 p ON s.stdCode = p.stdCode " +
                 " WHERE 1=1");
@@ -70,7 +70,7 @@ public class ReportRepository {
             query.append(" AND s.classID = ?");
         }
         if (generation != null && !generation.isEmpty()) {
-            query.append(" AND s.stdYear = ?");
+            query.append(" AND s.stdGrt = ?");
         }
         if (stdCode != null && !stdCode.isEmpty()) {
             query.append(" AND s.stdCode = ?");
@@ -111,7 +111,7 @@ public class ReportRepository {
                         resultSet.getInt("classID"),
                         resultSet.getDate("stdBD").toString(),
                         resultSet.getInt("EFC"),
-                        resultSet.getInt("Fundamantal"),
+                        resultSet.getInt("Fundamental"),
                         resultSet.getInt("Math"),
                         resultSet.getInt("PFC"),
                         resultSet.getInt("The21"),
@@ -181,7 +181,7 @@ public class ReportRepository {
             query.append(" AND s.classID = ?");
         }
         if (generation != null && !generation.isEmpty()) {
-            query.append(" AND s.stdYear = ?");
+            query.append(" AND s.stdGrt = ?");
         }
         if (stdCode != null && !stdCode.isEmpty()) {
             query.append(" AND s.stdCode = ?");
@@ -290,7 +290,7 @@ public class ReportRepository {
             query.append(" AND s.classID = ?");
         }
         if (generation != null && !generation.isEmpty()) {
-            query.append(" AND s.stdYear = ?");
+            query.append(" AND s.stdGrt = ?");
         }
         if (stdCode != null && !stdCode.isEmpty()) {
             query.append(" AND s.stdCode = ?");
@@ -398,7 +398,7 @@ public class ReportRepository {
             query.append(" AND s.classID = ?");
         }
         if (generation != null && !generation.isEmpty()) {
-            query.append(" AND s.stdYear = ?");
+            query.append(" AND s.stdGrt = ?");
         }
         if (stdCode != null && !stdCode.isEmpty()) {
             query.append(" AND s.stdCode = ?");

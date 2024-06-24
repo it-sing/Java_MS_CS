@@ -15,7 +15,7 @@ import java.util.List;
 public class DataRepository {
     private static final String DATABASE_URL = PropertyLoader.getProperty("database.url");
     // for List Student  Year 1
-    public List<DataY1> getStudentsY1(String stdCode, String className, String stdGrt, String stdYear, String semester) {
+    public List<DataY1> getStudentsY1(String stdCode, String className, String stdGrt, String stdName, String semester) {
         List<DataY1> studentsY1 = new ArrayList<>();
 
         StringBuilder queryBuilder = new StringBuilder("SELECT tbStudent.stdCode, tbStudent.stdName, tbStudent.stdSex, tbStudent.stdYear, ")
@@ -40,10 +40,11 @@ public class DataRepository {
             parameters.add(stdGrt);
         }
 
-        if (stdYear != null && !stdYear.isEmpty()) {
-            queryBuilder.append("AND tbStudent.stdYear = ? ");
-            parameters.add(stdYear);
+        if (stdName != null && !stdName.isEmpty()) {
+            queryBuilder.append(" AND tbStudent.stdName LIKE ?");
+            parameters.add("%" + stdName + "%");
         }
+
         if (semester != null && !semester.isEmpty()) {
             queryBuilder.append("AND Semester = ? ");
             parameters.add(semester);
@@ -212,7 +213,7 @@ public class DataRepository {
     }
 
     // for List Student  Year 2
-    public List<DataY2> getStudentsY2(String stdCode, String className, String stdGrt, String stdYear, String semester) {
+    public List<DataY2> getStudentsY2(String stdCode, String className, String stdGrt, String stdName, String semester) {
         List<DataY2> studentsY2 = new ArrayList<>();
 
         StringBuilder queryBuilder = new StringBuilder("SELECT tbStudent.stdCode, tbStudent.stdName, tbStudent.stdSex, tbStudent.stdYear, ")
@@ -237,9 +238,9 @@ public class DataRepository {
             queryBuilder.append("AND tbStudent.stdGrt = ? ");
             parameters.add(stdGrt);
         }
-        if (stdYear != null && !stdYear.isEmpty()) {
-            queryBuilder.append("AND tbStudent.stdYear = ? ");
-            parameters.add(stdYear);
+        if (stdName != null && !stdName.isEmpty()) {
+            queryBuilder.append(" AND tbStudent.stdName LIKE ?");
+            parameters.add("%" + stdName + "%");
         }
         if (semester != null && !semester.isEmpty()) {
             queryBuilder.append("AND Semester = ? ");
@@ -399,7 +400,7 @@ public class DataRepository {
     }
 
     // for List Student  Year 3
-    public List<DataY3> getStudentsY3(String stdCode, String className, String stdGrt, String stdYear, String semester) {
+    public List<DataY3> getStudentsY3(String stdCode, String className, String stdGrt, String stdName, String semester) {
         List<DataY3> studentsY3 = new ArrayList<>();
 
         StringBuilder queryBuilder = new StringBuilder("SELECT tbStudent.stdCode, tbStudent.stdName, tbStudent.stdSex, tbStudent.stdYear, ")
@@ -423,9 +424,9 @@ public class DataRepository {
             queryBuilder.append("AND tbStudent.stdGrt = ? ");
             parameters.add(stdGrt);
         }
-        if (stdYear != null && !stdYear.isEmpty()) {
-            queryBuilder.append("AND tbStudent.stdYear = ? ");
-            parameters.add(stdYear);
+        if (stdName != null && !stdName.isEmpty()) {
+            queryBuilder.append(" AND tbStudent.stdName LIKE ?");
+            parameters.add("%" + stdName + "%");
         }
         if (semester != null && !semester.isEmpty()) {
             queryBuilder.append("AND PTYear3.Semester = ? ");
@@ -580,7 +581,7 @@ public class DataRepository {
             e.printStackTrace();
         }
     }
-    public List<DataY4> getStudentsY4(String stdCode, String className, String stdGrt, String stdYear, String semester) {
+    public List<DataY4> getStudentsY4(String stdCode, String className, String stdGrt, String stdName, String semester) {
         List<DataY4> studentsY4 = new ArrayList<>();
 
         StringBuilder queryBuilder = new StringBuilder("SELECT tbStudent.stdCode, tbStudent.stdName, tbStudent.stdSex, tbStudent.stdYear, ")
@@ -603,9 +604,9 @@ public class DataRepository {
             queryBuilder.append("AND tbStudent.stdGrt = ? ");
             parameters.add(stdGrt);
         }
-        if (stdYear != null && !stdYear.isEmpty()) {
-            queryBuilder.append("AND tbStudent.stdYear = ? ");
-            parameters.add(stdYear);
+        if (stdName != null && !stdName.isEmpty()) {
+            queryBuilder.append(" AND tbStudent.stdName LIKE ?");
+            parameters.add("%" + stdName + "%");
         }
         if (semester != null && !semester.isEmpty()) {
             queryBuilder.append("AND PTYear4.Semester = ? ");

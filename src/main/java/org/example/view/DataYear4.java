@@ -12,6 +12,7 @@ import org.example.util.Message;
 import org.example.model.UserSession;
 
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -113,7 +114,7 @@ public class DataYear4 extends javax.swing.JFrame {
         jYearFeild.setEditable(false);
         jSave = new javax.swing.JButton();
         jDelete = new javax.swing.JButton();
-        jYear2 = new javax.swing.JTextField();
+        jNameField = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jSemester = new javax.swing.JTextField();
@@ -139,6 +140,11 @@ public class DataYear4 extends javax.swing.JFrame {
                 jTableinfoMouseClicked(evt);
             }
         });
+
+        jTableinfo.setRowHeight(20);
+        jTableinfo.setFont(new Font("Arial", Font.PLAIN, 14));
+        jTableinfo.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        jTableinfo.getTableHeader().setForeground(Color.BLUE);
 
         jTableinfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -224,7 +230,7 @@ public class DataYear4 extends javax.swing.JFrame {
             }
         });
 
-        jLabel16.setText("Year");
+        jLabel16.setText("Name");
 
         jLabel18.setText("Semester");
 
@@ -266,7 +272,7 @@ public class DataYear4 extends javax.swing.JFrame {
                             .addGap(18, 18, 18)
                             .addComponent(jLabel16)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jYear2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(jLabel3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -335,7 +341,7 @@ public class DataYear4 extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jGenerations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel3)
-                                .addComponent(jYear2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel16)
                                 .addComponent(jSemester, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel18))
@@ -426,7 +432,7 @@ public class DataYear4 extends javax.swing.JFrame {
             String stdCode = jStuCode.getText().trim();
             String className = jClass.getText().trim();
             String stdGrt = jGenerations.getText().trim();
-            String stdYear = jYear2.getText().trim();
+            String stdYear = jNameField.getText().trim();
             String semester = jSemester.getText().trim();
 
             List<DataY4> students = dataController.getStudentsY4(currentUser, stdCode, className, stdGrt, stdYear, semester);
@@ -434,27 +440,22 @@ public class DataYear4 extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
             model.setRowCount(0); // Clear existing rows
 
-            if (!students.isEmpty()) {
-                for (DataY4 student : students) {
-                    Object[] row = new Object[10]; // 10 columns as per your data fields
-                    row[0] = student.getStdCode();
-                    row[1] = student.getStdName();
-                    row[2] = student.getStdSex();
-                    row[3] = student.getStdYear();
-                    row[4] = student.getSemester();
-                    row[5] = student.getOoAD();
-                    row[6] = student.getWebDev();
-                    row[7] = student.getLinux();
-                    row[8] = student.getMis();
-                    row[9] = student.getsE_IT_PM();
+            for (DataY4 student : students) {
+                Object[] row = new Object[10];
+                row[0] = student.getStdCode();
+                row[1] = student.getStdName();
+                row[2] = student.getStdSex();
+                row[3] = student.getStdYear();
+                row[4] = student.getSemester();
+                row[5] = student.getOoAD();
+                row[6] = student.getWebDev();
+                row[7] = student.getLinux();
+                row[8] = student.getMis();
+                row[9] = student.getsE_IT_PM();
 
-                    model.addRow(row);
-                }
-            } else {
-                Message.showInfoMessage("No students found.");
+                model.addRow(row);
             }
-        } catch (SecurityException se) {
-            Message.showErrorMessage("Permission denied: " + se.getMessage());
+
         } catch (Exception e) {
             Message.showErrorMessage("An error occurred while fetching the student records: " + e.getMessage());
         }
@@ -465,12 +466,12 @@ public class DataYear4 extends javax.swing.JFrame {
         String stdCode = jStuCode.getText().trim();
         String className = jClass.getText().trim();
         String stdGrt = jGenerations.getText().trim();
-        String stdYear = jYear2.getText().trim();
+        String stdName = jNameField.getText().trim();
         String semester = jSemester.getText().trim();
 
         refreshTableData();
         // Retrieve students from the data controller based on the provided criteria
-        List<DataY4> students = dataController.getStudentsY4(currentUser, stdCode, className, stdGrt, stdYear, semester);
+        List<DataY4> students = dataController.getStudentsY4(currentUser, stdCode, className, stdGrt, stdName, semester);
 
         // Get the table model to display the students' data
         DefaultTableModel model = (DefaultTableModel) jTableinfo.getModel();
@@ -736,7 +737,7 @@ public class DataYear4 extends javax.swing.JFrame {
     private javax.swing.JTable jTableinfo;
     private javax.swing.JButton jUpdate;
     private javax.swing.JTextField jWeb;
-    private javax.swing.JTextField jYear2;
+    private javax.swing.JTextField jNameField;
     private javax.swing.JTextField jYearFeild;
     private javax.swing.JButton jYears2;
     // End of variables declaration//GEN-END:variables

@@ -66,7 +66,7 @@ public class ReportOptionForm extends JFrame {
         jLabel1.setText("PLEASE CHOOSE YOUR OPTIONS:");
 
         // Load and resize the image
-        ImageIcon originalIcon = new ImageIcon("D:\\9. RUPP\\Year3\\Java E7\\Java_MS_CS\\images\\report1.png");
+        ImageIcon originalIcon = new ImageIcon("src/main/resources/logo.png");
         Image scaledImage = originalIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
