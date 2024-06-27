@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataRepository {
+
     private static final String DATABASE_URL = PropertyLoader.getProperty("database.url");
+
     // for List Student  Year 1
     public List<DataY1> getStudentsY1(String stdCode, String className, String stdGrt, String stdName, String semester) {
         List<DataY1> studentsY1 = new ArrayList<>();

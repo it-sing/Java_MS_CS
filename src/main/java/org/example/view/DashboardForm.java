@@ -1,6 +1,12 @@
 package org.example.view;
 
 import org.example.controller.StudentController;
+import org.example.model.UserDetails;
+import org.example.model.UserPermission;
+import org.example.model.UserRole;
+import org.example.model.UserSession;
+import org.example.security.AuthService;
+
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,14 +16,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
+
 public class DashboardForm extends JFrame {
     private JLabel profileLabel;  // Label to display profile image
     private JTextField jFullname; // TextField to display full name
     private StudentController studentController;
+    private UserSession userSession;
 
-    public DashboardForm() {
+    // Variables declaration
+    private JButton jData;
+    private JButton jAdmin;
+    private JFileChooser jFileChooser1;
+    private JLabel jLabel2;
+    private JButton jLogout;
+    private JPanel jPanel1;
+    private JButton jReport;
+    private JButton jStudent;
+    private JPanel jUserProfile;
+
+    public DashboardForm(StudentController studentController) {
+        this.studentController = studentController;
         initComponents();
+        initUserDetails();
     }
 
     private void initComponents() {
@@ -25,8 +45,6 @@ public class DashboardForm extends JFrame {
         jPanel1 = new JPanel();
         jLogout = new JButton();
         jFullname = new JTextField();
-
-
 
         jUserProfile = new JPanel() {
             @Override
@@ -92,30 +110,6 @@ public class DashboardForm extends JFrame {
             }
         });
 
-
-        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(40, 40, 40)
-                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jUserProfile, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jFullname)
-                                        .addComponent(jLogout, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addContainerGap(40, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(40, 40, 40)
-                                .addComponent(jUserProfile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jFullname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
-                                .addComponent(jLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40))
-        );
         jAdmin.setBackground(new Color(30, 144, 255));
         jAdmin.setForeground(Color.WHITE);
         jAdmin.setText("Admin");
@@ -125,8 +119,6 @@ public class DashboardForm extends JFrame {
         jAdmin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Action for Admin button
-                // Replace with your desired functionality
-                // For example:
                 Admin adminForm = new Admin();
                 adminForm.setVisible(true);
             }
@@ -153,12 +145,8 @@ public class DashboardForm extends JFrame {
 
         jReport.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                // Create an instance of DataOptionsForm
-                //DataOptionsForm dataOptionsForm = new DataOptionsForm();
                 ReportOptionForm reportOptionForm = new ReportOptionForm();
                 reportOptionForm.setVisible(true);
-
             }
         });
 
@@ -179,6 +167,30 @@ public class DashboardForm extends JFrame {
             }
         });
 
+        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jUserProfile, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jFullname)
+                                        .addComponent(jLogout, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addComponent(jUserProfile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jFullname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
+                                .addComponent(jLogout, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40))
+        );
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -187,35 +199,32 @@ public class DashboardForm extends JFrame {
                                 .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                        .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jData, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jData, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                                         )
                                 )
                                 .addGap(0, 0, Short.MAX_VALUE)
                         )
         );
-
         layout.setVerticalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel2)
-                                .addGap(50, 50, 200)
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jStudent, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jData, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jReport, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jAdmin, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                 )
                                 .addGap(0, 0, Short.MAX_VALUE)
                         )
@@ -225,7 +234,6 @@ public class DashboardForm extends JFrame {
         pack();
         setLocationRelativeTo(null);  // Center the form on the screen
     }
-
 
     public void setUserDetails(String fullName, InputStream profileInputStream) {
         // Set text to uppercase
@@ -246,30 +254,65 @@ public class DashboardForm extends JFrame {
         }
     }
 
-    // Method to add custom logout action listener
+    public void initUserDetails() {
+        UserDetails currentUser = getCurrentUser();
+        if (currentUser != null) {
+            setUserDetails(currentUser.getFullName(), currentUser.getProfileInputStream());
+
+            // Use AuthService to set button visibility based on user role
+            UserRole userRole = currentUser.getRole();
+            System.out.println("User Role: " + userRole); // Debugging line
+
+            if (userRole == UserRole.USER) {
+                jAdmin.setVisible(false);
+                jReport.setVisible(false);
+                jData.setVisible(true); // Optional: Hide additional buttons for USER
+                jStudent.setVisible(true); // Optional: Hide additional buttons for USER
+            }
+            else if (userRole == UserRole.STAFF){
+                jAdmin.setVisible(false);
+                jReport.setVisible(true);
+                jData.setVisible(true);
+                jStudent.setVisible(true);
+            }else {
+                jAdmin.setVisible(true);
+                jReport.setVisible(true);
+                jData.setVisible(true);
+                jStudent.setVisible(true);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "User not found!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private UserDetails getCurrentUser() {
+        UserDetails currentUser = UserSession.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            String currentFullName = currentUser.getFullName();
+            String currentUsername = currentUser.getUsername();
+            UserRole userRole = currentUser.getRole();
+            InputStream profileInputStream = currentUser.getProfileInputStream(); // Use updated method
+
+            return new UserDetails(currentFullName, currentUsername, profileInputStream, userRole);
+        } else {
+            System.out.println("No current user in session.");
+            return null;
+        }
+    }
+
     public void jLogoutActionPerformed(ActionListener listener) {
-        // Remove existing listeners
+        // Clear current user session
+        UserSession.getInstance().setCurrentUser(null);
+
+        // Remove existing listeners (your existing code)
         ActionListener[] listeners = jLogout.getActionListeners();
         for (ActionListener existingListener : listeners) {
             jLogout.removeActionListener(existingListener);
         }
         // Add the new listener
         jLogout.addActionListener(listener);
-
-
     }
 
-
-
-
-    // Variables declaration
-    private JButton jData;
-    private JButton jAdmin;
-    private JFileChooser jFileChooser1;
-    private JLabel jLabel2;
-    private JButton jLogout;
-    private JPanel jPanel1;
-    private JButton jReport;
-    private JButton jStudent;
-    private JPanel jUserProfile;
 }

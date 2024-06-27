@@ -9,7 +9,6 @@ public class BCryptUtil {
         // Generate a salted bcrypt hash of the plain text password
         return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
     }
-
     // Method to verify if a plain text password matches a hashed password
     public static boolean verifyPassword(String plainTextPassword, String hashedPassword) {
         // Check if the plain text password matches the hashed password using bcrypt

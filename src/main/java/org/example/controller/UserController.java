@@ -1,9 +1,6 @@
 package org.example.controller;
 
-import org.example.model.UserDetails;
-import org.example.model.UserRole;
-import org.example.model.UserSignIn;
-import org.example.model.UserSignUp;
+import org.example.model.*;
 import org.example.repository.UserRepository;
 import org.example.security.AuthService;
 import org.example.util.Message;
@@ -21,11 +18,13 @@ public class UserController {
     private final SignUpForm signUpForm;
     private final UserRepository userRepository;
     private DashboardForm dashboardForm;
+    private final StudentController studentController; // Add this field
 
     public UserController(SignInForm signInForm, SignUpForm signUpForm, UserRepository userRepository) {
         this.signInForm = signInForm;
         this.signUpForm = signUpForm;
         this.userRepository = userRepository;
+        this.studentController = new StudentController(); // Initialize StudentController
 
         this.signInForm.addSignInButtonListener(new LoginButtonListener());
         this.signInForm.addSignUpButtonListener(new RegisterButtonListener());
@@ -67,7 +66,7 @@ public class UserController {
         private void handleUserActions(UserDetails userDetails) {
             Message.showSuccessMessage(signInForm, "Login successful as USER");
             if (dashboardForm == null) {
-                dashboardForm = new DashboardForm();
+                dashboardForm = new DashboardForm(studentController); // Pass StudentController instance
             }
             setUpDashboard(userDetails);
         }
@@ -75,7 +74,7 @@ public class UserController {
         private void handleStaffActions(UserDetails userDetails) {
             Message.showSuccessMessage(signInForm, "Login successful as STAFF");
             if (dashboardForm == null) {
-                dashboardForm = new DashboardForm();
+                dashboardForm = new DashboardForm(studentController); // Pass StudentController instance
             }
             setUpDashboard(userDetails);
         }
@@ -84,20 +83,20 @@ public class UserController {
             // Implement actions for admins
             Message.showSuccessMessage(signInForm, "Login successful as ADMIN");
             if (dashboardForm == null) {
-                dashboardForm = new DashboardForm();
+                dashboardForm = new DashboardForm(studentController); // Pass StudentController instance
             }
             setUpDashboard(userDetails);
         }
 
         private void setUpDashboard(UserDetails userDetails) {
+            UserSession.getInstance().setCurrentUser(userDetails); // Set the current user in the session
             dashboardForm.setUserDetails(userDetails.getFullName(), userDetails.getProfileInputStream());
+            dashboardForm.initUserDetails(); // Call initUserDetails to update button visibility
             dashboardForm.jLogoutActionPerformed(new LogoutButtonListener());
             dashboardForm.setVisible(true);
             signInForm.dispose();
         }
     }
-
-
 
     class RegisterButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -155,8 +154,10 @@ public class UserController {
         public void actionPerformed(ActionEvent e) {
             int response = JOptionPane.showConfirmDialog(dashboardForm, "Are you sure you want to log out?", "Confirm Logout", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (response == JOptionPane.YES_OPTION) {
+                UserSession.getInstance().setCurrentUser(null); // Clear the current user session
                 if (dashboardForm != null) {
                     dashboardForm.dispose();
+                    dashboardForm = null; // Reset the dashboardForm to ensure a fresh instance on next login
                 }
                 signInForm.setVisible(true);
             }
