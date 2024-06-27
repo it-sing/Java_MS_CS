@@ -10,8 +10,8 @@ public class ReportYear3 extends Student{
     private final String Semester;
     private final Double avg;
 
-    public ReportYear3(int stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD, Integer dotNet, Integer java, Integer network, Integer iSad, Integer statistics, String semester, Double avg) {
-        super(stdID, stdCode, stdName, stdSex, stdAdd, stdGrt, stdYear, classID, stdBD);
+    public ReportYear3(String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD, Integer dotNet, Integer java, Integer network, Integer iSad, Integer statistics, String semester, Double avg) {
+        super(stdCode, stdName, stdSex, stdAdd, stdGrt, stdYear, classID, stdBD);
         this.dotNet = dotNet;
         Java = java;
         this.network = network;

@@ -130,7 +130,7 @@ public class ReportYear1View extends JFrame {
 
         // Create the table model and table
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new Object[]{"ID", "Code", "Name", "Sex", "EFC", "Fundamental", "Math", "PFC", "The21", "History", "CProgram", "Semester", "AVG"});
+        tableModel.setColumnIdentifiers(new Object[]{"Std Code", "Name", "Sex", "EFC", "Fundamental", "Math", "PFC", "The21", "History", "CProgram", "Semester", "AVG"});
         JTable table = new JTable(tableModel);
         table.setRowHeight(25);
         table.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -175,7 +175,6 @@ public class ReportYear1View extends JFrame {
         tableModel.setRowCount(0);
         for (org.example.model.ReportYear1 report : reports) {
             tableModel.addRow(new Object[]{
-                    report.getStdID(),
                     report.getStdCode(),
                     report.getStdName(),
                     report.getStdSex(),

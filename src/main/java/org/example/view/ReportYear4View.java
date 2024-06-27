@@ -137,7 +137,7 @@ public class ReportYear4View extends JFrame {
 
         // Create the table model and table
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new Object[]{"ID", "Code", "Name", "Sex", "OOAD", "Web", "Linux", "MIS", "SE", "Semester", "AVG"});
+        tableModel.setColumnIdentifiers(new Object[]{"Std Code", "Name", "Sex", "OOAD", "Web", "Linux", "MIS", "SE", "Semester", "AVG"});
         JTable table = new JTable(tableModel);
         table.setRowHeight(25);
         table.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -187,7 +187,6 @@ public class ReportYear4View extends JFrame {
         tableModel.setRowCount(0); // Clear existing data
         for (org.example.model.ReportYear4 report : reports) {
             tableModel.addRow(new Object[]{
-                    report.getStdID(),
                     report.getStdCode(),
                     report.getStdName(),
                     report.getStdSex(),

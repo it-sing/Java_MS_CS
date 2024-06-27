@@ -14,12 +14,11 @@ public class StudentRepository {
     public List<Student> getAllStudents() {
         List<Student> students = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-            String query = "SELECT * FROM tbStudent";
+            String query = "SELECT stdCode, stdName, stdSex, stdAdd, stdGrt, stdYear, classID, stdBD FROM tbStudent";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 students.add(new Student(
-                        resultSet.getInt("stdID"),
                         resultSet.getString("stdCode"),
                         resultSet.getString("stdName"),
                         resultSet.getString("stdSex"),
@@ -35,6 +34,7 @@ public class StudentRepository {
         }
         return students;
     }
+
 
     public void addStudent(Student student) throws SQLException {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
@@ -80,7 +80,6 @@ public class StudentRepository {
             statement.setString(6, student.getStdYear());
             statement.setInt(7, student.getClassID());
             statement.setString(8, student.getStdBD());
-            statement.setInt(9, student.getStdID());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -1,7 +1,7 @@
 package org.example.model;
 
 public class Student {
-    private int stdID;
+    //private int stdID;
     private String stdCode;
     private String stdName;
     private String stdSex;
@@ -13,8 +13,7 @@ public class Student {
 
     public Student(){};
 
-    public Student(int stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD) {
-        this.stdID = stdID;
+    public Student(String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD) {
         this.stdCode = stdCode;
         this.stdName = stdName;
         this.stdSex = stdSex;
@@ -23,10 +22,6 @@ public class Student {
         this.stdYear = stdYear;
         this.classID = classID;
         this.stdBD = stdBD;
-    }
-
-    public int getStdID() {
-        return stdID;
     }
 
     public String getStdCode() {

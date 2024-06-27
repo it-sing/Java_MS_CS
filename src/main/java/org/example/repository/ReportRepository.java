@@ -19,7 +19,7 @@ public class ReportRepository {
     public List<ReportYear1> getAllReportsYear1() {
         List<ReportYear1> reports = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-            String query = "SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
+            String query = "SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
                     " p.EFC, p.Fundamental, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
                     " ((p.EFC + p.Fundamental + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6.0) AS AVG " +
                     " FROM tbStudent s " +
@@ -28,7 +28,6 @@ public class ReportRepository {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 reports.add(new ReportYear1(
-                        resultSet.getInt("stdID"),
                         resultSet.getString("stdCode"),
                         resultSet.getString("stdName"),
                         resultSet.getString("stdSex"),
@@ -56,7 +55,7 @@ public class ReportRepository {
 
     public List<ReportYear1> searchReportsYear1(String name, String classId, String generation, String stdCode, String semester) {
         List<ReportYear1> reports = new ArrayList<>();
-        StringBuilder query = new StringBuilder("SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
+        StringBuilder query = new StringBuilder("SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
                 " p.EFC, p.Fundamental, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
                 " ((p.EFC + p.Fundamental + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6.0) AS AVG " +
                 " FROM tbStudent s " +
@@ -101,7 +100,6 @@ public class ReportRepository {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 reports.add(new ReportYear1(
-                        resultSet.getInt("stdID"),
                         resultSet.getString("stdCode"),
                         resultSet.getString("stdName"),
                         resultSet.getString("stdSex"),
@@ -131,7 +129,7 @@ public class ReportRepository {
     public List<ReportYear2> getAllReportsYear2() {
         List<ReportYear2> reports = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-            String query = "SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
+            String query = "SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
                     " p.Communication, p.DataStructure, p.English, p.CPlusPlus, p.Architecture, p.Database, p.Semester, " +
                     " ((p.Communication + p.DataStructure + p.English + p.CPlusPlus + p.Architecture + p.Database) / 6.0) AS AVG "+
                     "FROM tbStudent s " +
@@ -140,7 +138,6 @@ public class ReportRepository {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 reports.add(new ReportYear2(
-                        resultSet.getInt("stdID"),
                         resultSet.getString("stdCode"),
                         resultSet.getString("stdName"),
                         resultSet.getString("stdSex"),
@@ -167,7 +164,7 @@ public class ReportRepository {
 
     public List<ReportYear2> searchReportsYear2(String name, String classId, String generation, String stdCode, String semester) {
         List<ReportYear2> reports = new ArrayList<>();
-        StringBuilder query = new StringBuilder("SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
+        StringBuilder query = new StringBuilder("SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
                 " p.Communication, p.DataStructure, p.English, p.CPlusPlus, p.Architecture, p.Database, p.Semester, " +
                 " (( p.Communication + p.DataStructure + p.English + p.CPlusPlus + p.Architecture + p.Database ) / 6.0) AS AVG " +
                 "FROM tbStudent s " +
@@ -212,7 +209,6 @@ public class ReportRepository {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 reports.add(new ReportYear2(
-                        resultSet.getInt("stdID"),
                         resultSet.getString("stdCode"),
                         resultSet.getString("stdName"),
                         resultSet.getString("stdSex"),
@@ -241,7 +237,7 @@ public class ReportRepository {
     public List<ReportYear3> getAllReportsYear3() {
         List<ReportYear3> reports = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-            String query = "SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
+            String query = "SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
                     " p.Net, p.Java, p.Network, p.SystemAnalysis, p.Statistics, p.Semester, " +
                     " (( p.Net + p.Java + p.Network + p.SystemAnalysis + p.Statistics) / 5.0) AS AVG " +
                     "FROM tbStudent s " +
@@ -250,7 +246,6 @@ public class ReportRepository {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 reports.add(new ReportYear3(
-                        resultSet.getInt("stdID"),
                         resultSet.getString("stdCode"),
                         resultSet.getString("stdName"),
                         resultSet.getString("stdSex"),
@@ -276,7 +271,7 @@ public class ReportRepository {
 
     public List<ReportYear3> searchReportsYear3(String name, String classId, String generation, String stdCode, String semester) {
         List<ReportYear3> reports = new ArrayList<>();
-        StringBuilder query = new StringBuilder("SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
+        StringBuilder query = new StringBuilder("SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
                 " p.Net, p.Java, p.Network, p.SystemAnalysis, p.Statistics, p.Semester, " +
                 " (( p.Net + p.Java + p.Network + p.SystemAnalysis + p.Statistics) / 5.0) AS AVG " +
                 "FROM tbStudent s " +
@@ -321,7 +316,6 @@ public class ReportRepository {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 reports.add(new ReportYear3(
-                        resultSet.getInt("stdID"),
                         resultSet.getString("stdCode"),
                         resultSet.getString("stdName"),
                         resultSet.getString("stdSex"),
@@ -349,7 +343,7 @@ public class ReportRepository {
     public List<ReportYear4> getAllReportsYear4() {
         List<ReportYear4> reports = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-            String query = "SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
+            String query = "SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
                     " p.OOAD, p.Web, p.Linux, p.MIS, p.SE_IT_PM, p.Semester, " +
                     " (( p.OOAD + p.Web + p.Linux + p.MIS + p.SE_IT_PM) / 5.0 ) AS AVG " +
                     "FROM tbStudent s " +
@@ -358,7 +352,6 @@ public class ReportRepository {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 reports.add(new ReportYear4(
-                        resultSet.getInt("stdID"),
                         resultSet.getString("stdCode"),
                         resultSet.getString("stdName"),
                         resultSet.getString("stdSex"),
@@ -384,7 +377,7 @@ public class ReportRepository {
 
     public List<ReportYear4> searchReportsYear4(String name, String classId, String generation, String stdCode, String semester) {
         List<ReportYear4> reports = new ArrayList<>();
-        StringBuilder query = new StringBuilder("SELECT s.stdID, s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
+        StringBuilder query = new StringBuilder("SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
                 " p.OOAD, p.Web, p.Linux, p.MIS, p.SE_IT_PM, p.Semester, " +
                 " (( p.OOAD + p.Web + p.Linux + p.MIS + p.SE_IT_PM) / 5.0 ) AS AVG " +
                 "FROM tbStudent s " +
@@ -429,7 +422,6 @@ public class ReportRepository {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 reports.add(new ReportYear4(
-                        resultSet.getInt("stdID"),
                         resultSet.getString("stdCode"),
                         resultSet.getString("stdName"),
                         resultSet.getString("stdSex"),

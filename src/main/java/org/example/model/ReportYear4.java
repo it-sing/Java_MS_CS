@@ -11,8 +11,8 @@ public class ReportYear4 extends Student {
     private final Double avg;
 
 
-    public ReportYear4(int stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD, Integer ooad, Integer web, Integer linux, Integer mis, Integer se, String semester, Double avg) {
-        super(stdID, stdCode, stdName, stdSex, stdAdd, stdGrt, stdYear, classID, stdBD);
+    public ReportYear4(String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD, Integer ooad, Integer web, Integer linux, Integer mis, Integer se, String semester, Double avg) {
+        super(stdCode, stdName, stdSex, stdAdd, stdGrt, stdYear, classID, stdBD);
         this.ooad = ooad;
         this.web = web;
         this.linux = linux;

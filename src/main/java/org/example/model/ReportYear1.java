@@ -13,8 +13,8 @@ public class ReportYear1 extends Student{
     private final Double avg;
 
 
-    public ReportYear1(int stdID, String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD, Integer EFC, Integer fundamental, Integer math, Integer pfc, Integer the21, Integer history, Integer cProgram, String semester, Double avg) {
-        super(stdID, stdCode, stdName, stdSex, stdAdd, stdGrt, stdYear, classID, stdBD);
+    public ReportYear1(String stdCode, String stdName, String stdSex, String stdAdd, String stdGrt, String stdYear, int classID, String stdBD, Integer EFC, Integer fundamental, Integer math, Integer pfc, Integer the21, Integer history, Integer cProgram, String semester, Double avg) {
+        super(stdCode, stdName, stdSex, stdAdd, stdGrt, stdYear, classID, stdBD);
         this.EFC = EFC;
         this.fundamental = fundamental;
         this.math = math;
