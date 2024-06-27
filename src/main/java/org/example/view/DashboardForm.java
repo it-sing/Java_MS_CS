@@ -254,7 +254,7 @@ public class DashboardForm extends JFrame {
         }
     }
 
-    public void initUserDetails() {
+    private void initUserDetails() {
         UserDetails currentUser = getCurrentUser();
         if (currentUser != null) {
             setUserDetails(currentUser.getFullName(), currentUser.getProfileInputStream());
@@ -304,7 +304,7 @@ public class DashboardForm extends JFrame {
 
     public void jLogoutActionPerformed(ActionListener listener) {
         // Clear current user session
-        UserSession.getInstance().setCurrentUser(null);
+//        UserSession.getInstance().setCurrentUser(null);
 
         // Remove existing listeners (your existing code)
         ActionListener[] listeners = jLogout.getActionListeners();

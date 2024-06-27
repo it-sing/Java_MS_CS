@@ -89,9 +89,7 @@ public class UserController {
         }
 
         private void setUpDashboard(UserDetails userDetails) {
-            UserSession.getInstance().setCurrentUser(userDetails); // Set the current user in the session
             dashboardForm.setUserDetails(userDetails.getFullName(), userDetails.getProfileInputStream());
-            dashboardForm.initUserDetails(); // Call initUserDetails to update button visibility
             dashboardForm.jLogoutActionPerformed(new LogoutButtonListener());
             dashboardForm.setVisible(true);
             signInForm.dispose();
