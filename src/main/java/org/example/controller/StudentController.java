@@ -44,11 +44,11 @@ public class StudentController {
         }
     }
 
-    public void deleteStudent(UserDetails user, int studentId) throws SQLException {
+    public void deleteStudent(UserDetails user, String stdCode) throws SQLException {
 
         if (AuthService.hasPermission(UserPermission.DELETE, user))
         {
-            repository.deleteStudent(studentId);
+            repository.deleteStudent(stdCode);
         } else {
             throw new SecurityException("Permission denied");
         }

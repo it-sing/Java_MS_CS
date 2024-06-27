@@ -195,14 +195,14 @@ public class StudentViewForm extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow >= 0) {
-                    tfStdCode.setText(tableModel.getValueAt(selectedRow, 1).toString());
-                    tfStdName.setText(tableModel.getValueAt(selectedRow, 2).toString());
-                    cbStdSex.setSelectedItem(tableModel.getValueAt(selectedRow, 3).toString());
-                    tfStdAdd.setText(tableModel.getValueAt(selectedRow, 4).toString());
-                    tfStdGrt.setText(tableModel.getValueAt(selectedRow, 5).toString());
-                    tfStdYear.setText(tableModel.getValueAt(selectedRow, 6).toString());
-                    tfClassID.setText(tableModel.getValueAt(selectedRow, 7).toString());
-                    tfStdBD.setText(tableModel.getValueAt(selectedRow, 8).toString());
+                    tfStdCode.setText(tableModel.getValueAt(selectedRow, 0).toString());
+                    tfStdName.setText(tableModel.getValueAt(selectedRow, 1).toString());
+                    cbStdSex.setSelectedItem(tableModel.getValueAt(selectedRow, 2).toString());
+                    tfStdAdd.setText(tableModel.getValueAt(selectedRow, 3).toString());
+                    tfStdGrt.setText(tableModel.getValueAt(selectedRow, 4).toString());
+                    tfStdYear.setText(tableModel.getValueAt(selectedRow, 5).toString());
+                    tfClassID.setText(tableModel.getValueAt(selectedRow, 6).toString());
+                    tfStdBD.setText(tableModel.getValueAt(selectedRow, 7).toString());
                 }
             }
         });
@@ -278,14 +278,15 @@ public class StudentViewForm extends JFrame {
 
     }
 
+
+
     private void updateStudent() {
-        try{
+        try {
             UserDetails currentUser = getCurrentUser();
 
             int selectedRow = table.getSelectedRow();
             if (selectedRow >= 0) {
-                int stdID = Integer.parseInt(tableModel.getValueAt(selectedRow, 0).toString());
-                String stdCode = tableModel.getValueAt(selectedRow, 1).toString();
+                String stdCode = tableModel.getValueAt(selectedRow, 0).toString(); // Column index for stdCode
                 String stdName = tfStdName.getText();
                 String stdSex = (String) cbStdSex.getSelectedItem();
                 String stdAdd = tfStdAdd.getText();
@@ -306,23 +307,23 @@ public class StudentViewForm extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a student to update.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }catch (SecurityException se) {
+        } catch (SecurityException se) {
             Message.showErrorMessage("Permission denied: " + se.getMessage());
         }
     }
 
     private void deleteStudent() {
-        try{
+        try {
             UserDetails currentUser = getCurrentUser();
 
             int selectedRow = table.getSelectedRow();
             if (selectedRow >= 0) {
-                int stdID = Integer.parseInt(tableModel.getValueAt(selectedRow, 0).toString());
+                String stdCode = tableModel.getValueAt(selectedRow, 0).toString();
 
                 int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this student?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
                     try {
-                        studentController.deleteStudent(currentUser, stdID);
+                        studentController.deleteStudent(currentUser, stdCode);
                         JOptionPane.showMessageDialog(this, "Student deleted successfully!");
                         loadStudents(); // Reload the students after deleting
                     } catch (SQLException e) {
@@ -332,12 +333,10 @@ public class StudentViewForm extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a student to delete.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        } catch (SecurityException se) {
+            Message.showErrorMessage(this, "Permission denied: " + se.getMessage());
         }
-        catch (SecurityException se) {
-            Message.showErrorMessage("Permission denied: " + se.getMessage());
-        }
-
-
     }
+
 
 }

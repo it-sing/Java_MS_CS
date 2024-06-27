@@ -70,27 +70,27 @@ public class StudentRepository {
 
     public void updateStudent(Student student) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-            String query = "UPDATE tbStudent SET stdCode=?, stdName=?, stdSex=?, stdAdd=?, stdGrt=?, stdYear=?, classID=?, stdBD=? WHERE stdID=?";
+            String query = "UPDATE tbStudent SET stdName=?, stdSex=?, stdAdd=?, stdGrt=?, stdYear=?, classID=?, stdBD=? WHERE stdCode=?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, student.getStdCode());
-            statement.setString(2, student.getStdName());
-            statement.setString(3, student.getStdSex());
-            statement.setString(4, student.getStdAdd());
-            statement.setString(5, student.getStdGrt());
-            statement.setString(6, student.getStdYear());
-            statement.setInt(7, student.getClassID());
-            statement.setString(8, student.getStdBD());
+            statement.setString(1, student.getStdName());
+            statement.setString(2, student.getStdSex());
+            statement.setString(3, student.getStdAdd());
+            statement.setString(4, student.getStdGrt());
+            statement.setString(5, student.getStdYear());
+            statement.setInt(6, student.getClassID());
+            statement.setString(7, student.getStdBD());
+            statement.setString(8, student.getStdCode());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    public void deleteStudent(int studentId) throws SQLException {
+    public void deleteStudent(String stdCode) throws SQLException {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-            String query = "DELETE FROM tbStudent WHERE stdID=?";
+            String query = "DELETE FROM tbStudent WHERE stdCode=?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, studentId);
+            preparedStatement.setString(1, stdCode);
             preparedStatement.executeUpdate();
         }
     }
