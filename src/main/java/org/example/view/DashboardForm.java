@@ -150,7 +150,7 @@ public class DashboardForm extends JFrame {
             }
         });
 
-        jLabel2.setFont(new Font("Arial", Font.BOLD, 40));
+        jLabel2.setFont(new Font("Khmer OS", Font.BOLD, 40));
         jLabel2.setText("Welcome to CS Systems G3");
         jLabel2.setForeground(new Color(60, 63, 65));
 

@@ -154,8 +154,8 @@ public class DataYear3 extends javax.swing.JFrame {
         });
 
         jTableinfo.setRowHeight(20);
-        jTableinfo.setFont(new Font("Arial", Font.PLAIN, 14));
-        jTableinfo.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        jTableinfo.setFont(new Font("Khmer OS", Font.PLAIN, 14));
+        jTableinfo.getTableHeader().setFont(new Font("Khmer OS", Font.BOLD, 12));
         jTableinfo.getTableHeader().setForeground(Color.BLUE);
 
         jTableinfo.setModel(new javax.swing.table.DefaultTableModel(
