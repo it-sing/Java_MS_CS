@@ -125,7 +125,7 @@ public class ReportYear4View extends JFrame {
         btnExcel.setForeground(Color.white);
         mainPanel.add(btnExcel);
 
-        btnExcel.addActionListener(e -> ConvertFile.exportToExcel(ReportYear4View.this, tableModel, "Year1"));
+        btnExcel.addActionListener(e -> ConvertFile.exportToExcel(ReportYear4View.this, tableModel, "Report_Year4"));
 
         JButton btnPdf = new JButton("PDF");
         btnPdf.setBounds(1120, 650, 100, 30);
@@ -133,7 +133,7 @@ public class ReportYear4View extends JFrame {
         btnPdf.setForeground(Color.white);
         mainPanel.add(btnPdf);
 
-        btnPdf.addActionListener(e -> ConvertFile.exportToPDF(ReportYear4View.this, tableModel, "Year2"));
+        btnPdf.addActionListener(e -> ConvertFile.exportToPDF(ReportYear4View.this, tableModel, "Report_Year4"));
 
         // Create the table model and table
         tableModel = new DefaultTableModel();
