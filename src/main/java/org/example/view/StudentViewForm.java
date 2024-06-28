@@ -35,8 +35,8 @@ public class StudentViewForm extends JFrame {
         studentController = new StudentController();
 
         // Set font size
-        Font fontBold = new Font("Arial", Font.PLAIN, 14);
-        Font fontNormal = new Font("Arial", Font.PLAIN, 14);
+        Font fontBold = new Font("Khmer OS", Font.PLAIN, 14);
+        Font fontNormal = new Font("Khmer OS", Font.PLAIN, 14);
 
         setTitle("Student Management");
         setFont(fontBold);

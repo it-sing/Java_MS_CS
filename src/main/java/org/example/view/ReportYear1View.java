@@ -133,8 +133,8 @@ public class ReportYear1View extends JFrame {
         tableModel.setColumnIdentifiers(new Object[]{"Student Code", "Name", "Sex", "EFC", "Fundamental", "Math", "PFC", "The21", "History", "CProgram", "Semester", "GPA"});
         JTable table = new JTable(tableModel);
         table.setRowHeight(25);
-        table.setFont(new Font("Arial", Font.PLAIN, 14));
-        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        table.setFont(new Font("Khmer OS", Font.PLAIN, 14));
+        table.getTableHeader().setFont(new Font("Khmer OS", Font.BOLD, 14));
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
