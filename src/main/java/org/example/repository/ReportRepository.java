@@ -19,11 +19,112 @@ public class ReportRepository {
     public List<ReportYear1> getAllReportsYear1() {
         List<ReportYear1> reports = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-            String query = "SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                    " p.EFC, p.Fundamental, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
-                    " ((p.EFC + p.Fundamental + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6.0) AS AVG " +
-                    " FROM tbStudent s " +
-                    " JOIN PTYear1 p ON s.stdCode = p.stdCode";
+            String query = """
+            SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD, 
+                   p.EFC, p.Fundamental, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, 
+                   (
+                       CASE
+                           WHEN p.Semester = '2' THEN 
+                               ( 
+                                   (CASE 
+                                       WHEN p.EFC >= 85 THEN 4.0 
+                                       WHEN p.EFC >= 80 THEN 3.5 
+                                       WHEN p.EFC >= 70 THEN 3.0 
+                                       WHEN p.EFC >= 65 THEN 2.5 
+                                       WHEN p.EFC >= 50 THEN 2.0 
+                                       WHEN p.EFC >= 45 THEN 1.5 
+                                       ELSE 1.0 
+                                   END) * 3 + 
+                                   (CASE 
+                                       WHEN p.Fundamental >= 85 THEN 4.0 
+                                       WHEN p.Fundamental >= 80 THEN 3.5 
+                                       WHEN p.Fundamental >= 70 THEN 3.0 
+                                       WHEN p.Fundamental >= 65 THEN 2.5 
+                                       WHEN p.Fundamental >= 50 THEN 2.0 
+                                       WHEN p.Fundamental >= 45 THEN 1.5 
+                                       ELSE 1.0 
+                                   END) * 2 + 
+                                   (CASE 
+                                       WHEN p.Math >= 85 THEN 4.0 
+                                       WHEN p.Math >= 80 THEN 3.5 
+                                       WHEN p.Math >= 70 THEN 3.0 
+                                       WHEN p.Math >= 65 THEN 2.5 
+                                       WHEN p.Math >= 50 THEN 2.0 
+                                       WHEN p.Math >= 45 THEN 1.5 
+                                       ELSE 1.0 
+                                   END) * 2.5 + 
+                                   (CASE 
+                                       WHEN p.PFC >= 85 THEN 4.0 
+                                       WHEN p.PFC >= 80 THEN 3.5 
+                                       WHEN p.PFC >= 70 THEN 3.0 
+                                       WHEN p.PFC >= 65 THEN 2.5 
+                                       WHEN p.PFC >= 50 THEN 2.0 
+                                       WHEN p.PFC >= 45 THEN 1.5 
+                                       ELSE 1.0 
+                                   END) * 1 + 
+                                   (CASE 
+                                       WHEN p.CProgram >= 85 THEN 4.0 
+                                       WHEN p.CProgram >= 80 THEN 3.5 
+                                       WHEN p.CProgram >= 70 THEN 3.0 
+                                       WHEN p.CProgram >= 65 THEN 2.5 
+                                       WHEN p.CProgram >= 50 THEN 2.0 
+                                       WHEN p.CProgram >= 45 THEN 1.5 
+                                       ELSE 1.0 
+                                   END) * 4 
+                               ) / 12.5
+                           WHEN p.Semester = '1' THEN 
+                               ( 
+                                   (CASE 
+                                       WHEN p.EFC >= 85 THEN 4.0 
+                                       WHEN p.EFC >= 80 THEN 3.5 
+                                       WHEN p.EFC >= 70 THEN 3.0 
+                                       WHEN p.EFC >= 65 THEN 2.5 
+                                       WHEN p.EFC >= 50 THEN 2.0 
+                                       WHEN p.EFC >= 45 THEN 1.5 
+                                       ELSE 3.0 
+                                   END) * 3 + 
+                                   (CASE 
+                                       WHEN p.Fundamental >= 85 THEN 4.0 
+                                       WHEN p.Fundamental >= 80 THEN 3.5 
+                                       WHEN p.Fundamental >= 70 THEN 3.0 
+                                       WHEN p.Fundamental >= 65 THEN 2.5 
+                                       WHEN p.Fundamental >= 50 THEN 2.0 
+                                       WHEN p.Fundamental >= 45 THEN 1.5 
+                                       ELSE 1.0 
+                                   END) * 2 + 
+                                   (CASE 
+                                       WHEN p.Math >= 85 THEN 4.0 
+                                       WHEN p.Math >= 80 THEN 3.5 
+                                       WHEN p.Math >= 70 THEN 3.0 
+                                       WHEN p.Math >= 65 THEN 2.5 
+                                       WHEN p.Math >= 50 THEN 2.0 
+                                       WHEN p.Math >= 45 THEN 1.5 
+                                       ELSE 1.0 
+                                   END) * 2.5 + 
+                                   (CASE 
+                                       WHEN p.PFC >= 85 THEN 4.0 
+                                       WHEN p.PFC >= 80 THEN 3.5 
+                                       WHEN p.PFC >= 70 THEN 3.0 
+                                       WHEN p.PFC >= 65 THEN 2.5 
+                                       WHEN p.PFC >= 50 THEN 2.0 
+                                       WHEN p.PFC >= 45 THEN 1.5 
+                                       ELSE 1.0 
+                                   END) * 1 + 
+                                   (CASE 
+                                       WHEN p.The21 >= 85 THEN 4.0 
+                                       WHEN p.The21 >= 80 THEN 3.5 
+                                       WHEN p.The21 >= 70 THEN 3.0 
+                                       WHEN p.The21 >= 65 THEN 2.5 
+                                       WHEN p.The21 >= 50 THEN 2.0 
+                                       WHEN p.The21 >= 45 THEN 1.5 
+                                       ELSE 1.0 
+                                   END) * 1.5 
+                               ) / 10
+                       END
+                   ) AS GPA 
+            FROM tbStudent s 
+            JOIN PTYear1 p ON s.stdCode = p.stdCode
+        """;
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -44,7 +145,7 @@ public class ReportRepository {
                         resultSet.getInt("History"),
                         resultSet.getInt("CProgram"),
                         resultSet.getString("Semester"),
-                        resultSet.getDouble("AVG")
+                        resultSet.getDouble("GPA")
                 ));
             }
         } catch (SQLException e) {
@@ -53,14 +154,115 @@ public class ReportRepository {
         return reports;
     }
 
+
     public List<ReportYear1> searchReportsYear1(String name, String classId, String generation, String stdCode, String semester) {
         List<ReportYear1> reports = new ArrayList<>();
-        StringBuilder query = new StringBuilder("SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                " p.EFC, p.Fundamental, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, " +
-                " ((p.EFC + p.Fundamental + p.Math + p.PFC + p.The21 + p.History + p.CProgram) / 6.0) AS AVG " +
-                " FROM tbStudent s " +
-                " JOIN PTYear1 p ON s.stdCode = p.stdCode " +
-                " WHERE 1=1");
+        StringBuilder query = new StringBuilder("""
+        SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD, 
+               p.EFC, p.Fundamental, p.Math, p.PFC, p.The21, p.History, p.CProgram, p.Semester, 
+               (
+                   CASE
+                       WHEN p.Semester = '2' THEN 
+                           ( 
+                               (CASE 
+                                   WHEN p.EFC >= 85 THEN 4.0 
+                                   WHEN p.EFC >= 80 THEN 3.5 
+                                   WHEN p.EFC >= 70 THEN 3.0 
+                                   WHEN p.EFC >= 65 THEN 2.5 
+                                   WHEN p.EFC >= 50 THEN 2.0 
+                                   WHEN p.EFC >= 45 THEN 1.5 
+                                   ELSE 1.0 
+                               END) * 3 + 
+                               (CASE 
+                                   WHEN p.Fundamental >= 85 THEN 4.0 
+                                   WHEN p.Fundamental >= 80 THEN 3.5 
+                                   WHEN p.Fundamental >= 70 THEN 3.0 
+                                   WHEN p.Fundamental >= 65 THEN 2.5 
+                                   WHEN p.Fundamental >= 50 THEN 2.0 
+                                   WHEN p.Fundamental >= 45 THEN 1.5 
+                                   ELSE 1.0 
+                               END) * 2 + 
+                               (CASE 
+                                   WHEN p.Math >= 85 THEN 4.0 
+                                   WHEN p.Math >= 80 THEN 3.5 
+                                   WHEN p.Math >= 70 THEN 3.0 
+                                   WHEN p.Math >= 65 THEN 2.5 
+                                   WHEN p.Math >= 50 THEN 2.0 
+                                   WHEN p.Math >= 45 THEN 1.5 
+                                   ELSE 1.0 
+                               END) * 2.5 + 
+                               (CASE 
+                                   WHEN p.PFC >= 85 THEN 4.0 
+                                   WHEN p.PFC >= 80 THEN 3.5 
+                                   WHEN p.PFC >= 70 THEN 3.0 
+                                   WHEN p.PFC >= 65 THEN 2.5 
+                                   WHEN p.PFC >= 50 THEN 2.0 
+                                   WHEN p.PFC >= 45 THEN 1.5 
+                                   ELSE 1.0 
+                               END) * 1 + 
+                               (CASE 
+                                   WHEN p.CProgram >= 85 THEN 4.0 
+                                   WHEN p.CProgram >= 80 THEN 3.5 
+                                   WHEN p.CProgram >= 70 THEN 3.0 
+                                   WHEN p.CProgram >= 65 THEN 2.5 
+                                   WHEN p.CProgram >= 50 THEN 2.0 
+                                   WHEN p.CProgram >= 45 THEN 1.5 
+                                   ELSE 1.0 
+                               END) * 4 
+                           ) / 12.5
+                       WHEN p.Semester = '1' THEN 
+                           ( 
+                               (CASE 
+                                   WHEN p.EFC >= 85 THEN 4.0 
+                                   WHEN p.EFC >= 80 THEN 3.5 
+                                   WHEN p.EFC >= 70 THEN 3.0 
+                                   WHEN p.EFC >= 65 THEN 2.5 
+                                   WHEN p.EFC >= 50 THEN 2.0 
+                                   WHEN p.EFC >= 45 THEN 1.5 
+                                   ELSE 1.0 
+                               END) * 3 + 
+                               (CASE 
+                                   WHEN p.Fundamental >= 85 THEN 4.0 
+                                   WHEN p.Fundamental >= 80 THEN 3.5 
+                                   WHEN p.Fundamental >= 70 THEN 3.0 
+                                   WHEN p.Fundamental >= 65 THEN 2.5 
+                                   WHEN p.Fundamental >= 50 THEN 2.0 
+                                   WHEN p.Fundamental >= 45 THEN 1.5 
+                                   ELSE 1.0 
+                               END) * 2 + 
+                               (CASE 
+                                   WHEN p.Math >= 85 THEN 4.0 
+                                   WHEN p.Math >= 80 THEN 3.5 
+                                   WHEN p.Math >= 70 THEN 3.0 
+                                   WHEN p.Math >= 65 THEN 2.5 
+                                   WHEN p.Math >= 50 THEN 2.0 
+                                   WHEN p.Math >= 45 THEN 1.5 
+                                   ELSE 1.0 
+                               END) * 2.5 + 
+                               (CASE 
+                                   WHEN p.PFC >= 85 THEN 4.0 
+                                   WHEN p.PFC >= 80 THEN 3.5 
+                                   WHEN p.PFC >= 70 THEN 3.0 
+                                   WHEN p.PFC >= 65 THEN 2.5 
+                                   WHEN p.PFC >= 50 THEN 2.0 
+                                   WHEN p.PFC >= 45 THEN 1.5 
+                                   ELSE 1.0 
+                               END) * 1 + 
+                               (CASE 
+                                   WHEN p.The21 >= 85 THEN 4.0 
+                                   WHEN p.The21 >= 80 THEN 3.5 
+                                   WHEN p.The21 >= 70 THEN 3.0 
+                                   WHEN p.The21 >= 65 THEN 2.5 
+                                   WHEN p.The21 >= 50 THEN 2.0 
+                                   WHEN p.The21 >= 45 THEN 1.5 
+                                   ELSE 1.0 
+                               END) * 1.5 
+                           ) / 10
+                   END AS GPA 
+        FROM tbStudent s 
+        JOIN PTYear1 p ON s.stdCode = p.stdCode 
+        WHERE 1=1
+    """);
 
         if (name != null && !name.isEmpty()) {
             query.append(" AND s.stdName LIKE ?");
@@ -116,7 +318,7 @@ public class ReportRepository {
                         resultSet.getInt("History"),
                         resultSet.getInt("CProgram"),
                         resultSet.getString("Semester"),
-                        resultSet.getDouble("AVG")
+                        resultSet.getDouble("GPA")
                 ));
             }
         } catch (SQLException e) {
@@ -570,11 +772,62 @@ public class ReportRepository {
     public List<ReportYear4> getAllReportsYear4() {
         List<ReportYear4> reports = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-            String query = "SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                    " p.OOAD, p.Web, p.Linux, p.MIS, p.SE_IT_PM, p.Semester, " +
-                    " (( p.OOAD + p.Web + p.Linux + p.MIS + p.SE_IT_PM) / 5.0 ) AS AVG " +
-                    "FROM tbStudent s " +
-                    "JOIN PTYear4 p ON s.stdCode = p.stdCode";
+            String query = """
+            SELECT 
+                s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD,
+                p.OOAD, p.Web, p.Linux, p.MIS, p.SE_IT_PM, p.Semester,
+                (
+                    (
+                        CASE 
+                            WHEN p.OOAD >= 85 THEN 4.0 
+                            WHEN p.OOAD >= 80 THEN 3.5 
+                            WHEN p.OOAD >= 70 THEN 3.0 
+                            WHEN p.OOAD >= 65 THEN 2.5 
+                            WHEN p.OOAD >= 50 THEN 2.0 
+                            WHEN p.OOAD >= 45 THEN 1.5 
+                            ELSE 1.0 
+                        END +
+                        CASE 
+                            WHEN p.Web >= 85 THEN 4.0 
+                            WHEN p.Web >= 80 THEN 3.5 
+                            WHEN p.Web >= 70 THEN 3.0 
+                            WHEN p.Web >= 65 THEN 2.5 
+                            WHEN p.Web >= 50 THEN 2.0 
+                            WHEN p.Web >= 45 THEN 1.5 
+                            ELSE 1.0 
+                        END +
+                        CASE 
+                            WHEN p.Linux >= 85 THEN 4.0 
+                            WHEN p.Linux >= 80 THEN 3.5 
+                            WHEN p.Linux >= 70 THEN 3.0 
+                            WHEN p.Linux >= 65 THEN 2.5 
+                            WHEN p.Linux >= 50 THEN 2.0 
+                            WHEN p.Linux >= 45 THEN 1.5 
+                            ELSE 1.0 
+                        END +
+                        CASE 
+                            WHEN p.MIS >= 85 THEN 4.0 
+                            WHEN p.MIS >= 80 THEN 3.5 
+                            WHEN p.MIS >= 70 THEN 3.0 
+                            WHEN p.MIS >= 65 THEN 2.5 
+                            WHEN p.MIS >= 50 THEN 2.0 
+                            WHEN p.MIS >= 45 THEN 1.5 
+                            ELSE 1.0 
+                        END +
+                        CASE 
+                            WHEN p.SE_IT_PM >= 85 THEN 4.0 
+                            WHEN p.SE_IT_PM >= 80 THEN 3.5 
+                            WHEN p.SE_IT_PM >= 70 THEN 3.0 
+                            WHEN p.SE_IT_PM >= 65 THEN 2.5 
+                            WHEN p.SE_IT_PM >= 50 THEN 2.0 
+                            WHEN p.SE_IT_PM >= 45 THEN 1.5 
+                            ELSE 1.0 
+                        END
+                    ) * 3
+                ) / 15 AS GPA
+            FROM tbStudent s 
+            JOIN PTYear4 p ON s.stdCode = p.stdCode
+        """;
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -593,7 +846,7 @@ public class ReportRepository {
                         resultSet.getInt("MIS"),
                         resultSet.getInt("SE_IT_PM"),
                         resultSet.getString("Semester"),
-                        resultSet.getDouble("AVG")
+                        resultSet.getDouble("GPA")
                 ));
             }
         } catch (SQLException e) {
@@ -604,12 +857,63 @@ public class ReportRepository {
 
     public List<ReportYear4> searchReportsYear4(String name, String classId, String generation, String stdCode, String semester) {
         List<ReportYear4> reports = new ArrayList<>();
-        StringBuilder query = new StringBuilder("SELECT s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD," +
-                " p.OOAD, p.Web, p.Linux, p.MIS, p.SE_IT_PM, p.Semester, " +
-                " (( p.OOAD + p.Web + p.Linux + p.MIS + p.SE_IT_PM) / 5.0 ) AS AVG " +
-                "FROM tbStudent s " +
-                "JOIN PTYear4 p ON s.stdCode = p.stdCode " +
-                "WHERE 1=1");
+        StringBuilder query = new StringBuilder("""
+        SELECT 
+            s.stdCode, s.stdName, s.stdSex, s.stdAdd, s.stdGrt, s.stdYear, s.classID, s.stdBD,
+            p.OOAD, p.Web, p.Linux, p.MIS, p.SE_IT_PM, p.Semester,
+            (
+                (
+                    CASE 
+                        WHEN p.OOAD >= 85 THEN 4.0 
+                        WHEN p.OOAD >= 80 THEN 3.5 
+                        WHEN p.OOAD >= 70 THEN 3.0 
+                        WHEN p.OOAD >= 65 THEN 2.5 
+                        WHEN p.OOAD >= 50 THEN 2.0 
+                        WHEN p.OOAD >= 45 THEN 1.5 
+                        ELSE 1.0 
+                    END +
+                    CASE 
+                        WHEN p.Web >= 85 THEN 4.0 
+                        WHEN p.Web >= 80 THEN 3.5 
+                        WHEN p.Web >= 70 THEN 3.0 
+                        WHEN p.Web >= 65 THEN 2.5 
+                        WHEN p.Web >= 50 THEN 2.0 
+                        WHEN p.Web >= 45 THEN 1.5 
+                        ELSE 1.0 
+                    END +
+                    CASE 
+                        WHEN p.Linux >= 85 THEN 4.0 
+                        WHEN p.Linux >= 80 THEN 3.5 
+                        WHEN p.Linux >= 70 THEN 3.0 
+                        WHEN p.Linux >= 65 THEN 2.5 
+                        WHEN p.Linux >= 50 THEN 2.0 
+                        WHEN p.Linux >= 45 THEN 1.5 
+                        ELSE 1.0 
+                    END +
+                    CASE 
+                        WHEN p.MIS >= 85 THEN 4.0 
+                        WHEN p.MIS >= 80 THEN 3.5 
+                        WHEN p.MIS >= 70 THEN 3.0 
+                        WHEN p.MIS >= 65 THEN 2.5 
+                        WHEN p.MIS >= 50 THEN 2.0 
+                        WHEN p.MIS >= 45 THEN 1.5 
+                        ELSE 1.0 
+                    END +
+                    CASE 
+                        WHEN p.SE_IT_PM >= 85 THEN 4.0 
+                        WHEN p.SE_IT_PM >= 80 THEN 3.5 
+                        WHEN p.SE_IT_PM >= 70 THEN 3.0 
+                        WHEN p.SE_IT_PM >= 65 THEN 2.5 
+                        WHEN p.SE_IT_PM >= 50 THEN 2.0 
+                        WHEN p.SE_IT_PM >= 45 THEN 1.5 
+                        ELSE 1.0 
+                    END
+                ) * 3
+            ) / 15 AS GPA
+        FROM tbStudent s 
+        JOIN PTYear4 p ON s.stdCode = p.stdCode 
+        WHERE 1=1
+    """);
 
         if (name != null && !name.isEmpty()) {
             query.append(" AND s.stdName LIKE ?");
@@ -663,7 +967,7 @@ public class ReportRepository {
                         resultSet.getInt("MIS"),
                         resultSet.getInt("SE_IT_PM"),
                         resultSet.getString("Semester"),
-                        resultSet.getDouble("AVG")
+                        resultSet.getDouble("GPA")
                 ));
             }
         } catch (SQLException e) {
